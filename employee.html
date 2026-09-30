@@ -15,7 +15,8 @@
 
         body {
             min-height: 100vh;
-            background: radial-gradient(circle at top, #18202b, #080b10 48%, #040507);
+            background:
+                radial-gradient(circle at top, #18202b 0%, #080b10 48%, #040507 100%);
             color: white;
             display: flex;
             align-items: center;
@@ -88,10 +89,11 @@
             font-size: 14px;
             direction: ltr;
             text-align: left;
+            margin-bottom: 12px;
         }
 
         input:disabled {
-            opacity: .45;
+            opacity: .4;
             cursor: not-allowed;
         }
 
@@ -104,29 +106,25 @@
             border: 0;
             border-radius: 11px;
             padding: 14px;
-            margin-top: 12px;
             font-weight: 700;
             font-size: 14px;
+            cursor: pointer;
         }
 
         .primary {
             background: #2563eb;
             color: white;
-            cursor: pointer;
         }
 
-        .secondary {
+        .locked {
             background: #202731;
-            color: #8994a2;
-            border: 1px solid #303944;
+            color: #687381;
             cursor: not-allowed;
         }
 
-        .secondary.enabled {
+        .enabled {
             background: #2563eb;
             color: white;
-            border: 0;
-            cursor: pointer;
         }
 
         .status {
@@ -147,10 +145,10 @@
         }
 
         .back {
+            margin-top: 12px;
             background: #171c23;
             color: #c8ced7;
             border: 1px solid #303944;
-            cursor: pointer;
         }
 
         .footer {
@@ -166,19 +164,29 @@
 
 <div class="panel">
 
-    <div class="brand">AirFrance PTFS</div>
-
-    <div class="sub">Employee Portal</div>
-
-    <span class="badge">EMPLOYEE VERIFICATION</span>
-
-    <h1>تسجيل دخول الموظف</h1>
-
-    <div class="description">
-        اكتب اسم حسابك في Roblox ثم تحقق منه للمتابعة.
+    <div class="brand">
+        AirFrance PTFS
     </div>
 
-    <label class="label">حط يوزرك روبلوكس</label>
+    <div class="sub">
+        Employee Portal
+    </div>
+
+    <span class="badge">
+        EMPLOYEE VERIFICATION
+    </span>
+
+    <h1>
+        تسجيل دخول الموظف
+    </h1>
+
+    <div class="description">
+        تحقق من اسم حساب Roblox أولًا، وبعدها أدخل هويتك الوظيفية.
+    </div>
+
+    <label class="label">
+        حط يوزرك روبلوكس
+    </label>
 
     <input
         id="robloxUsername"
@@ -205,13 +213,13 @@
         <input
             id="employeeId"
             type="text"
-            placeholder="AF-PILOT-0001"
+            placeholder="AF-HQ-0001"
             autocomplete="off"
             disabled>
 
         <button
             id="employeeButton"
-            class="secondary"
+            class="locked"
             onclick="verifyEmployee()"
             disabled>
             تحقق من الهوية
@@ -219,7 +227,9 @@
 
     </div>
 
-    <button class="back" onclick="goBack()">
+    <button
+        class="back"
+        onclick="goBack()">
         رجوع
     </button>
 
@@ -233,8 +243,11 @@
     let usernameVerified = false;
 
     function verifyUsername() {
+
         const username =
-            document.getElementById("robloxUsername").value.trim();
+            document.getElementById("robloxUsername")
+            .value
+            .trim();
 
         const status =
             document.getElementById("status");
@@ -247,7 +260,21 @@
 
         if (!username) {
             status.style.display = "block";
-            status.textContent = "اكتب يوزرك روبلوكس أولًا.";
+            status.textContent =
+                "اكتب يوزرك روبلوكس أولًا.";
+            return;
+        }
+
+        if (username !== "Ahmad_roblox2222") {
+            status.style.display = "block";
+            status.textContent =
+                "هذا اليوزر غير مسجل كـ Owner في النظام.";
+
+            usernameVerified = false;
+            employeeId.disabled = true;
+            employeeButton.disabled = true;
+            employeeButton.className = "locked";
+
             return;
         }
 
@@ -255,21 +282,24 @@
 
         status.style.display = "block";
         status.textContent =
-            "تم التحقق من اليوزر: " + username;
+            "تم التحقق من اليوزر. يمكنك الآن إدخال الهوية.";
 
         employeeId.disabled = false;
         employeeButton.disabled = false;
-
-        employeeButton.classList.add("enabled");
+        employeeButton.className = "enabled";
     }
 
     function verifyEmployee() {
+
         if (!usernameVerified) {
             return;
         }
 
         const employeeId =
-            document.getElementById("employeeId").value.trim();
+            document.getElementById("employeeId")
+            .value
+            .trim()
+            .toUpperCase();
 
         const status =
             document.getElementById("status");
@@ -281,9 +311,20 @@
             return;
         }
 
+        if (employeeId !== "AF-HQ-0001") {
+            status.style.display = "block";
+            status.textContent =
+                "الهوية الوظيفية غير صحيحة.";
+            return;
+        }
+
         status.style.display = "block";
         status.textContent =
-            "تم إرسال الهوية للمراجعة.";
+            "تم التحقق. جاري فتح لوحة Owner...";
+
+        setTimeout(function() {
+            window.location.href = "owner.html";
+        }, 700);
     }
 
     function goBack() {
