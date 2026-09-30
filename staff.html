@@ -3,110 +3,682 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>AirFrance PTFS Staff</title>
+<title>AirFrance PTFS — Staff Portal</title>
+
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
-body{background:#05080d;color:#fff;min-height:100vh}
-header{height:72px;background:#080d14;border-bottom:1px solid #202d3b;display:flex;align-items:center;justify-content:space-between;padding:0 25px}
-.logo{font-size:21px;font-weight:900}.role{color:#9bb9df;font-size:10px;border:1px solid #2b3d53;padding:8px 12px;border-radius:20px}
-main{max-width:1200px;margin:auto;padding:30px 20px}
-.hero{padding:35px;background:linear-gradient(135deg,#101a26,#080d13);border:1px solid #223143;border-radius:22px;margin-bottom:18px}
-.hero small{color:#6480a0;letter-spacing:2px}.hero h1{font-size:32px;margin:10px 0}.hero p{color:#778595;font-size:12px}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.card{background:#0b1219;border:1px solid #202d3b;border-radius:17px;padding:20px}
-.card h2{font-size:15px;margin-bottom:8px}.card p{font-size:11px;color:#778595;line-height:1.7}
-input,select{width:100%;background:#070b10;color:#fff;border:1px solid #2a3949;border-radius:10px;padding:12px;margin:7px 0 12px}
-button{background:#2563eb;color:#fff;border:0;border-radius:9px;padding:11px 14px;font-weight:bold;cursor:pointer}
-.danger{background:#3a181d;color:#e1a0a8}
-.panel{background:#0b1219;border:1px solid #202d3b;border-radius:17px;padding:20px;margin-top:18px}
-footer{text-align:center;color:#40505f;padding:30px;font-size:10px}
-@media(max-width:750px){.grid{grid-template-columns:1fr}}
+
+body{
+min-height:100vh;
+background:
+radial-gradient(circle at 10% 0%,#183650,transparent 30%),
+radial-gradient(circle at 100% 100%,#101e30,transparent 35%),
+#05080d;
+color:#fff
+}
+
+header{
+height:74px;
+background:#080d14ee;
+border-bottom:1px solid #202e3d;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 25px;
+position:sticky;
+top:0;
+z-index:10
+}
+
+.logo{
+font-size:21px;
+font-weight:900
+}
+
+.role{
+color:#9bb9df;
+border:1px solid #2b4057;
+padding:8px 12px;
+border-radius:20px;
+font-size:10px
+}
+
+main{
+max-width:1300px;
+margin:auto;
+padding:25px 20px
+}
+
+.hero{
+background:linear-gradient(135deg,#111c28,#080d13);
+border:1px solid #223244;
+border-radius:22px;
+padding:30px;
+margin-bottom:18px
+}
+
+.hero small{
+color:#6885a5;
+letter-spacing:2px;
+font-size:10px
+}
+
+.hero h1{
+font-size:30px;
+margin:10px 0
+}
+
+.hero p{
+color:#788697;
+font-size:12px;
+line-height:1.7
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:14px
+}
+
+.card{
+background:#0b1219;
+border:1px solid #202e3d;
+border-radius:17px;
+padding:20px;
+transition:.2s
+}
+
+.card:hover{
+transform:translateY(-3px);
+border-color:#315b89
+}
+
+.card h2{
+font-size:15px;
+margin-bottom:8px
+}
+
+.card p{
+color:#778595;
+font-size:11px;
+line-height:1.7
+}
+
+.action{
+margin-top:15px;
+background:#2563eb;
+color:#fff;
+border:0;
+border-radius:9px;
+padding:11px 15px;
+font-weight:bold;
+cursor:pointer
+}
+
+.panel{
+background:#0b1219;
+border:1px solid #202e3d;
+border-radius:17px;
+padding:20px;
+margin-top:16px
+}
+
+.panel h2{
+font-size:16px;
+margin-bottom:15px
+}
+
+.field{
+margin-bottom:12px
+}
+
+label{
+display:block;
+font-size:11px;
+font-weight:bold;
+margin-bottom:7px
+}
+
+input,select{
+width:100%;
+background:#070b10;
+border:1px solid #2b3b4d;
+border-radius:10px;
+padding:12px;
+color:#fff;
+outline:none
+}
+
+input:focus,select:focus{
+border-color:#2563eb
+}
+
+.flight{
+border:1px solid #202e3d;
+background:#0e161f;
+border-radius:13px;
+padding:15px;
+margin-bottom:10px
+}
+
+.flight h3{
+font-size:13px;
+margin-bottom:6px
+}
+
+.flight p{
+color:#788697;
+font-size:11px;
+line-height:1.7
+}
+
+.status{
+display:inline-block;
+margin-top:8px;
+padding:5px 8px;
+border-radius:7px;
+background:#172438;
+color:#a3bee0;
+font-size:9px
+}
+
+.danger{
+background:#3a181d;
+color:#e0a0a8;
+border:0;
+border-radius:9px;
+padding:11px 15px;
+font-weight:bold;
+cursor:pointer
+}
+
+.empty{
+padding:30px;
+text-align:center;
+color:#667587;
+font-size:11px
+}
+
+footer{
+text-align:center;
+color:#40505f;
+padding:30px;
+font-size:10px
+}
+
+@media(max-width:800px){
+.grid{grid-template-columns:1fr}
+main{padding:13px}
+}
 </style>
 </head>
+
 <body>
 
 <header>
-<div class="logo">AirFrance PTFS</div>
-<div class="role" id="role">STAFF</div>
+
+<div class="logo">
+AirFrance PTFS
+</div>
+
+<div class="role" id="roleBadge">
+STAFF
+</div>
+
 </header>
 
 <main>
-<div class="hero">
-<small id="roleLabel">STAFF PORTAL</small>
-<h1 id="welcome">Employee Dashboard</h1>
-<p id="description"></p>
+
+<section class="hero">
+
+<small id="roleLabel">
+STAFF PORTAL
+</small>
+
+<h1 id="welcome">
+Employee Portal
+</h1>
+
+<p id="description">
+جاري تحميل بيانات الموظف...
+</p>
+
+</section>
+
+<section
+class="grid"
+id="dashboardCards">
+</section>
+
+<section
+class="panel"
+id="pilotPanel"
+style="display:none">
+
+<h2>
+إنشاء طلب رحلة
+</h2>
+
+<div class="field">
+
+<label>
+اسم الرحلة
+</label>
+
+<input
+id="flightTitle"
+placeholder="مثال: Riyadh → Paris">
+
 </div>
 
-<div class="grid" id="cards"></div>
+<div class="field">
 
-<div class="panel" id="pilotPanel" style="display:none">
-<h2>طلب رحلة جديدة</h2>
-<input id="flightTitle" placeholder="اسم الرحلة">
-<button onclick="createFlight()">إرسال طلب الرحلة</button>
+<label>
+وقت الرحلة
+</label>
+
+<input
+id="flightTime"
+type="datetime-local">
+
 </div>
 
-<div class="panel">
-<button class="danger" onclick="logout()">تسجيل الخروج</button>
-</div>
+<button
+class="action"
+onclick="createFlight()">
+
+إرسال طلب الرحلة
+
+</button>
+
+</section>
+
+<section
+class="panel">
+
+<h2>
+الرحلات
+</h2>
+
+<div id="flightList"></div>
+
+</section>
+
+<section class="panel">
+
+<button
+class="danger"
+onclick="logout()">
+
+تسجيل الخروج
+
+</button>
+
+</section>
+
 </main>
 
-<footer>HAMOUD • AirFrance PTFS</footer>
+<footer>
+HAMOUD • AirFrance PTFS
+</footer>
 
 <script>
-const user=sessionStorage.getItem("af_user");
-const role=sessionStorage.getItem("af_role");
 
-if(!user||!role||role==="Owner")location.href="employee.html";
+const username=
+sessionStorage.getItem("af_user");
 
-document.getElementById("role").textContent=role;
-document.getElementById("welcome").textContent="مرحبًا "+user;
-document.getElementById("roleLabel").textContent=role.toUpperCase()+" PORTAL";
+const role=
+sessionStorage.getItem("af_role");
+
+const employeeId=
+sessionStorage.getItem("af_id");
+
+if(
+!username ||
+!role ||
+!employeeId
+){
+
+location.href="employee.html";
+
+}
 
 const descriptions={
-Pilot:"إنشاء طلبات الرحلات ومتابعة الرحلات الخاصة بك.",
-"Co-Pilot":"متابعة الرحلات التي يتم تعيينك عليها.",
-"Cabin Crew":"متابعة الرحلات والانضمام إلى طاقم المقصورة.",
-"Ground Crew":"متابعة العمليات الأرضية للرحلات.",
-Management:"إدارة الطلبات والموظفين حسب صلاحيات الإدارة."
+
+"Pilot":
+"إدارة طلبات الرحلات وإنشاء رحلات جديدة.",
+
+"Co-Pilot":
+"متابعة الرحلات المسندة إليك.",
+
+"Cabin Crew":
+"متابعة الرحلات وطاقم المقصورة.",
+
+"Ground Crew":
+"متابعة عمليات الرحلات الأرضية.",
+
+"Management":
+"إدارة ومراجعة طلبات الرحلات والعمليات الإدارية."
+
 };
 
-document.getElementById("description").textContent=descriptions[role]||"بوابة الموظف.";
+const cards={
 
-const data={
-Pilot:["إنشاء رحلة","طلبات الرحلات","رحلاتي"],
-"Co-Pilot":["رحلاتي","الرحلات المسندة","المعلومات"],
-"Cabin Crew":["الرحلات","طاقم المقصورة","الجدول"],
-"Ground Crew":["الرحلات القادمة","العمليات الأرضية","الجدول"],
-Management:["إدارة الرحلات","طلبات الموظفين","المتابعة"]
+"Pilot":[
+["إنشاء رحلة","إنشاء وإرسال طلب رحلة جديدة."],
+["رحلاتي","متابعة طلبات الرحلات التي أنشأتها."],
+["Flight Operations","متابعة معلومات الرحلات."]
+],
+
+"Co-Pilot":[
+["Assigned Flights","الرحلات التي تم تعيينك عليها."],
+["Flight Information","معلومات الرحلات."],
+["Crew","معلومات طاقم الرحلة."]
+],
+
+"Cabin Crew":[
+["Available Flights","الرحلات المتاحة."],
+["Cabin Crew","معلومات طاقم المقصورة."],
+["Schedule","جدول الرحلات."]
+],
+
+"Ground Crew":[
+["Upcoming Flights","الرحلات القادمة."],
+["Ground Operations","العمليات الأرضية."],
+["Schedule","جدول العمليات."]
+],
+
+"Management":[
+["Flight Requests","مراجعة طلبات الرحلات."],
+["Staff","متابعة الموظفين."],
+["Operations","متابعة عمليات الشركة."]
+]
+
 };
 
-document.getElementById("cards").innerHTML=(data[role]||[]).map(x=>
-`<div class="card"><h2>${x}</h2><p>الوصول إلى قسم ${x} داخل النظام.</p></div>`
-).join("");
+document.getElementById("roleBadge")
+.textContent=role;
 
-if(role==="Pilot")document.getElementById("pilotPanel").style.display="block";
+document.getElementById("roleLabel")
+.textContent=
+role.toUpperCase()+" PORTAL";
+
+document.getElementById("welcome")
+.textContent=
+"مرحبًا، "+username;
+
+document.getElementById("description")
+.textContent=
+descriptions[role] ||
+"بوابة الموظف.";
+
+const dashboard=
+document.getElementById("dashboardCards");
+
+const roleCards=
+cards[role] || [];
+
+dashboard.innerHTML=
+roleCards.map(function(card){
+
+return `
+<div class="card">
+
+<h2>
+${escapeHtml(card[0])}
+</h2>
+
+<p>
+${escapeHtml(card[1])}
+</p>
+
+<button
+class="action"
+onclick="cardAction('${escapeHtml(card[0])}')">
+
+فتح
+
+</button>
+
+</div>
+`;
+
+}).join("");
+
+if(role==="Pilot"){
+
+document.getElementById("pilotPanel")
+.style.display="block";
+
+}
+
+function getFlights(){
+
+try{
+
+const data=
+JSON.parse(
+localStorage.getItem("af_flights") || "[]"
+);
+
+return Array.isArray(data) ? data : [];
+
+}catch(error){
+
+return [];
+
+}
+
+}
+
+function saveFlights(data){
+
+localStorage.setItem(
+"af_flights",
+JSON.stringify(data)
+);
+
+}
 
 function createFlight(){
-    const title=document.getElementById("flightTitle").value.trim();
-    if(!title)return alert("اكتب اسم الرحلة.");
 
-    const a=JSON.parse(localStorage.getItem("af_flights")||"[]");
+if(role!=="Pilot"){
 
-    a.push({
-        title:title,
-        pilot:user,
-        status:"PENDING"
-    });
+return;
 
-    localStorage.setItem("af_flights",JSON.stringify(a));
-    document.getElementById("flightTitle").value="";
-    alert("تم إرسال طلب الرحلة إلى الإدارة.");
+}
+
+const title=
+document
+.getElementById("flightTitle")
+.value
+.trim();
+
+const time=
+document
+.getElementById("flightTime")
+.value;
+
+if(!title){
+
+alert("اكتب اسم الرحلة.");
+
+return;
+
+}
+
+if(!time){
+
+alert("حدد وقت الرحلة.");
+
+return;
+
+}
+
+const flights=
+getFlights();
+
+flights.push({
+
+title:title,
+
+pilot:username,
+
+pilotId:employeeId,
+
+time:time,
+
+status:"PENDING",
+
+createdAt:new Date().toISOString()
+
+});
+
+saveFlights(flights);
+
+document
+.getElementById("flightTitle")
+.value="";
+
+document
+.getElementById("flightTime")
+.value="";
+
+renderFlights();
+
+alert("تم إرسال طلب الرحلة إلى الإدارة.");
+
+}
+
+function renderFlights(){
+
+const box=
+document.getElementById("flightList");
+
+const flights=
+getFlights();
+
+if(!flights.length){
+
+box.innerHTML=`
+<div class="empty">
+لا توجد رحلات أو طلبات رحلات حاليًا.
+</div>
+`;
+
+return;
+
+}
+
+let visible=flights;
+
+if(role==="Pilot"){
+
+visible=
+flights.filter(function(flight){
+
+return flight.pilotId===employeeId;
+
+});
+
+}
+
+if(role==="Co-Pilot"){
+
+visible=
+flights.filter(function(flight){
+
+return flight.coPilotId===employeeId;
+
+});
+
+}
+
+if(!visible.length){
+
+box.innerHTML=`
+<div class="empty">
+لا توجد رحلات متاحة لك حاليًا.
+</div>
+`;
+
+return;
+
+}
+
+box.innerHTML=
+visible.map(function(flight){
+
+return `
+<div class="flight">
+
+<h3>
+${escapeHtml(flight.title || "Flight")}
+</h3>
+
+<p>
+Pilot:
+${escapeHtml(flight.pilot || "—")}
+<br>
+وقت الرحلة:
+${escapeHtml(flight.time || "—")}
+</p>
+
+<span class="status">
+${escapeHtml(flight.status || "PENDING")}
+</span>
+
+</div>
+`;
+
+}).join("");
+
+}
+
+function cardAction(name){
+
+if(
+name==="إنشاء رحلة"
+){
+
+document
+.getElementById("pilotPanel")
+.scrollIntoView({
+behavior:"smooth"
+});
+
+return;
+
+}
+
+alert(
+"قسم "+name+" جاهز ضمن بوابة الموظف."
+);
+
+}
+
+function escapeHtml(value){
+
+return String(value)
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
 }
 
 function logout(){
-    sessionStorage.clear();
-    location.href="index.html";
+
+sessionStorage.clear();
+
+location.href="index.html";
+
 }
+
+renderFlights();
+
 </script>
+
 </body>
 </html>
