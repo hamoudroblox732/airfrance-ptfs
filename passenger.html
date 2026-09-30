@@ -3,52 +3,505 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>AirFrance PTFS Passenger</title>
+<title>AirFrance PTFS — Passenger</title>
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
-body{background:#05080d;color:#fff;min-height:100vh}
-header{height:72px;background:#080d14;border-bottom:1px solid #202d3b;display:flex;align-items:center;justify-content:space-between;padding:0 25px}
-.logo{font-size:21px;font-weight:900}.user{font-size:10px;color:#9ab5d5}
-main{max-width:1200px;margin:auto;padding:35px 20px}
-.hero{background:linear-gradient(135deg,#101a26,#080d13);border:1px solid #223143;border-radius:22px;padding:35px;margin-bottom:18px}
-.hero small{color:#6380a0}.hero h1{font-size:32px;margin:10px 0}.hero p{color:#778595;font-size:12px}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.card{background:#0b1219;border:1px solid #202d3b;border-radius:17px;padding:20px}
-.card h2{font-size:15px;margin-bottom:8px}.card p{font-size:11px;color:#778595;line-height:1.7}
-button{background:#2563eb;color:#fff;border:0;border-radius:9px;padding:11px 15px;margin-top:15px;font-weight:bold}
-footer{text-align:center;color:#40505f;padding:35px;font-size:10px}
-@media(max-width:700px){.grid{grid-template-columns:1fr}}
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+font-family:Arial,sans-serif
+}
+
+body{
+min-height:100vh;
+background:
+radial-gradient(circle at 10% 0%,#183650,transparent 30%),
+radial-gradient(circle at 100% 100%,#101e30,transparent 35%),
+#05080d;
+color:#fff
+}
+
+header{
+height:74px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 24px;
+background:#080d14ee;
+border-bottom:1px solid #202e3d;
+position:sticky;
+top:0;
+z-index:10
+}
+
+.logo{
+font-size:21px;
+font-weight:900
+}
+
+.user{
+color:#8fa8c3;
+font-size:11px
+}
+
+main{
+max-width:1200px;
+margin:auto;
+padding:25px 20px
+}
+
+.hero{
+padding:30px;
+border:1px solid #223244;
+border-radius:22px;
+background:linear-gradient(135deg,#111c28,#080d13);
+margin-bottom:18px
+}
+
+.hero small{
+color:#6885a5;
+font-size:10px;
+letter-spacing:2px
+}
+
+.hero h1{
+font-size:29px;
+margin:10px 0
+}
+
+.hero p{
+color:#788697;
+font-size:12px;
+line-height:1.8
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:14px
+}
+
+.card{
+background:#0b1219;
+border:1px solid #202e3d;
+border-radius:17px;
+padding:21px;
+transition:.2s
+}
+
+.card:hover{
+transform:translateY(-3px);
+border-color:#315b89
+}
+
+.card h2{
+font-size:15px;
+margin-bottom:8px
+}
+
+.card p{
+font-size:11px;
+color:#778595;
+line-height:1.7
+}
+
+button{
+margin-top:15px;
+border:0;
+border-radius:9px;
+padding:11px 15px;
+background:#2563eb;
+color:#fff;
+font-weight:bold;
+cursor:pointer
+}
+
+.panel{
+margin-top:16px;
+padding:20px;
+border-radius:17px;
+background:#0b1219;
+border:1px solid #202e3d
+}
+
+.panel h2{
+font-size:16px;
+margin-bottom:14px
+}
+
+.flight{
+background:#0e161f;
+border:1px solid #202e3d;
+border-radius:12px;
+padding:15px;
+margin-bottom:10px
+}
+
+.flight h3{
+font-size:13px;
+margin-bottom:7px
+}
+
+.flight p{
+font-size:11px;
+color:#788697;
+line-height:1.8
+}
+
+.status{
+display:inline-block;
+margin-top:8px;
+padding:5px 8px;
+border-radius:7px;
+background:#172438;
+color:#a3bee0;
+font-size:9px
+}
+
+.empty{
+text-align:center;
+padding:25px;
+color:#667587;
+font-size:11px
+}
+
+.logout{
+background:#3a181d;
+color:#e0a0a8
+}
+
+footer{
+text-align:center;
+padding:30px;
+color:#40505f;
+font-size:10px
+}
+
+@media(max-width:800px){
+.grid{
+grid-template-columns:1fr
+}
+
+main{
+padding:13px
+}
+}
 </style>
 </head>
+
 <body>
+
 <header>
-<div class="logo">AirFrance PTFS</div>
-<div class="user" id="user"></div>
+
+<div class="logo">
+AirFrance PTFS
+</div>
+
+<div
+class="user"
+id="userName">
+Passenger
+</div>
+
 </header>
 
 <main>
-<div class="hero">
-<small>PASSENGER PORTAL</small>
-<h1>مرحبًا بك في AirFrance PTFS</h1>
-<p>من هنا يمكنك الوصول إلى خدمات المسافر ومعلومات الرحلات.</p>
+
+<section class="hero">
+
+<small>
+PASSENGER PORTAL
+</small>
+
+<h1>
+مرحبًا بك في AirFrance PTFS
+</h1>
+
+<p>
+من هنا يمكنك متابعة الرحلات والخدمات الخاصة بالمسافر.
+</p>
+
+</section>
+
+<section class="grid">
+
+<div class="card">
+
+<h2>
+Flights
+</h2>
+
+<p>
+عرض الرحلات المتاحة وحالة الرحلات الحالية.
+</p>
+
+<button onclick="scrollToSection('flights')">
+عرض الرحلات
+</button>
+
 </div>
 
-<div class="grid">
-<div class="card"><h2>Flights</h2><p>عرض الرحلات المتاحة.</p><button>فتح</button></div>
-<div class="card"><h2>My Booking</h2><p>متابعة حجوزاتك.</p><button>فتح</button></div>
-<div class="card"><h2>Passenger Services</h2><p>خدمات ومعلومات المسافر.</p><button>فتح</button></div>
+<div class="card">
+
+<h2>
+My Booking
+</h2>
+
+<p>
+معلومات الحجز الخاص بك.
+</p>
+
+<button onclick="showBooking()">
+فتح الحجز
+</button>
+
 </div>
 
-<button onclick="logout()">تسجيل الخروج</button>
+<div class="card">
+
+<h2>
+Passenger Services
+</h2>
+
+<p>
+خدمات ومعلومات المسافرين.
+</p>
+
+<button onclick="showServices()">
+عرض الخدمات
+</button>
+
+</div>
+
+</section>
+
+<section
+class="panel"
+id="flights">
+
+<h2>
+Available Flights
+</h2>
+
+<div id="flightList"></div>
+
+</section>
+
+<section
+class="panel"
+id="booking">
+
+<h2>
+My Booking
+</h2>
+
+<div class="empty" id="bookingText">
+لا يوجد حجز مرتبط بهذا الحساب حاليًا.
+</div>
+
+</section>
+
+<section
+class="panel"
+id="services">
+
+<h2>
+Passenger Services
+</h2>
+
+<div class="flight">
+
+<h3>
+Check-in
+</h3>
+
+<p>
+تأكد من بيانات رحلتك قبل موعد المغادرة.
+</p>
+
+</div>
+
+<div class="flight">
+
+<h3>
+Baggage
+</h3>
+
+<p>
+معلومات الأمتعة تعتمد على الرحلة والحجز.
+</p>
+
+</div>
+
+<div class="flight">
+
+<h3>
+Flight Information
+</h3>
+
+<p>
+يمكنك متابعة حالة الرحلات المنشورة في النظام.
+</p>
+
+</div>
+
+</section>
+
+<section class="panel">
+
+<button
+class="logout"
+onclick="logout()">
+
+تسجيل الخروج
+
+</button>
+
+</section>
+
 </main>
 
-<footer>HAMOUD • AirFrance PTFS</footer>
+<footer>
+HAMOUD • AirFrance PTFS
+</footer>
 
 <script>
-const user=sessionStorage.getItem("af_passenger");
-if(!user)location.href="verify.html";
-document.getElementById("user").textContent=user||"";
-function logout(){sessionStorage.removeItem("af_passenger");location.href="index.html"}
+
+const passenger=
+localStorage.getItem("af_passenger");
+
+if(!passenger){
+
+location.href="verify.html";
+
+}
+
+document
+.getElementById("userName")
+.textContent=
+passenger || "Passenger";
+
+function getFlights(){
+
+try{
+
+const data=
+JSON.parse(
+localStorage.getItem("af_flights") || "[]"
+);
+
+return Array.isArray(data) ? data : [];
+
+}catch(error){
+
+return [];
+
+}
+
+}
+
+function renderFlights(){
+
+const box=
+document.getElementById("flightList");
+
+const flights=
+getFlights();
+
+if(!flights.length){
+
+box.innerHTML=`
+<div class="empty">
+لا توجد رحلات منشورة حاليًا.
+</div>
+`;
+
+return;
+
+}
+
+box.innerHTML=
+flights.map(function(flight){
+
+return `
+<div class="flight">
+
+<h3>
+${escapeHtml(flight.title || "Flight")}
+</h3>
+
+<p>
+Pilot:
+${escapeHtml(flight.pilot || "—")}
+<br>
+موعد الرحلة:
+${escapeHtml(flight.time || "—")}
+</p>
+
+<span class="status">
+${escapeHtml(flight.status || "PENDING")}
+</span>
+
+</div>
+`;
+
+}).join("");
+
+}
+
+function scrollToSection(id){
+
+document
+.getElementById(id)
+.scrollIntoView({
+behavior:"smooth"
+});
+
+}
+
+function showBooking(){
+
+document
+.getElementById("booking")
+.scrollIntoView({
+behavior:"smooth"
+});
+
+}
+
+function showServices(){
+
+document
+.getElementById("services")
+.scrollIntoView({
+behavior:"smooth"
+});
+
+}
+
+function logout(){
+
+localStorage.removeItem("af_passenger");
+
+location.href="index.html";
+
+}
+
+function escapeHtml(value){
+
+return String(value)
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+renderFlights();
+
 </script>
+
 </body>
 </html>
