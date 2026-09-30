@@ -3,40 +3,175 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Passenger Verification</title>
+<title>AirFrance PTFS — Passenger Verification</title>
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
-body{min-height:100vh;background:radial-gradient(circle at top right,#18304a,transparent 35%),#05080d;color:#fff;display:flex;align-items:center;justify-content:center;padding:20px}
-.box{width:100%;max-width:470px;background:#0b1219;border:1px solid #223143;border-radius:23px;padding:30px}
-.logo{text-align:center;font-size:25px;font-weight:900;margin-bottom:25px}
-h1{font-size:21px;margin-bottom:8px}p{color:#718092;font-size:12px;line-height:1.7;margin-bottom:20px}
-input{width:100%;padding:13px;background:#070b10;border:1px solid #2a3949;border-radius:10px;color:#fff;outline:none}
-button{width:100%;padding:13px;background:#2563eb;color:#fff;border:0;border-radius:10px;margin-top:12px;font-weight:bold}
-.msg{margin-top:12px;font-size:11px}
-footer{text-align:center;color:#43505f;font-size:10px;margin-top:20px}
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+font-family:Arial,sans-serif
+}
+
+body{
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:20px;
+background:
+radial-gradient(circle at 20% 0%,#183650,transparent 32%),
+#05080d;
+color:#fff
+}
+
+.box{
+width:100%;
+max-width:430px;
+background:#0b1219;
+border:1px solid #243446;
+border-radius:22px;
+padding:30px;
+box-shadow:0 20px 60px #0008
+}
+
+.logo{
+font-size:23px;
+font-weight:900;
+margin-bottom:8px
+}
+
+.subtitle{
+color:#718092;
+font-size:12px;
+line-height:1.7;
+margin-bottom:25px
+}
+
+label{
+display:block;
+font-size:11px;
+font-weight:bold;
+margin-bottom:8px
+}
+
+input{
+width:100%;
+padding:13px;
+background:#070b10;
+border:1px solid #2a3b4d;
+border-radius:10px;
+color:#fff;
+outline:none
+}
+
+input:focus{
+border-color:#2563eb
+}
+
+button{
+width:100%;
+margin-top:15px;
+padding:13px;
+border:0;
+border-radius:10px;
+background:#2563eb;
+color:#fff;
+font-weight:bold;
+cursor:pointer
+}
+
+.error{
+display:none;
+margin-top:12px;
+padding:10px;
+border-radius:9px;
+background:#32171b;
+color:#e3a4aa;
+font-size:11px
+}
+
+footer{
+text-align:center;
+margin-top:25px;
+color:#40505f;
+font-size:10px
+}
 </style>
 </head>
+
 <body>
+
 <div class="box">
-<div class="logo">AirFrance PTFS</div>
-<h1>Passenger Verification</h1>
-<p>أدخل اسم Roblox للوصول إلى نظام المسافر.</p>
-<input id="username" placeholder="Roblox Username">
-<button onclick="enter()">متابعة</button>
-<div id="msg" class="msg"></div>
-<footer>HAMOUD • AirFrance PTFS</footer>
+
+<div class="logo">
+AirFrance PTFS
+</div>
+
+<div class="subtitle">
+Passenger Verification<br>
+تحقق من بيانات المسافر للدخول إلى بوابة المسافر.
+</div>
+
+<label>
+Roblox Username
+</label>
+
+<input
+id="username"
+type="text"
+placeholder="Roblox Username"
+autocomplete="off">
+
+<button onclick="verifyPassenger()">
+Continue
+</button>
+
+<div
+class="error"
+id="error">
+</div>
+
+<footer>
+HAMOUD • AirFrance PTFS
+</footer>
+
 </div>
 
 <script>
-function enter(){
-    const username=document.getElementById("username").value.trim();
-    if(!username){
-        document.getElementById("msg").textContent="أدخل اسم Roblox.";
-        return;
-    }
-    sessionStorage.setItem("af_passenger",username);
-    location.href="passenger.html";
+
+function verifyPassenger(){
+
+const username=
+document
+.getElementById("username")
+.value
+.trim();
+
+const error=
+document.getElementById("error");
+
+if(!username){
+
+error.textContent=
+"اكتب اسم Roblox أولًا.";
+
+error.style.display="block";
+
+return;
+
 }
+
+localStorage.setItem(
+"af_passenger",
+username
+);
+
+location.href="passenger.html";
+
+}
+
 </script>
+
 </body>
 </html>
