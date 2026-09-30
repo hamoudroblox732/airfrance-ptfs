@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>AirFrance PTFS — Employee Identities</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{
+box-sizing:border-box;
+}
+
+html,body{
+margin:0;
+width:100%;
+min-height:100%;
+font-family:Arial,sans-serif;
+background:#070a0f;
+color:#fff;
+}
+
+body{
+overflow-x:hidden;
+}
+
+.app{
+min-height:100vh;
+background:
+radial-gradient(circle at 75% 10%,rgba(23,105,255,.10),transparent 30%),
+radial-gradient(circle at 20% 80%,rgba(23,105,255,.05),transparent 25%),
+#070a0f;
+}
+
+.main{
+min-height:100vh;
+padding:25px;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:15px;
+margin-bottom:25px;
+}
+
+.title{
+font-size:28px;
+font-weight:bold;
+}
+
+.sub{
+font-size:13px;
+color:#778599;
+margin-top:5px;
+}
+
+.online{
+display:flex;
+align-items:center;
+gap:8px;
+padding:9px 13px;
+border:1px solid #203026;
+background:#0c1712;
+border-radius:10px;
+font-size:12px;
+color:#80d49a;
+}
+
+.dot{
+width:7px;
+height:7px;
+border-radius:50%;
+background:#4bd477;
+box-shadow:0 0 10px #4bd477;
+}
+
+.layout{
+display:grid;
+grid-template-columns:1fr 1.4fr;
+gap:20px;
+}
+
+.card{
+background:#0d131c;
+border:1px solid #202c3d;
+border-radius:20px;
+padding:22px;
+}
+
+.card-title{
+font-size:18px;
+font-weight:bold;
+}
+
+.card-sub{
+font-size:12px;
+color:#69778a;
+margin-top:5px;
+margin-bottom:20px;
+}
+
+.form-group{
+margin-bottom:15px;
+}
+
+label{
+display:block;
+font-size:12px;
+color:#7d8b9e;
+margin-bottom:7px;
+}
+
+input,
+select{
+width:100%;
+background:#080d14;
+border:1px solid #293747;
+color:#fff;
+border-radius:11px;
+padding:13px;
+outline:none;
+}
+
+input:focus,
+select:focus{
+border-color:#1769ff;
+}
+
+.primary{
+width:100%;
+background:#1769ff;
+color:#fff;
+border:0;
+padding:14px;
+border-radius:11px;
+font-weight:bold;
+cursor:pointer;
+transition:.2s;
+}
+
+.primary:hover{
+transform:translateY(-2px);
+box-shadow:0 10px 25px rgba(23,105,255,.25);
+}
+
+.back{
+background:#111923;
+color:#cbd5e3;
+border:1px solid #293747;
+padding:12px 16px;
+border-radius:10px;
+cursor:pointer;
+margin-bottom:18px;
+}
+
+.employee{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:15px;
+padding:16px;
+margin-top:10px;
+background:#0a1018;
+border:1px solid #202d3d;
+border-radius:14px;
+transition:.2s;
+}
+
+.employee:hover{
+border-color:#315a96;
+transform:translateY(-2px);
+}
+
+.username{
+font-size:14px;
+font-weight:bold;
+}
+
+.role{
+font-size:12px;
+color:#6d9dff;
+margin-top:5px;
+}
+
+.id{
+font-size:11px;
+color:#69778a;
+margin-top:4px;
+}
+
+.delete{
+background:#321820;
+color:#ff8c9a;
+border:1px solid #552733;
+padding:9px 12px;
+border-radius:9px;
+cursor:pointer;
+}
+
+.empty{
+color:#69778a;
+font-size:12px;
+padding:20px 0;
+text-align:center;
+}
+
+.message{
+position:fixed;
+left:25px;
+bottom:25px;
+background:#111a27;
+border:1px solid #2b3e57;
+padding:13px 16px;
+border-radius:11px;
+display:none;
+z-index:50;
+box-shadow:0 10px 30px rgba(0,0,0,.35);
+}
+
+@media(max-width:850px){
+
+.layout{
+grid-template-columns:1fr;
+}
+
+}
+
+@media(max-width:600px){
+
+.main{
+padding:15px;
+padding-top:20px;
+}
+
+.topbar{
+align-items:flex-start;
+}
+
+.title{
+font-size:23px;
+}
+
+.employee{
+align-items:flex-start;
+}
+
+.delete{
+padding:8px 10px;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<main class="main">
+
+<button class="back" onclick="location.href='owner.html'">
+← Back to Owner Dashboard
+</button>
+
+<div class="topbar">
+
+<div>
+<div class="title">Employee Identities</div>
+<div class="sub">
+AirFrance PTFS employee management
+</div>
+</div>
+
+<div class="online">
+<div class="dot"></div>
+Online
+</div>
+
+</div>
+
+<div class="layout">
+
+<div class="card">
+
+<div class="card-title">
+Create Identity
+</div>
+
+<div class="card-sub">
+Create an employee identity that works across devices.
+</div>
+
+<div class="form-group">
+
+<label>Roblox Username</label>
+
+<input
+id="username"
+placeholder="Roblox Username"
+autocomplete="off">
+
+</div>
+
+<div class="form-group">
+
+<label>Employee ID</label>
+
+<input
+id="employeeId"
+placeholder="Employee ID"
+autocomplete="off">
+
+</div>
+
+<div class="form-group">
+
+<label>Role</label>
+
+<select id="role">
+
+<option value="Pilot">
+Pilot
+</option>
+
+<option value="Co-Pilot">
+Co-Pilot
+</option>
+
+<option value="Cabin Crew">
+Cabin Crew
+</option>
+
+<option value="Ground Crew">
+Ground Crew
+</option>
+
+<option value="Management">
+Management
+</option>
+
+</select>
+
+</div>
+
+<button
+class="primary"
+onclick="createEmployee()">
+
+Create Identity
+
+</button>
+
+</div>
+
+<div class="card">
+
+<div class="card-title">
+Employee Directory
+</div>
+
+<div class="card-sub">
+All registered AirFrance PTFS employees
+</div>
+
+<div id="employees">
+
+<div class="empty">
+Loading employees...
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</main>
+
+</div>
+
+<div id="message" class="message"></div>
+
+<script>
+
+const SUPABASE_URL="https://pjsadqfyvibsjrccnaum.supabase.co";
+
+const SUPABASE_KEY="sb_publishable_HKBI1QKk53w8Vp8Eq23X-A_gmrUk1px";
+
+const db=supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
+const OWNER_USERNAME="Ahmad_roblox2222";
+const OWNER_ID="AF-OWNER-4827";
+
+function checkOwner(){
+
+const username=sessionStorage.getItem("af_user");
+const id=sessionStorage.getItem("af_id");
+const role=sessionStorage.getItem("af_role");
+
+if(
+username!==OWNER_USERNAME ||
+id!==OWNER_ID ||
+role!=="Owner"
+){
+
+location.href="employee.html";
+
+return false;
+
+}
+
+return true;
+
+}
+
+function showMessage(text){
+
+const message=document.getElementById("message");
+
+message.textContent=text;
+message.style.display="block";
+
+setTimeout(function(){
+
+message.style.display="none";
+
+},3000);
+
+}
+
+function escapeHtml(value){
+
+return String(value)
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+
+}
+
+async function createEmployee(){
+
+const username=document
+.getElementById("username")
+.value
+.trim();
+
+const employeeId=document
+.getElementById("employeeId")
+.value
+.trim();
+
+const role=document
+.getElementById("role")
+.value;
+
+if(!username || !employeeId){
+
+showMessage("أكمل بيانات الموظف.");
+
+return;
+
+}
+
+const {data:existing,error:checkError}=await db
+.from("employees")
+.select("id")
+.eq("employee_id",employeeId)
+.maybeSingle();
+
+if(checkError){
+
+showMessage("حدث خطأ أثناء التحقق.");
+
+return;
+
+}
+
+if(existing){
+
+showMessage("هذا Employee ID مستخدم بالفعل.");
+
+return;
+
+}
+
+const {error}=await db
+.from("employees")
+.insert({
+username:username,
+employee_id:employeeId,
+role:role
+});
+
+if(error){
+
+showMessage("تعذر إنشاء الهوية.");
+
+return;
+
+}
+
+document.getElementById("username").value="";
+document.getElementById("employeeId").value="";
+
+showMessage("تم إنشاء الهوية بنجاح.");
+
+loadEmployees();
+
+}
+
+async function loadEmployees(){
+
+const {data,error}=await db
+.from("employees")
+.select("*")
+.order("created_at",{ascending:false});
+
+const box=document.getElementById("employees");
+
+if(error){
+
+box.innerHTML=
+'<div class="empty">Database error.</div>';
+
+return;
+
+}
+
+if(!data || !data.length){
+
+box.innerHTML=
+'<div class="empty">No employees yet.</div>';
+
+return;
+
+}
+
+box.innerHTML="";
+
+data.forEach(function(employee){
+
+const div=document.createElement("div");
+
+div.className="employee";
+
+div.innerHTML=`
+
+<div>
+
+<div class="username">
+${escapeHtml(employee.username)}
+</div>
+
+<div class="role">
+${escapeHtml(employee.role)}
+</div>
+
+<div class="id">
+Employee ID: ${escapeHtml(employee.employee_id)}
+</div>
+
+</div>
+
+<button
+class="delete"
+onclick="deleteEmployee(${employee.id})">
+
+Delete
+
+</button>
+
+`;
+
+box.appendChild(div);
+
+});
+
+}
+
+async function deleteEmployee(id){
+
+if(!confirm("Delete this employee identity?")){
+
+return;
+
+}
+
+const {error}=await db
+.from("employees")
+.delete()
+.eq("id",id);
+
+if(error){
+
+showMessage("تعذر حذف الهوية.");
+
+return;
+
+}
+
+showMessage("تم حذف الهوية.");
+
+loadEmployees();
+
+}
+
+if(checkOwner()){
+
+loadEmployees();
+
+}
+
+</script>
+
+</body>
+</html>
