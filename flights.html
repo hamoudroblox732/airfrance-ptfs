@@ -109,11 +109,6 @@ flex-wrap:wrap;
 margin-top:16px
 }
 
-button{
-border:0;
-cursor:pointer
-}
-
 .action{
 padding:12px 16px;
 border-radius:11px;
@@ -122,24 +117,12 @@ color:#fff;
 font-weight:800
 }
 
-.action:hover{
-background:#0d68e8
-}
-
 .manage{
 background:#202a35
 }
 
-.manage:hover{
-background:#2b3745
-}
-
 .delete{
 background:#9f3039
-}
-
-.delete:hover{
-background:#bd3944
 }
 
 .empty{
@@ -192,11 +175,6 @@ font-size:15px;
 outline:none
 }
 
-select:focus,
-input:focus{
-border-color:#1677ff
-}
-
 .manage-actions{
 display:grid;
 grid-template-columns:1fr 1fr;
@@ -228,7 +206,6 @@ min-height:20px
 }
 
 @media(max-width:650px){
-
 .top{
 flex-direction:column
 }
@@ -239,14 +216,6 @@ font-size:19px
 
 .manage-actions{
 grid-template-columns:1fr
-}
-
-.container{
-padding:20px 14px 35px
-}
-
-.card{
-padding:17px
 }
 }
 </style>
@@ -326,14 +295,10 @@ const employeeId=sessionStorage.getItem("af_id");
 const role=sessionStorage.getItem("af_role");
 
 if(!username||!employeeId||!role){
-
 location.replace("employee.html");
-
 }else{
-
 document.getElementById("account").textContent=
 username+" • "+employeeId+" • "+role;
-
 }
 
 let selectedFlight=null;
@@ -341,13 +306,9 @@ let selectedFlight=null;
 function goBack(){
 
 if(role==="Owner"){
-
 location.replace("owner.html");
-
 }else{
-
 location.replace("staff.html");
-
 }
 
 }
@@ -356,9 +317,7 @@ function formatDate(value){
 
 if(!value)return"Not set";
 
-const date=new Date(value);
-
-return date.toLocaleString([],{
+return new Date(value).toLocaleString([],{
 year:"numeric",
 month:"short",
 day:"numeric",
@@ -373,13 +332,81 @@ function toLocalInput(value){
 if(!value)return"";
 
 const date=new Date(value);
-
 const offset=date.getTimezoneOffset()*60000;
 
 return new Date(date.getTime()-offset)
 .toISOString()
 .slice(0,16);
 
+}
+
+function getAutomaticStatus(flight){
+
+if(
+flight.status==="Delayed"||
+flight.status==="Cancelled"
+){
+return flight.status;
+}
+
+if(flight.status==="Landed"){
+return "Landed";
+}
+
+if(flight.status==="In Flight"){
+return "In Flight";
+}
+
+if(!flight.boarding_time||!flight.departure_time){
+return flight.status||"Scheduled";
+}
+
+if(flight.closed){
+return "Closed";
+}
+
+const now=new Date();
+const boarding=new Date(flight.boarding_time);
+const departure=new Date(flight.departure_time);
+
+if(now<boarding){
+return "Scheduled";
+}
+
+if(now>=boarding&&now<departure){
+return "Boarding";
+}
+
+if(now>=departure){
+return "Departed";
+}
+
+return "Scheduled";
+}
+
+async function updateAutomaticStatus(flight){
+
+const newStatus=getAutomaticStatus(flight);
+
+if(
+newStatus!==flight.status&&
+flight.status!=="Delayed"&&
+flight.status!=="Cancelled"&&
+flight.status!=="Landed"&&
+flight.status!=="In Flight"&&
+!flight.closed
+){
+
+await db
+.from("flights")
+.update({
+status:newStatus
+})
+.eq("id",flight.id);
+
+}
+
+return newStatus;
 }
 
 async function loadFlights(){
@@ -392,42 +419,32 @@ let request=db
 .order("created_at",{ascending:false});
 
 if(role==="Pilot"){
-
 request=request.eq("pilot",username);
-
 }
 
 const {data,error}=await request;
 
 if(error){
-
 box.innerHTML=
 '<div class="empty">Could not load flights.</div>';
-
 return;
-
 }
 
 if(!data||data.length===0){
-
 box.innerHTML=
 '<div class="empty">No flights found for this account.</div>';
-
 return;
-
 }
 
 box.innerHTML="";
 
-data.forEach(flight=>{
+for(const flight of data){
+
+const status=await updateAutomaticStatus(flight);
 
 const item=document.createElement("div");
 
 item.className="flight";
-
-const status=flight.closed
-?"Closed"
-:(flight.status||"Scheduled");
 
 let html=
 
@@ -498,7 +515,7 @@ item.innerHTML=html;
 
 box.appendChild(item);
 
-});
+}
 
 }
 
@@ -511,11 +528,8 @@ const {data,error}=await db
 .single();
 
 if(error||!data){
-
 alert("Could not open this flight.");
-
 return;
-
 }
 
 selectedFlight=data;
@@ -567,13 +581,11 @@ const departure=document.getElementById("manageDeparture").value;
 if(!boarding||!departure){
 
 message.textContent="Please set both times.";
-
 return;
 
 }
 
 const boardingDate=new Date(boarding);
-
 const departureDate=new Date(departure);
 
 if(departureDate<=boardingDate){
@@ -587,21 +599,13 @@ return;
 
 message.textContent="Saving...";
 
-let closed=status==="Closed";
-
-let realStatus=status;
-
-if(closed){
-
-realStatus="Closed";
-
-}
+const closed=status==="Closed";
 
 const {error}=await db
 .from("flights")
 .update({
 
-status:realStatus,
+status:status,
 boarding_time:boardingDate.toISOString(),
 departure_time:departureDate.toISOString(),
 closed:closed
@@ -611,7 +615,8 @@ closed:closed
 
 if(error){
 
-message.textContent="Could not update the flight.";
+message.textContent=
+"Could not update the flight.";
 
 return;
 
@@ -662,14 +667,14 @@ window.addEventListener("click",function(event){
 const modal=document.getElementById("manageModal");
 
 if(event.target===modal){
-
 closeModal();
-
 }
 
 });
 
 loadFlights();
+
+setInterval(loadFlights,30000);
 </script>
 
 </body>
