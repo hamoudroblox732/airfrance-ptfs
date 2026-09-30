@@ -3,276 +3,1030 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Owner Control</title>
+<title>AirFrance PTFS — Owner</title>
+
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
-body{background:#05080d;color:#fff;min-height:100vh}
-header{height:72px;background:#080d14;border-bottom:1px solid #202d3b;display:flex;align-items:center;justify-content:space-between;padding:0 25px;position:sticky;top:0;z-index:10}
-.logo{font-weight:900;font-size:21px}.owner{color:#8eb2e2;font-size:10px;border:1px solid #2a3b50;padding:8px 12px;border-radius:20px}
-.layout{display:grid;grid-template-columns:230px 1fr;max-width:1400px;margin:auto;gap:20px;padding:20px}
-nav{background:#0b1118;border:1px solid #202d3b;border-radius:18px;padding:12px;height:max-content;position:sticky;top:92px}
-nav button{width:100%;background:transparent;color:#7d8a99;border:1px solid transparent;padding:13px;border-radius:10px;text-align:right;margin-bottom:5px;cursor:pointer}
-nav button:hover,nav button.active{background:#151f2b;color:#fff;border-color:#26384c}
-.logout{margin-top:15px;border-top:1px solid #202d3b;padding-top:15px}
-.logout button{color:#df9ca4;background:#241518;border-color:#48272d}
-.page{display:none}.page.active{display:block}
-.hero{background:linear-gradient(135deg,#101a26,#080d13);border:1px solid #223143;border-radius:22px;padding:28px;margin-bottom:18px}
-.hero small{color:#627b99;letter-spacing:2px}.hero h1{font-size:30px;margin:10px 0}.hero p{color:#778595;font-size:12px}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
-.card,.panel{background:#0b1219;border:1px solid #202d3b;border-radius:17px;padding:19px}
-.card h2{font-size:15px;margin-bottom:7px}.card p{font-size:11px;color:#778595;line-height:1.7}
-.stat{font-size:28px;font-weight:900}.muted{color:#647487;font-size:10px}
-.form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.field{margin-bottom:12px}.field.full{grid-column:1/-1}
-label{display:block;font-size:11px;font-weight:bold;margin-bottom:7px}
-input,select{width:100%;background:#070b10;color:#fff;border:1px solid #2a3949;border-radius:10px;padding:12px;outline:none}
-.action{border:0;background:#2563eb;color:#fff;border-radius:9px;padding:11px 15px;font-weight:bold;cursor:pointer}
-.danger{background:#3a181d;color:#e1a0a8}
-.actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
-table{width:100%;border-collapse:collapse;min-width:650px}
-th,td{padding:12px;border-bottom:1px solid #202d3b;text-align:right;font-size:11px}
-th{color:#68788a}.table{overflow:auto}
-.tag{background:#172438;color:#9ebbe1;padding:5px 8px;border-radius:7px;font-size:9px}
-.empty{text-align:center;color:#657487;padding:35px}
-.log{padding:12px 0;border-bottom:1px solid #202d3b;font-size:11px;color:#9aa7b5}
-footer{text-align:center;color:#3f4c5b;padding:30px;font-size:10px}
-@media(max-width:850px){.layout{grid-template-columns:1fr;padding:12px}nav{position:static;display:grid;grid-template-columns:1fr 1fr;gap:5px}.logout{grid-column:1/-1}.grid{grid-template-columns:1fr}.form{grid-template-columns:1fr}.field.full{grid-column:auto}}
+
+body{
+min-height:100vh;
+background:
+radial-gradient(circle at 10% 0%,#18334f,transparent 30%),
+radial-gradient(circle at 100% 100%,#101d2d,transparent 35%),
+#05080d;
+color:#fff
+}
+
+header{
+height:74px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 25px;
+background:#080d14ee;
+border-bottom:1px solid #202e3d;
+position:sticky;
+top:0;
+z-index:10
+}
+
+.logo{font-size:21px;font-weight:900}
+
+.badge{
+font-size:10px;
+color:#9bb9df;
+border:1px solid #2b4057;
+padding:8px 12px;
+border-radius:20px
+}
+
+.layout{
+max-width:1400px;
+margin:auto;
+display:grid;
+grid-template-columns:235px 1fr;
+gap:20px;
+padding:20px
+}
+
+nav{
+background:#0a1119;
+border:1px solid #202e3d;
+border-radius:18px;
+padding:12px;
+height:max-content;
+position:sticky;
+top:94px
+}
+
+nav button{
+width:100%;
+padding:13px;
+margin-bottom:6px;
+border-radius:10px;
+border:1px solid transparent;
+background:transparent;
+color:#778696;
+text-align:right;
+cursor:pointer;
+font-weight:bold
+}
+
+nav button:hover,
+nav button.active{
+background:#151f2b;
+border-color:#293c51;
+color:#fff
+}
+
+.logout{
+margin-top:15px;
+padding-top:15px;
+border-top:1px solid #202e3d
+}
+
+.logout button{
+background:#251619;
+color:#df9da5;
+border-color:#49292f
+}
+
+.page{display:none}
+.page.active{display:block}
+
+.hero{
+background:linear-gradient(135deg,#111c28,#080d13);
+border:1px solid #223244;
+border-radius:22px;
+padding:30px;
+margin-bottom:18px
+}
+
+.hero small{
+color:#6885a5;
+font-size:10px;
+letter-spacing:2px
+}
+
+.hero h1{
+font-size:30px;
+margin:10px 0
+}
+
+.hero p{
+color:#788697;
+font-size:12px;
+line-height:1.7
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:14px
+}
+
+.card,.panel{
+background:#0b1219;
+border:1px solid #202e3d;
+border-radius:17px;
+padding:19px
+}
+
+.card h2{
+font-size:15px;
+margin-bottom:8px
+}
+
+.card p{
+font-size:11px;
+color:#778595;
+line-height:1.7
+}
+
+.stat{
+font-size:28px;
+font-weight:900;
+margin-bottom:4px
+}
+
+.label{
+font-size:10px;
+color:#647487
+}
+
+.form{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:13px
+}
+
+.field{
+margin-bottom:10px
+}
+
+label{
+display:block;
+font-size:11px;
+font-weight:bold;
+margin-bottom:7px
+}
+
+input,select{
+width:100%;
+background:#070b10;
+border:1px solid #2b3a4b;
+border-radius:10px;
+padding:13px;
+color:#fff;
+outline:none
+}
+
+input:focus,select:focus{
+border-color:#2563eb
+}
+
+button.action{
+border:0;
+border-radius:9px;
+padding:11px 15px;
+background:#2563eb;
+color:#fff;
+font-weight:bold;
+cursor:pointer
+}
+
+button.danger{
+background:#3a181d;
+color:#e0a0a8
+}
+
+.actions{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+margin-top:10px
+}
+
+.table{
+overflow:auto;
+margin-top:18px
+}
+
+table{
+width:100%;
+min-width:700px;
+border-collapse:collapse
+}
+
+th,td{
+padding:12px;
+border-bottom:1px solid #202e3d;
+text-align:right;
+font-size:11px
+}
+
+th{color:#69798b}
+td{color:#d7dee6}
+
+.tag{
+background:#172438;
+color:#a3bee0;
+padding:5px 8px;
+border-radius:7px;
+font-size:9px
+}
+
+.empty{
+text-align:center;
+padding:35px;
+color:#667587
+}
+
+.log{
+padding:12px 0;
+border-bottom:1px solid #202e3d;
+font-size:11px;
+color:#a4afbb
+}
+
+.log small{
+color:#586777
+}
+
+footer{
+text-align:center;
+padding:30px;
+color:#40505f;
+font-size:10px
+}
+
+@media(max-width:850px){
+
+.layout{
+grid-template-columns:1fr;
+padding:12px
+}
+
+nav{
+position:static;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:5px
+}
+
+nav button{margin:0}
+
+.logout{
+grid-column:1/-1
+}
+
+.grid{
+grid-template-columns:1fr
+}
+
+.form{
+grid-template-columns:1fr
+}
+}
 </style>
 </head>
+
 <body>
 
 <header>
 <div class="logo">AirFrance PTFS</div>
-<div class="owner">OWNER CONTROL</div>
+<div class="badge">OWNER CONTROL</div>
 </header>
 
 <div class="layout">
 
 <nav>
-<button class="active" onclick="page('home',this)">الرئيسية</button>
-<button onclick="page('employees',this)">الموظفون</button>
-<button onclick="page('flights',this)">الرحلات</button>
-<button onclick="page('permissions',this)">الصلاحيات</button>
-<button onclick="page('settings',this)">الإعدادات</button>
-<button onclick="page('logs',this)">السجل</button>
-<div class="logout"><button onclick="logout()">تسجيل الخروج</button></div>
+
+<button class="active" onclick="showPage('dashboard',this)">
+الرئيسية
+</button>
+
+<button onclick="showPage('employees',this)">
+الموظفون
+</button>
+
+<button onclick="showPage('flights',this)">
+الرحلات
+</button>
+
+<button onclick="showPage('permissions',this)">
+الصلاحيات
+</button>
+
+<button onclick="showPage('settings',this)">
+الإعدادات
+</button>
+
+<button onclick="showPage('logs',this)">
+السجل
+</button>
+
+<div class="logout">
+<button onclick="logout()">تسجيل الخروج</button>
+</div>
+
 </nav>
 
 <main>
 
-<section id="home" class="page active">
+<section id="dashboard" class="page active">
+
 <div class="hero">
 <small>OWNER DASHBOARD</small>
 <h1>لوحة تحكم المالك</h1>
-<p>تحكم كامل بالموظفين والرحلات والصلاحيات وإعدادات النظام.</p>
+<p>إدارة الموظفين والرحلات والصلاحيات وإعدادات النظام.</p>
 </div>
+
 <div class="grid">
-<div class="card"><div class="stat" id="staffCount">0</div><div class="muted">الموظفون</div></div>
-<div class="card"><div class="stat" id="flightCount">0</div><div class="muted">طلبات الرحلات</div></div>
-<div class="card"><div class="stat">ONLINE</div><div class="muted">حالة النظام</div></div>
+
+<div class="card">
+<div class="stat" id="employeeCount">0</div>
+<div class="label">الموظفون</div>
 </div>
+
+<div class="card">
+<div class="stat" id="flightCount">0</div>
+<div class="label">طلبات الرحلات</div>
+</div>
+
+<div class="card">
+<div class="stat">ONLINE</div>
+<div class="label">النظام</div>
+</div>
+
+</div>
+
 </section>
 
 <section id="employees" class="page">
-<div class="hero"><small>STAFF MANAGEMENT</small><h1>إدارة الموظفين</h1><p>أنشئ هوية مرتبطة بيوزر Roblox ودور محدد.</p></div>
+
+<div class="hero">
+<small>STAFF MANAGEMENT</small>
+<h1>إدارة الموظفين</h1>
+<p>إنشاء هوية مرتبطة بشكل مباشر بيوزر Roblox ودور الموظف.</p>
+</div>
 
 <div class="panel">
+
 <div class="form">
+
 <div class="field">
 <label>Roblox Username</label>
-<input id="username" placeholder="Roblox Username">
-</div>
-<div class="field">
-<label>Employee ID</label>
-<input id="employeeId" placeholder="Employee ID">
-</div>
-<div class="field">
-<label>Role</label>
-<select id="role">
-<option>Pilot</option>
-<option>Co-Pilot</option>
-<option>Cabin Crew</option>
-<option>Ground Crew</option>
-<option>Management</option>
-</select>
-</div>
-</div>
-<div class="actions"><button class="action" onclick="addEmployee()">إنشاء الهوية</button></div>
+<input id="newUsername" placeholder="Roblox Username" autocomplete="off">
 </div>
 
-<div class="panel" style="margin-top:15px">
+<div class="field">
+<label>Employee ID</label>
+<input id="newEmployeeId" placeholder="Employee ID" autocomplete="off">
+</div>
+
+<div class="field">
+<label>Role</label>
+
+<select id="newRole">
+
+<option value="Pilot">Pilot</option>
+<option value="Co-Pilot">Co-Pilot</option>
+<option value="Cabin Crew">Cabin Crew</option>
+<option value="Ground Crew">Ground Crew</option>
+<option value="Management">Management</option>
+
+</select>
+
+</div>
+
+</div>
+
+<div class="actions">
+
+<button class="action" onclick="createEmployee()">
+إنشاء الهوية
+</button>
+
+</div>
+
+</div>
+
+<div class="panel">
+
 <div class="table">
+
 <table>
-<thead><tr><th>Username</th><th>ID</th><th>Role</th><th>إجراء</th></tr></thead>
-<tbody id="staffTable"></tbody>
+
+<thead>
+
+<tr>
+<th>Roblox Username</th>
+<th>Employee ID</th>
+<th>Role</th>
+<th>الإجراء</th>
+</tr>
+
+</thead>
+
+<tbody id="employeesTable"></tbody>
+
 </table>
+
 </div>
+
 </div>
+
 </section>
 
 <section id="flights" class="page">
-<div class="hero"><small>FLIGHT CONTROL</small><h1>إدارة الرحلات</h1><p>طلبات الرحلات التي يرسلها الموظفون تظهر هنا.</p></div>
-<div class="panel" id="flightsBox"></div>
+
+<div class="hero">
+<small>FLIGHT MANAGEMENT</small>
+<h1>إدارة الرحلات</h1>
+<p>طلبات الرحلات المرسلة من الموظفين.</p>
+</div>
+
+<div class="panel" id="flightList"></div>
+
 </section>
 
 <section id="permissions" class="page">
-<div class="hero"><small>PERMISSIONS</small><h1>الصلاحيات</h1><p>الأدوار الحالية داخل النظام.</p></div>
-<div class="grid">
-<div class="card"><h2>Management</h2><p>إدارة الموظفين والرحلات حسب الصلاحيات.</p></div>
-<div class="card"><h2>Pilot</h2><p>إنشاء طلبات الرحلات وإدارة الرحلات المسندة.</p></div>
-<div class="card"><h2>Cabin Crew</h2><p>متابعة الرحلات والانضمام للطاقم.</p></div>
-<div class="card"><h2>Ground Crew</h2><p>متابعة عمليات الرحلات الأرضية.</p></div>
-<div class="card"><h2>Co-Pilot</h2><p>متابعة الرحلات التي يتم تعيينه عليها.</p></div>
-<div class="card"><h2>Owner</h2><p>صلاحيات النظام الكاملة.</p></div>
+
+<div class="hero">
+<small>PERMISSIONS</small>
+<h1>الصلاحيات</h1>
+<p>الأدوار الموجودة داخل النظام.</p>
 </div>
+
+<div class="grid">
+
+<div class="card">
+<h2>Management</h2>
+<p>إدارة الرحلات والموظفين حسب الصلاحيات.</p>
+</div>
+
+<div class="card">
+<h2>Pilot</h2>
+<p>إنشاء طلبات الرحلات وإدارة الرحلات المسندة.</p>
+</div>
+
+<div class="card">
+<h2>Co-Pilot</h2>
+<p>متابعة الرحلات المسندة إليه.</p>
+</div>
+
+<div class="card">
+<h2>Cabin Crew</h2>
+<p>إدارة ومتابعة طاقم المقصورة.</p>
+</div>
+
+<div class="card">
+<h2>Ground Crew</h2>
+<p>متابعة العمليات الأرضية.</p>
+</div>
+
+<div class="card">
+<h2>Owner</h2>
+<p>صلاحيات النظام الكاملة.</p>
+</div>
+
+</div>
+
 </section>
 
 <section id="settings" class="page">
-<div class="hero"><small>SYSTEM SETTINGS</small><h1>إعدادات النظام</h1><p>الإعدادات الأساسية للنظام.</p></div>
-<div class="panel">
-<div class="field"><label>اسم النظام</label><input id="systemName" value="AirFrance PTFS"></div>
-<div class="field"><label>الحالة</label><select id="status"><option>ONLINE</option><option>MAINTENANCE</option></select></div>
-<button class="action" onclick="saveSettings()">حفظ</button>
+
+<div class="hero">
+<small>SYSTEM SETTINGS</small>
+<h1>إعدادات النظام</h1>
+<p>تعديل الإعدادات العامة.</p>
 </div>
+
+<div class="panel">
+
+<div class="field">
+<label>System Name</label>
+<input id="systemName" value="AirFrance PTFS">
+</div>
+
+<div class="field">
+<label>System Status</label>
+
+<select id="systemStatus">
+<option>ONLINE</option>
+<option>MAINTENANCE</option>
+</select>
+
+</div>
+
+<button class="action" onclick="saveSettings()">
+حفظ الإعدادات
+</button>
+
+</div>
+
 </section>
 
 <section id="logs" class="page">
-<div class="hero"><small>SYSTEM LOGS</small><h1>سجل العمليات</h1><p>آخر العمليات التي تمت في النظام.</p></div>
-<div class="panel" id="logsBox"></div>
+
+<div class="hero">
+<small>SYSTEM LOGS</small>
+<h1>سجل العمليات</h1>
+<p>كل العمليات التي تمت داخل لوحة Owner.</p>
+</div>
+
+<div class="panel" id="logsList"></div>
+
 </section>
 
-<footer>HAMOUD • AirFrance PTFS</footer>
+<footer>
+HAMOUD • AirFrance PTFS
+</footer>
+
 </main>
+
 </div>
 
 <script>
+
 const OWNER_USERNAME="Ahmad_roblox2222";
 const OWNER_ID="AF-OWNER-4827";
 
-function employees(){return JSON.parse(localStorage.getItem("af_employees")||"[]")}
-function flights(){return JSON.parse(localStorage.getItem("af_flights")||"[]")}
-function logs(){return JSON.parse(localStorage.getItem("af_logs")||"[]")}
+function getEmployees(){
 
-function save(key,value){localStorage.setItem(key,JSON.stringify(value))}
-function log(text){
-    const a=logs();
-    a.push({text,time:new Date().toLocaleString("ar-SA")});
-    save("af_logs",a);
-    renderLogs();
+return JSON.parse(
+localStorage.getItem("af_employees") || "[]"
+);
+
 }
 
-function page(id,btn){
-    document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
-    document.getElementById(id).classList.add("active");
-    document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));
-    if(btn)btn.classList.add("active");
-    render();
+function saveEmployees(data){
+
+localStorage.setItem(
+"af_employees",
+JSON.stringify(data)
+);
+
 }
 
-function addEmployee(){
-    const username=document.getElementById("username").value.trim();
-    const id=document.getElementById("employeeId").value.trim().toUpperCase();
-    const role=document.getElementById("role").value;
+function getFlights(){
 
-    if(!username||!id)return alert("أكمل بيانات الموظف.");
+return JSON.parse(
+localStorage.getItem("af_flights") || "[]"
+);
 
-    const a=employees();
-
-    if(a.some(x=>x.employeeId===id))return alert("هذه الهوية موجودة.");
-
-    if(username.toLowerCase()===OWNER_USERNAME.toLowerCase())
-        return alert("هذا الحساب محجوز للـOwner.");
-
-    a.push({username,employeeId:id,role});
-    save("af_employees",a);
-    log("تم إنشاء هوية "+id+" للموظف "+username);
-    document.getElementById("username").value="";
-    document.getElementById("employeeId").value="";
-    render();
-    alert("تم إنشاء الهوية وحفظها.");
 }
 
-function removeEmployee(i){
-    const a=employees();
-    if(!confirm("حذف هذه الهوية؟"))return;
-    log("تم حذف هوية "+a[i].employeeId);
-    a.splice(i,1);
-    save("af_employees",a);
-    render();
+function getLogs(){
+
+return JSON.parse(
+localStorage.getItem("af_logs") || "[]"
+);
+
+}
+
+function addLog(text){
+
+const logs=getLogs();
+
+logs.push({
+text:text,
+time:new Date().toLocaleString("ar-SA")
+});
+
+localStorage.setItem(
+"af_logs",
+JSON.stringify(logs)
+);
+
+renderLogs();
+
+}
+
+function showPage(id,button){
+
+document.querySelectorAll(".page")
+.forEach(function(page){
+
+page.classList.remove("active");
+
+});
+
+document.getElementById(id)
+.classList.add("active");
+
+document.querySelectorAll("nav button")
+.forEach(function(btn){
+
+btn.classList.remove("active");
+
+});
+
+if(button){
+
+button.classList.add("active");
+
+}
+
+render();
+
+}
+
+function createEmployee(){
+
+const username=document
+.getElementById("newUsername")
+.value
+.trim();
+
+const employeeId=document
+.getElementById("newEmployeeId")
+.value
+.trim()
+.toUpperCase();
+
+const role=document
+.getElementById("newRole")
+.value;
+
+if(!username || !employeeId){
+
+alert("أكمل بيانات الموظف.");
+
+return;
+
+}
+
+if(
+username.toLowerCase() ===
+OWNER_USERNAME.toLowerCase()
+){
+
+alert("هذا الحساب محجوز للـOwner.");
+
+return;
+
+}
+
+const employees=getEmployees();
+
+const duplicateId=employees.some(function(employee){
+
+return employee.employeeId.toUpperCase() === employeeId;
+
+});
+
+if(duplicateId){
+
+alert("Employee ID مستخدم بالفعل.");
+
+return;
+
+}
+
+const duplicateUsername=employees.some(function(employee){
+
+return employee.username.toLowerCase() ===
+username.toLowerCase();
+
+});
+
+if(duplicateUsername){
+
+alert("هذا الحساب لديه هوية بالفعل.");
+
+return;
+
+}
+
+employees.push({
+
+username:username,
+employeeId:employeeId,
+role:role
+
+});
+
+saveEmployees(employees);
+
+addLog(
+"تم إنشاء هوية "+employeeId+
+" للحساب "+username+
+" — "+role
+);
+
+document.getElementById("newUsername").value="";
+document.getElementById("newEmployeeId").value="";
+
+render();
+
+alert("تم إنشاء الهوية وحفظها بنجاح.");
+
+}
+
+function deleteEmployee(index){
+
+const employees=getEmployees();
+
+if(!confirm("هل تريد حذف هذه الهوية؟")){
+
+return;
+
+}
+
+const employee=employees[index];
+
+employees.splice(index,1);
+
+saveEmployees(employees);
+
+addLog(
+"تم حذف هوية "+employee.employeeId
+);
+
+render();
+
 }
 
 function renderEmployees(){
-    const t=document.getElementById("staffTable");
-    const a=employees();
-    if(!a.length){t.innerHTML="<tr><td colspan='4' class='empty'>لا توجد هويات موظفين.</td></tr>";return}
-    t.innerHTML=a.map((x,i)=>`
-    <tr>
-    <td>${safe(x.username)}</td>
-    <td>${safe(x.employeeId)}</td>
-    <td><span class="tag">${safe(x.role)}</span></td>
-    <td><button class="action danger" onclick="removeEmployee(${i})">حذف</button></td>
-    </tr>`).join("");
+
+const table=document
+.getElementById("employeesTable");
+
+const employees=getEmployees();
+
+if(employees.length===0){
+
+table.innerHTML=`
+<tr>
+<td colspan="4">
+<div class="empty">
+لا توجد هويات موظفين حاليًا.
+</div>
+</td>
+</tr>
+`;
+
+return;
+
+}
+
+table.innerHTML=employees.map(function(employee,index){
+
+return `
+<tr>
+
+<td>
+${escapeHtml(employee.username)}
+</td>
+
+<td>
+${escapeHtml(employee.employeeId)}
+</td>
+
+<td>
+<span class="tag">
+${escapeHtml(employee.role)}
+</span>
+</td>
+
+<td>
+
+<button
+class="action danger"
+onclick="deleteEmployee(${index})">
+
+حذف
+
+</button>
+
+</td>
+
+</tr>
+`;
+
+}).join("");
+
 }
 
 function renderFlights(){
-    const box=document.getElementById("flightsBox");
-    const a=flights();
-    if(!a.length){box.innerHTML="<div class='empty'>لا توجد طلبات رحلات حاليًا.</div>";return}
-    box.innerHTML=a.map((x,i)=>`
-    <div class="card" style="margin-bottom:10px">
-    <h2>${safe(x.title)}</h2>
-    <p>الطيار: ${safe(x.pilot)}<br>الحالة: ${safe(x.status)}</p>
-    <div class="actions">
-    <button class="action" onclick="flightAction(${i},'APPROVED')">قبول</button>
-    <button class="action danger" onclick="flightAction(${i},'REJECTED')">رفض</button>
-    </div>
-    </div>`).join("");
+
+const box=document
+.getElementById("flightList");
+
+const flights=getFlights();
+
+if(flights.length===0){
+
+box.innerHTML=`
+<div class="empty">
+لا توجد طلبات رحلات حاليًا.
+</div>
+`;
+
+return;
+
 }
 
-function flightAction(i,status){
-    const a=flights();
-    a[i].status=status;
-    save("af_flights",a);
-    log("تم تحديث حالة رحلة إلى "+status);
-    render();
+box.innerHTML=flights.map(function(flight,index){
+
+return `
+<div class="card" style="margin-bottom:12px">
+
+<h2>
+${escapeHtml(flight.title || "Flight Request")}
+</h2>
+
+<p>
+Pilot:
+${escapeHtml(flight.pilot || "Unknown")}
+<br>
+Status:
+${escapeHtml(flight.status || "PENDING")}
+</p>
+
+<div class="actions">
+
+<button
+class="action"
+onclick="approveFlight(${index})">
+
+قبول
+
+</button>
+
+<button
+class="action danger"
+onclick="rejectFlight(${index})">
+
+رفض
+
+</button>
+
+</div>
+
+</div>
+`;
+
+}).join("");
+
+}
+
+function approveFlight(index){
+
+const flights=getFlights();
+
+flights[index].status="APPROVED";
+
+localStorage.setItem(
+"af_flights",
+JSON.stringify(flights)
+);
+
+addLog("تم قبول طلب رحلة.");
+
+render();
+
+}
+
+function rejectFlight(index){
+
+const flights=getFlights();
+
+flights[index].status="REJECTED";
+
+localStorage.setItem(
+"af_flights",
+JSON.stringify(flights)
+);
+
+addLog("تم رفض طلب رحلة.");
+
+render();
+
 }
 
 function saveSettings(){
-    localStorage.setItem("af_system_name",document.getElementById("systemName").value);
-    localStorage.setItem("af_system_status",document.getElementById("status").value);
-    log("تم حفظ إعدادات النظام");
-    alert("تم الحفظ.");
+
+const name=document
+.getElementById("systemName")
+.value
+.trim();
+
+const status=document
+.getElementById("systemStatus")
+.value;
+
+if(!name){
+
+alert("اكتب اسم النظام.");
+
+return;
+
+}
+
+localStorage.setItem(
+"af_system_name",
+name
+);
+
+localStorage.setItem(
+"af_system_status",
+status
+);
+
+addLog("تم حفظ إعدادات النظام.");
+
+alert("تم حفظ الإعدادات.");
+
 }
 
 function renderLogs(){
-    const box=document.getElementById("logsBox");
-    const a=logs().slice().reverse();
-    if(!a.length){box.innerHTML="<div class='empty'>لا توجد عمليات.</div>";return}
-    box.innerHTML=a.map(x=>`<div class="log">${safe(x.text)}<br><small>${safe(x.time)}</small></div>`).join("");
+
+const box=document
+.getElementById("logsList");
+
+const logs=getLogs()
+.slice()
+.reverse();
+
+if(logs.length===0){
+
+box.innerHTML=`
+<div class="empty">
+لا توجد عمليات مسجلة.
+</div>
+`;
+
+return;
+
+}
+
+box.innerHTML=logs.map(function(log){
+
+return `
+<div class="log">
+
+${escapeHtml(log.text)}
+
+<br>
+
+<small>
+${escapeHtml(log.time)}
+</small>
+
+</div>
+`;
+
+}).join("");
+
+}
+
+function updateStats(){
+
+document.getElementById("employeeCount")
+.textContent=getEmployees().length;
+
+document.getElementById("flightCount")
+.textContent=getFlights().length;
+
+}
+
+function escapeHtml(value){
+
+return String(value)
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
 }
 
 function render(){
-    document.getElementById("staffCount").textContent=employees().length;
-    document.getElementById("flightCount").textContent=flights().length;
-    renderEmployees();
-    renderFlights();
-    renderLogs();
+
+updateStats();
+renderEmployees();
+renderFlights();
+renderLogs();
+
 }
 
-function safe(x){
-    return String(x).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-}
+if(
+sessionStorage.getItem("af_role") !==
+"Owner"
+){
 
-function logout(){
-    sessionStorage.clear();
-    location.href="index.html";
-}
+location.href="employee.html";
 
-if(sessionStorage.getItem("af_role")!=="Owner"){
-    location.href="employee.html";
 }else{
-    render();
+
+render();
+
 }
+
 </script>
+
 </body>
 </html>
