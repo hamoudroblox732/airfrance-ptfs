@@ -3,93 +3,456 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Employee Access</title>
+<title>AirFrance PTFS — Employee</title>
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
-body{min-height:100vh;background:radial-gradient(circle at top right,#17304b,transparent 35%),#05080d;color:#fff;display:flex;align-items:center;justify-content:center;padding:20px}
-.box{width:100%;max-width:500px;background:#0b121b;border:1px solid #243344;border-radius:24px;padding:35px;box-shadow:0 25px 80px #0008}
-.logo{text-align:center;font-size:27px;font-weight:900;margin-bottom:7px}.sub{text-align:center;color:#69798c;font-size:12px;margin-bottom:30px}
-h1{font-size:22px;margin-bottom:7px}p{color:#728093;font-size:12px;line-height:1.7;margin-bottom:22px}
-label{display:block;font-size:12px;font-weight:bold;margin-bottom:7px}
-input{width:100%;background:#070b10;color:#fff;border:1px solid #2a3949;border-radius:11px;padding:14px;margin-bottom:15px;outline:none}
-input:focus{border-color:#2563eb}
-button{width:100%;padding:14px;border:0;border-radius:11px;background:#2563eb;color:#fff;font-weight:bold;cursor:pointer}
-.msg{margin-top:15px;padding:12px;border-radius:10px;font-size:11px;display:none}
-.err{display:block;background:#251518;color:#e1a0a8}.ok{display:block;background:#122019;color:#9bd0aa}
-.footer{text-align:center;color:#43505f;font-size:10px;margin-top:22px}
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+font-family:Arial,sans-serif
+}
+
+body{
+min-height:100vh;
+background:
+radial-gradient(circle at 15% 0%,#183650,transparent 32%),
+radial-gradient(circle at 100% 100%,#101e30,transparent 35%),
+#05080d;
+color:#fff;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:20px
+}
+
+.wrap{
+width:100%;
+max-width:520px
+}
+
+.logo{
+text-align:center;
+font-size:27px;
+font-weight:900;
+margin-bottom:7px
+}
+
+.subtitle{
+text-align:center;
+color:#657588;
+font-size:10px;
+letter-spacing:2px;
+margin-bottom:24px
+}
+
+.panel{
+background:#0b1219;
+border:1px solid #223244;
+border-radius:23px;
+padding:30px;
+box-shadow:0 25px 80px #0008
+}
+
+.top{
+margin-bottom:23px
+}
+
+.top h1{
+font-size:23px;
+margin-bottom:7px
+}
+
+.top p{
+font-size:12px;
+line-height:1.7;
+color:#748394
+}
+
+.field{
+margin-bottom:15px
+}
+
+label{
+display:block;
+font-size:11px;
+font-weight:bold;
+margin-bottom:7px
+}
+
+input{
+width:100%;
+background:#070b10;
+border:1px solid #2b3b4d;
+border-radius:11px;
+padding:14px;
+color:#fff;
+outline:none;
+font-size:13px
+}
+
+input:focus{
+border-color:#2563eb
+}
+
+button{
+width:100%;
+border:0;
+border-radius:11px;
+padding:14px;
+background:#2563eb;
+color:#fff;
+font-weight:bold;
+cursor:pointer;
+font-size:13px;
+transition:.2s
+}
+
+button:hover{
+filter:brightness(1.12)
+}
+
+button:disabled{
+opacity:.55;
+cursor:not-allowed
+}
+
+.message{
+display:none;
+margin-top:14px;
+padding:12px;
+border-radius:10px;
+font-size:11px;
+line-height:1.6
+}
+
+.error{
+display:block;
+background:#251518;
+border:1px solid #492a30;
+color:#e0a0a8
+}
+
+.success{
+display:block;
+background:#122019;
+border:1px solid #28402f;
+color:#9bd0aa
+}
+
+.back{
+margin-top:10px;
+background:#111923;
+border:1px solid #27384a;
+color:#9aa8b8
+}
+
+.footer{
+text-align:center;
+color:#40505f;
+font-size:10px;
+margin-top:18px
+}
 </style>
 </head>
+
 <body>
 
-<div class="box">
-<div class="logo">AirFrance PTFS</div>
-<div class="sub">EMPLOYEE ACCESS SYSTEM</div>
+<div class="wrap">
 
-<h1>تسجيل دخول الموظف</h1>
-<p>استخدم اسم Roblox والهوية الخاصة بك للوصول إلى لوحة الموظف.</p>
+<div class="logo">
+AirFrance PTFS
+</div>
 
-<label>Roblox Username</label>
-<input id="username" placeholder="Roblox Username" autocomplete="off">
+<div class="subtitle">
+EMPLOYEE ACCESS SYSTEM
+</div>
 
-<label>Employee ID</label>
-<input id="employeeId" placeholder="Employee ID" autocomplete="off">
+<div class="panel">
 
-<button onclick="login()">دخول النظام</button>
-<div id="msg" class="msg"></div>
-<div class="footer">HAMOUD • AirFrance PTFS</div>
+<div class="top">
+
+<h1>
+دخول الموظفين
+</h1>
+
+<p>
+أدخل اسم حساب Roblox والهوية التي أنشأها لك النظام.
+</p>
+
+</div>
+
+<div class="field">
+
+<label>
+Roblox Username
+</label>
+
+<input
+id="username"
+type="text"
+placeholder="Roblox Username"
+autocomplete="off"
+spellcheck="false">
+
+</div>
+
+<div class="field">
+
+<label>
+Employee ID
+</label>
+
+<input
+id="employeeId"
+type="text"
+placeholder="Employee ID"
+autocomplete="off"
+spellcheck="false">
+
+</div>
+
+<button
+id="loginButton"
+onclick="login()">
+
+تسجيل الدخول
+
+</button>
+
+<div
+id="message"
+class="message">
+</div>
+
+<button
+class="back"
+onclick="location.href='index.html'">
+
+العودة للرئيسية
+
+</button>
+
+</div>
+
+<div class="footer">
+HAMOUD • AirFrance PTFS
+</div>
+
 </div>
 
 <script>
+
 const OWNER_USERNAME="Ahmad_roblox2222";
 const OWNER_ID="AF-OWNER-4827";
 
+function normalizeUsername(value){
+
+return value
+.trim()
+.toLowerCase();
+
+}
+
+function normalizeId(value){
+
+return value
+.trim()
+.toUpperCase();
+
+}
+
 function getEmployees(){
-    return JSON.parse(localStorage.getItem("af_employees")||"[]");
+
+try{
+
+const saved=
+localStorage.getItem("af_employees");
+
+if(!saved){
+
+return [];
+
+}
+
+const data=
+JSON.parse(saved);
+
+if(!Array.isArray(data)){
+
+return [];
+
+}
+
+return data;
+
+}catch(error){
+
+return [];
+
+}
+
+}
+
+function showMessage(text,type){
+
+const message=
+document.getElementById("message");
+
+message.className=
+"message "+type;
+
+message.textContent=text;
+
 }
 
 function login(){
-    const username=document.getElementById("username").value.trim();
-    const id=document.getElementById("employeeId").value.trim().toUpperCase();
-    const msg=document.getElementById("msg");
 
-    if(!username||!id){
-        msg.className="msg err";
-        msg.textContent="أدخل اسم Roblox والهوية.";
-        return;
-    }
+const username=
+document
+.getElementById("username")
+.value;
 
-    if(username.toLowerCase()===OWNER_USERNAME.toLowerCase()&&id===OWNER_ID){
-        sessionStorage.setItem("af_user",username);
-        sessionStorage.setItem("af_id",id);
-        sessionStorage.setItem("af_role","Owner");
-        msg.className="msg ok";
-        msg.textContent="تم التحقق من Owner.";
-        setTimeout(()=>location.href="owner.html",500);
-        return;
-    }
+const employeeId=
+document
+.getElementById("employeeId")
+.value;
 
-    const employees=getEmployees();
+const usernameNormalized=
+normalizeUsername(username);
 
-    const employee=employees.find(x=>
-        x.username.toLowerCase()===username.toLowerCase()&&
-        x.employeeId.toUpperCase()===id
-    );
+const idNormalized=
+normalizeId(employeeId);
 
-    if(!employee){
-        msg.className="msg err";
-        msg.textContent="اسم المستخدم أو الهوية غير صحيحة.";
-        return;
-    }
+if(!usernameNormalized){
 
-    sessionStorage.setItem("af_user",employee.username);
-    sessionStorage.setItem("af_id",employee.employeeId);
-    sessionStorage.setItem("af_role",employee.role);
+showMessage(
+"اكتب Roblox Username أولًا.",
+"error"
+);
 
-    msg.className="msg ok";
-    msg.textContent="تم التحقق بنجاح.";
+return;
 
-    setTimeout(()=>location.href="staff.html",500);
 }
+
+if(!idNormalized){
+
+showMessage(
+"اكتب Employee ID.",
+"error"
+);
+
+return;
+
+}
+
+const button=
+document.getElementById("loginButton");
+
+button.disabled=true;
+
+if(
+usernameNormalized===
+normalizeUsername(OWNER_USERNAME)
+&&
+idNormalized===
+OWNER_ID
+){
+
+sessionStorage.setItem(
+"af_user",
+OWNER_USERNAME
+);
+
+sessionStorage.setItem(
+"af_id",
+OWNER_ID
+);
+
+sessionStorage.setItem(
+"af_role",
+"Owner"
+);
+
+showMessage(
+"تم التحقق من حساب Owner. جاري الدخول...",
+"success"
+);
+
+setTimeout(function(){
+
+location.href="owner.html";
+
+},600);
+
+return;
+
+}
+
+const employees=
+getEmployees();
+
+const employee=
+employees.find(function(item){
+
+if(!item){
+
+return false;
+
+}
+
+return(
+normalizeUsername(item.username)===
+usernameNormalized
+&&
+normalizeId(item.employeeId)===
+idNormalized
+);
+
+});
+
+if(!employee){
+
+button.disabled=false;
+
+showMessage(
+"لم يتم العثور على هوية مطابقة. تأكد من اليوزر والـEmployee ID وأنك تستخدم نفس المتصفح الذي أُنشئت فيه الهوية.",
+"error"
+);
+
+return;
+
+}
+
+sessionStorage.setItem(
+"af_user",
+employee.username
+);
+
+sessionStorage.setItem(
+"af_id",
+employee.employeeId
+);
+
+sessionStorage.setItem(
+"af_role",
+employee.role
+);
+
+showMessage(
+"تم التحقق بنجاح. جاري فتح بوابة "+employee.role+"...",
+"success"
+);
+
+setTimeout(function(){
+
+location.href="staff.html";
+
+},600);
+
+}
+
 </script>
+
 </body>
 </html>
