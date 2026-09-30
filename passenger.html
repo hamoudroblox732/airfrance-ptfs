@@ -1,183 +1,154 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>AirFrance PTFS — Passenger</title>
+<title>Passenger Portal — AirFrance PTFS</title>
 
 <style>
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-font-family:Arial,sans-serif
-}
+*{box-sizing:border-box}
 
 body{
-min-height:100vh;
-background:
-radial-gradient(circle at 10% 0%,#183650,transparent 30%),
-radial-gradient(circle at 100% 100%,#101e30,transparent 35%),
-#05080d;
-color:#fff
+margin:0;
+background:#07090d;
+color:#fff;
+font-family:Arial,sans-serif;
+min-height:100vh
 }
 
 header{
-height:74px;
+padding:18px;
+background:#0c1118;
+border-bottom:1px solid #202a35;
 display:flex;
-align-items:center;
 justify-content:space-between;
-padding:0 24px;
-background:#080d14ee;
-border-bottom:1px solid #202e3d;
-position:sticky;
-top:0;
-z-index:10
+align-items:center;
+gap:10px
 }
 
 .logo{
-font-size:21px;
+font-size:20px;
 font-weight:900
 }
 
-.user{
-color:#8fa8c3;
-font-size:11px
+.verify{
+color:#8491a1;
+font-size:12px
 }
 
-main{
-max-width:1200px;
+.container{
+max-width:1100px;
 margin:auto;
-padding:25px 20px
+padding:24px 16px 50px
 }
 
 .hero{
-padding:30px;
-border:1px solid #223244;
-border-radius:22px;
-background:linear-gradient(135deg,#111c28,#080d13);
-margin-bottom:18px
-}
-
-.hero small{
-color:#6885a5;
-font-size:10px;
-letter-spacing:2px
+background:#0e141c;
+border:1px solid #222d3a;
+border-radius:20px;
+padding:22px;
+margin-bottom:20px
 }
 
 .hero h1{
-font-size:29px;
-margin:10px 0
+margin:0;
+font-size:30px
 }
 
 .hero p{
-color:#788697;
-font-size:12px;
-line-height:1.8
+margin:8px 0 0;
+color:#8995a5;
+font-size:14px
 }
 
-.grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:14px
+.tabs{
+display:flex;
+gap:8px;
+margin-bottom:18px;
+overflow:auto
 }
 
-.card{
-background:#0b1219;
-border:1px solid #202e3d;
-border-radius:17px;
-padding:21px
+.tab{
+border:1px solid #293442;
+background:#111821;
+color:#aeb8c5;
+padding:11px 16px;
+border-radius:10px;
+font-weight:800;
+cursor:pointer;
+white-space:nowrap
 }
 
-.card h2{
-font-size:15px;
-margin-bottom:8px
-}
-
-.card p{
-font-size:11px;
-color:#778595;
-line-height:1.7
-}
-
-button{
-margin-top:15px;
-border:0;
-border-radius:9px;
-padding:11px 15px;
-background:#2563eb;
-color:#fff;
-font-weight:bold;
-cursor:pointer
-}
-
-button:disabled{
-background:#252d36;
-color:#66717e;
-cursor:not-allowed
+.tab.active{
+background:#1677ff;
+border-color:#1677ff;
+color:#fff
 }
 
 .panel{
-margin-top:16px;
-padding:20px;
-border-radius:17px;
-background:#0b1219;
-border:1px solid #202e3d
+display:none
 }
 
-.panel h2{
-font-size:16px;
+.panel.active{
+display:block
+}
+
+.flight-card{
+background:#0e141c;
+border:1px solid #222d3a;
+border-radius:18px;
+padding:18px;
 margin-bottom:14px
 }
 
-.flight{
-background:#0e161f;
-border:1px solid #202e3d;
-border-radius:12px;
-padding:16px;
-margin-bottom:10px
+.flight-top{
+display:flex;
+justify-content:space-between;
+gap:15px
 }
 
-.flight h3{
-font-size:15px;
-margin-bottom:8px
+.flight-number{
+font-size:22px;
+font-weight:900
 }
 
-.flight p{
-font-size:11px;
-color:#788697;
-line-height:1.9
+.route{
+margin-top:5px;
+font-size:14px;
+color:#aeb8c5
 }
 
 .status{
-display:inline-block;
-margin-top:9px;
-padding:6px 9px;
-border-radius:7px;
-background:#172438;
-color:#a3bee0;
-font-size:9px;
-font-weight:bold
+padding:8px 11px;
+border-radius:9px;
+font-size:11px;
+font-weight:900;
+height:max-content
+}
+
+.scheduled{
+background:#18202b;
+color:#aeb8c5
 }
 
 .boarding{
-background:#163a28;
-color:#8ee0ad
+background:#153a29;
+color:#8fe0ad
 }
 
 .closed{
 background:#332a17;
-color:#e3c17c
+color:#e4c47d
+}
+
+.delayed{
+background:#352916;
+color:#e3bc70
 }
 
 .cancelled{
 background:#3a181d;
-color:#e0a0a8
-}
-
-.delayed{
-background:#342817;
-color:#e1bd7a
+color:#e09ca5
 }
 
 .departed,
@@ -187,172 +158,244 @@ background:#182d45;
 color:#9fc9f5
 }
 
-.seats{
-margin-top:13px;
+.info{
+margin-top:16px;
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px
+}
+
+.info-box{
+background:#090d13;
+border:1px solid #202a35;
+border-radius:11px;
+padding:11px
+}
+
+.info-title{
+font-size:10px;
+color:#778493;
+font-weight:800;
+text-transform:uppercase
+}
+
+.info-value{
+margin-top:5px;
+font-size:13px;
+font-weight:700
+}
+
+.class-grid{
 display:grid;
 grid-template-columns:repeat(3,1fr);
-gap:8px
+gap:10px;
+margin-top:14px
 }
 
-.seat{
-background:#080d13;
-border:1px solid #202e3d;
-border-radius:9px;
-padding:9px;
-text-align:center;
-font-size:10px;
-color:#91a0b0
+.class-box{
+background:#090d13;
+border:1px solid #202a35;
+border-radius:12px;
+padding:13px
 }
 
-.seat strong{
-display:block;
-color:#fff;
+.class-name{
+font-size:13px;
+font-weight:900
+}
+
+.seats{
+margin-top:7px;
 font-size:12px;
-margin-bottom:3px
+color:#aeb8c5
 }
 
-.full{
-color:#e09ca5!important
+.class-time{
+margin-top:7px;
+font-size:11px;
+color:#7f8d9d;
+line-height:1.5
 }
 
-.not-open{
-color:#e3c17c!important
-}
-
-.book{
-display:block;
+.choose{
 width:100%;
-margin-top:13px;
-background:#2563eb;
-padding:12px
+margin-top:15px;
+padding:13px;
+border:0;
+border-radius:11px;
+background:#1677ff;
+color:#fff;
+font-weight:900;
+cursor:pointer
 }
 
-.booked{
-background:#183a29;
-color:#8ee0ad
+.choose:disabled{
+background:#27313d;
+color:#7e8996;
+cursor:not-allowed
+}
+
+.booking-card{
+background:#0e141c;
+border:1px solid #222d3a;
+border-radius:18px;
+padding:20px
+}
+
+.booking-title{
+font-size:21px;
+font-weight:900
+}
+
+.booking-line{
+margin-top:10px;
+color:#aeb8c5;
+font-size:13px;
+line-height:1.7
 }
 
 .empty{
+background:#0e141c;
+border:1px solid #222d3a;
+border-radius:18px;
+padding:35px;
 text-align:center;
-padding:25px;
-color:#667587;
-font-size:11px
-}
-
-.logout{
-background:#3a181d;
-color:#e0a0a8
-}
-
-footer{
-text-align:center;
-padding:30px;
-color:#40505f;
-font-size:10px
+color:#8995a5
 }
 
 .modal{
 display:none;
 position:fixed;
 inset:0;
-background:rgba(0,0,0,.75);
-padding:18px;
-z-index:30
+background:rgba(0,0,0,.78);
+padding:16px;
+z-index:20;
+overflow:auto
 }
 
 .modal-box{
-max-width:450px;
-margin:12vh auto;
-background:#0d141c;
-border:1px solid #293746;
-border-radius:18px;
-padding:22px
+max-width:600px;
+margin:5vh auto;
+background:#0e141c;
+border:1px solid #293442;
+border-radius:20px;
+padding:21px
 }
 
 .modal-box h2{
-font-size:20px;
-margin-bottom:8px
+margin:0
 }
 
 .modal-sub{
-color:#7f8d9d;
-font-size:12px;
-line-height:1.7;
-margin-bottom:15px
+color:#8995a5;
+font-size:13px;
+margin-top:7px
 }
 
-label{
-display:block;
-font-size:12px;
-color:#aab5c2;
-margin-bottom:7px
-}
-
-select{
-width:100%;
-height:48px;
-background:#080c12;
-border:1px solid #293442;
-border-radius:10px;
-color:#fff;
-padding:0 12px;
-outline:none
-}
-
-.class-info{
-margin-top:10px;
-padding:10px;
-background:#080d13;
-border:1px solid #202e3d;
-border-radius:9px;
-font-size:11px;
-color:#8d9bab
-}
-
-.class-info.full{
-color:#e09ca5
-}
-
-.class-info.waiting{
-color:#e3c17c
-}
-
-.modal-buttons{
+.classes{
 display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
+grid-template-columns:repeat(3,1fr);
+gap:9px;
 margin-top:18px
 }
 
-.confirm{
-background:#2563eb;
-margin-top:0
+.class-select{
+background:#090d13;
+border:1px solid #293442;
+border-radius:11px;
+padding:13px;
+cursor:pointer
 }
 
-.cancel{
+.class-select.selected{
+border-color:#1677ff;
+background:#10233c
+}
+
+.class-select.full{
+opacity:.45;
+cursor:not-allowed
+}
+
+.class-select strong{
+display:block;
+font-size:13px
+}
+
+.class-select span{
+display:block;
+margin-top:5px;
+font-size:11px;
+color:#8995a5
+}
+
+.modal-info{
+margin-top:15px;
+background:#090d13;
+border:1px solid #202a35;
+border-radius:12px;
+padding:14px;
+font-size:13px;
+line-height:1.7
+}
+
+.modal-actions{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:9px;
+margin-top:15px
+}
+
+.confirm{
+padding:13px;
+border:0;
+border-radius:11px;
+background:#1677ff;
+color:#fff;
+font-weight:900
+}
+
+.confirm:disabled{
+background:#27313d;
+color:#7e8996
+}
+
+.close{
+padding:13px;
+border:0;
+border-radius:11px;
 background:#202a35;
-margin-top:0
+color:#fff;
+font-weight:900
 }
 
 .message{
-text-align:center;
-font-size:11px;
-color:#8e9aaa;
 margin-top:12px;
+text-align:center;
+font-size:12px;
+color:#aeb8c5;
 min-height:18px
 }
 
-@media(max-width:800px){
+@media(max-width:700px){
 
-.grid{
+.info{
 grid-template-columns:1fr
 }
 
-main{
-padding:13px
+.class-grid{
+grid-template-columns:1fr
 }
 
-.seats{
+.classes{
+grid-template-columns:1fr
+}
+
+.flight-top{
+flex-direction:column
+}
+
+.modal-actions{
 grid-template-columns:1fr
 }
 
@@ -368,231 +411,104 @@ grid-template-columns:1fr
 AirFrance PTFS
 </div>
 
-<div class="user" id="userName">
+<div class="verify" id="passengerName">
 Passenger
 </div>
 
 </header>
 
-<main>
+<div class="container">
 
-<section class="hero">
+<div class="hero">
+<h1>Passenger Portal</h1>
+<p>View flights, boarding times and manage your booking.</p>
+</div>
 
-<small>
-PASSENGER PORTAL
-</small>
+<div class="tabs">
 
-<h1>
-مرحبًا بك في AirFrance PTFS
-</h1>
-
-<p>
-تابع الرحلات واحجز حسب الكلاس ووقت الـBoarding والمقاعد المتاحة.
-</p>
-
-</section>
-
-<section class="grid">
-
-<div class="card">
-
-<h2>
+<button class="tab active" onclick="showPanel('flightsPanel',this)">
 Flights
-</h2>
-
-<p>
-عرض الرحلات وحالة الـBoarding والمقاعد المتاحة.
-</p>
-
-<button onclick="scrollToSection('flights')">
-عرض الرحلات
 </button>
 
-</div>
-
-<div class="card">
-
-<h2>
+<button class="tab" onclick="showPanel('bookingPanel',this)">
 My Booking
-</h2>
+</button>
 
-<p>
-عرض الحجوزات المرتبطة بحسابك.
-</p>
-
-<button onclick="showBooking()">
-فتح الحجوزات
+<button class="tab" onclick="showPanel('servicesPanel',this)">
+Services
 </button>
 
 </div>
 
-<div class="card">
+<div id="flightsPanel" class="panel active">
 
-<h2>
+<div id="flights">
+<div class="empty">Loading flights...</div>
+</div>
+
+</div>
+
+<div id="bookingPanel" class="panel">
+
+<div id="myBooking">
+<div class="empty">Loading booking...</div>
+</div>
+
+</div>
+
+<div id="servicesPanel" class="panel">
+
+<div class="booking-card">
+
+<div class="booking-title">
 Passenger Services
-</h2>
-
-<p>
-خدمات ومعلومات المسافرين.
-</p>
-
-<button onclick="showServices()">
-عرض الخدمات
-</button>
-
 </div>
 
-</section>
-
-<section class="panel" id="flights">
-
-<h2>
-Available Flights
-</h2>
-
-<div id="flightList">
-
-<div class="empty">
-جاري تحميل الرحلات...
+<div class="booking-line">
+Flight information, boarding times and booking management are available here.
 </div>
 
 </div>
 
-</section>
-
-<section class="panel" id="booking">
-
-<h2>
-My Booking
-</h2>
-
-<div id="bookingList">
-
-<div class="empty">
-جاري تحميل الحجوزات...
 </div>
 
 </div>
 
-</section>
-
-<section class="panel" id="services">
-
-<h2>
-Passenger Services
-</h2>
-
-<div class="flight">
-
-<h3>
-Check-in
-</h3>
-
-<p>
-تأكد من بيانات رحلتك قبل موعد المغادرة.
-</p>
-
-</div>
-
-<div class="flight">
-
-<h3>
-Baggage
-</h3>
-
-<p>
-معلومات الأمتعة تعتمد على الرحلة والحجز.
-</p>
-
-</div>
-
-<div class="flight">
-
-<h3>
-Flight Information
-</h3>
-
-<p>
-يمكنك متابعة حالة الرحلات المنشورة في النظام.
-</p>
-
-</div>
-
-</section>
-
-<section class="panel">
-
-<button class="logout" onclick="logout()">
-تسجيل الخروج
-</button>
-
-</section>
-
-</main>
-
-<footer>
-HAMOUD • AirFrance PTFS
-</footer>
-
-<div class="modal" id="bookingModal">
+<div class="modal" id="classModal">
 
 <div class="modal-box">
 
-<h2>
-Book Flight
+<h2 id="modalFlight">
+Choose Class
 </h2>
 
-<div class="modal-sub" id="selectedFlight"></div>
+<div class="modal-sub" id="modalRoute"></div>
 
-<label>
-Class
-</label>
+<div class="classes" id="classChoices"></div>
 
-<select id="classSelect" onchange="updateClassInfo()">
-
-<option value="Economy">
-Economy
-</option>
-
-<option value="Business">
-Business
-</option>
-
-<option value="First">
-First
-</option>
-
-</select>
-
-<div class="class-info" id="classInfo">
-Checking boarding...
+<div class="modal-info" id="classInfo">
+Select a class.
 </div>
 
-<div class="modal-buttons">
+<div class="modal-actions">
 
 <button
 class="confirm"
 id="confirmButton"
-onclick="confirmBooking()">
-
+onclick="confirmBooking()"
+disabled>
 Confirm Booking
-
 </button>
 
 <button
-class="cancel"
-onclick="closeBookingModal()">
-
-Cancel
-
+class="close"
+onclick="closeModal()">
+Close
 </button>
 
 </div>
 
-<div
-class="message"
-id="bookingMessage">
-</div>
+<div class="message" id="modalMessage"></div>
 
 </div>
 
@@ -615,20 +531,69 @@ SUPABASE_KEY
 );
 
 const passenger=
-localStorage.getItem("af_passenger");
+localStorage.getItem(
+"af_passenger"
+);
 
 if(!passenger){
 
-location.replace("verify.html");
+location.replace(
+"verify.html"
+);
 
 }
 
 document
-.getElementById("userName")
+.getElementById("passengerName")
 .textContent=
 passenger||"Passenger";
 
 let selectedFlight=null;
+let selectedClass=null;
+
+function showPanel(
+id,
+button
+){
+
+document
+.querySelectorAll(".panel")
+.forEach(
+function(panel){
+panel.classList.remove("active");
+}
+);
+
+document
+.querySelectorAll(".tab")
+.forEach(
+function(tab){
+tab.classList.remove("active");
+}
+);
+
+document
+.getElementById(id)
+.classList.add("active");
+
+button.classList.add("active");
+
+if(id==="bookingPanel"){
+loadBookings();
+}
+
+}
+
+function escapeHtml(value){
+
+return String(value??"")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
 
 function formatDate(value){
 
@@ -639,7 +604,7 @@ return"Not set";
 return new Date(value).toLocaleString([],{
 year:"numeric",
 month:"short",
-day:"numeric",
+day:"2-digit",
 hour:"2-digit",
 minute:"2-digit"
 });
@@ -648,23 +613,33 @@ minute:"2-digit"
 
 function getStatus(flight){
 
-if(flight.status==="Cancelled"){
+if(
+flight.status==="Cancelled"
+){
 return"Cancelled";
 }
 
-if(flight.status==="Delayed"){
+if(
+flight.status==="Delayed"
+){
 return"Delayed";
 }
 
-if(flight.status==="Landed"){
+if(
+flight.status==="Landed"
+){
 return"Landed";
 }
 
-if(flight.status==="In Flight"){
+if(
+flight.status==="In Flight"
+){
 return"In Flight";
 }
 
-if(flight.status==="Departed"){
+if(
+flight.status==="Departed"
+){
 return"Departed";
 }
 
@@ -672,8 +647,9 @@ if(flight.closed){
 
 if(
 flight.departure_time&&
-new Date()>=
-new Date(flight.departure_time)
+new Date()>=new Date(
+flight.departure_time
+)
 ){
 
 return"Departed";
@@ -689,17 +665,23 @@ if(
 !flight.departure_time
 ){
 
-return flight.status||"Scheduled";
+return flight.status||
+"Scheduled";
 
 }
 
-const now=new Date();
+const now=
+new Date();
 
 const boarding=
-new Date(flight.boarding_time);
+new Date(
+flight.boarding_time
+);
 
 const departure=
-new Date(flight.departure_time);
+new Date(
+flight.departure_time
+);
 
 if(now<boarding){
 return"Scheduled";
@@ -709,9 +691,7 @@ if(
 now>=boarding&&
 now<departure
 ){
-
 return"Boarding";
-
 }
 
 if(now>=departure){
@@ -732,12 +712,12 @@ if(status==="Closed"){
 return"status closed";
 }
 
-if(status==="Cancelled"){
-return"status cancelled";
-}
-
 if(status==="Delayed"){
 return"status delayed";
+}
+
+if(status==="Cancelled"){
+return"status cancelled";
 }
 
 if(status==="Departed"){
@@ -752,7 +732,7 @@ if(status==="Landed"){
 return"status landed";
 }
 
-return"status";
+return"status scheduled";
 
 }
 
@@ -763,20 +743,20 @@ className
 
 if(className==="Economy"){
 return Number(
-flight.economy_seats
-)||0;
+flight.economy_seats||0
+);
 }
 
 if(className==="Business"){
 return Number(
-flight.business_seats
-)||0;
+flight.business_seats||0
+);
 }
 
 if(className==="First"){
 return Number(
-flight.first_seats
-)||0;
+flight.first_seats||0
+);
 }
 
 return 0;
@@ -810,12 +790,18 @@ className
 ){
 
 const {
-data,
+count,
 error
 }=
 await db
 .from("bookings")
-.select("id")
+.select(
+"id",
+{
+count:"exact",
+head:true
+}
+)
 .eq(
 "flight_id",
 flightId
@@ -829,31 +815,7 @@ if(error){
 return 0;
 }
 
-return(data||[]).length;
-
-}
-
-async function getRemainingSeats(
-flight,
-className
-){
-
-const capacity=
-getCapacity(
-flight,
-className
-);
-
-const booked=
-await getBookedCount(
-flight.id,
-className
-);
-
-return Math.max(
-capacity-booked,
-0
-);
+return count||0;
 
 }
 
@@ -884,9 +846,7 @@ className
 );
 
 if(!time){
-
 return false;
-
 }
 
 return new Date()>=
@@ -899,39 +859,46 @@ flight,
 className
 ){
 
-const remaining=
-await getRemainingSeats(
+const capacity=
+getCapacity(
 flight,
 className
 );
 
-if(remaining<=0){
+const booked=
+await getBookedCount(
+flight.id,
+className
+);
 
+if(capacity<=booked){
 return{
-open:false,
-remaining:0,
-reason:"full"
+state:"full",
+booked:booked,
+remaining:0
 };
-
 }
 
-if(!isClassBoardingOpen(
+if(
+!isClassBoardingOpen(
 flight,
 className
-)){
+)
+){
 
 return{
-open:false,
-remaining:remaining,
-reason:"waiting"
+state:"waiting",
+booked:booked,
+remaining:
+capacity-booked
 };
-
 }
 
 return{
-open:true,
-remaining:remaining,
-reason:"open"
+state:"open",
+booked:booked,
+remaining:
+capacity-booked
 };
 
 }
@@ -940,7 +907,7 @@ async function loadFlights(){
 
 const box=
 document.getElementById(
-"flightList"
+"flights"
 );
 
 const {
@@ -952,13 +919,15 @@ await db
 .select("*")
 .order(
 "departure_time",
-{ascending:true}
+{
+ascending:true
+}
 );
 
 if(error){
 
 box.innerHTML=
-'<div class="empty">تعذر تحميل الرحلات.</div>';
+'<div class="empty">Could not load flights.</div>';
 
 return;
 
@@ -970,29 +939,11 @@ data.length===0
 ){
 
 box.innerHTML=
-'<div class="empty">لا توجد رحلات منشورة حاليًا.</div>';
+'<div class="empty">No flights available.</div>';
 
 return;
 
 }
-
-const {
-data:bookings
-}=
-await db
-.from("bookings")
-.select("flight_id")
-.eq(
-"passenger",
-passenger
-);
-
-const bookedIds=
-(bookings||[]).map(
-function(item){
-return item.flight_id;
-}
-);
 
 box.innerHTML="";
 
@@ -1003,322 +954,363 @@ const flight of data
 const status=
 getStatus(flight);
 
-const isBooked=
-bookedIds.includes(
-flight.id
-);
-
-const economy=
-await getClassState(
-flight,
-"Economy"
-);
-
-const business=
-await getClassState(
-flight,
-"Business"
-);
-
-const first=
-await getClassState(
-flight,
-"First"
-);
-
-const item=
+const card=
 document.createElement(
 "div"
 );
 
-item.className="flight";
+card.className=
+"flight-card";
 
-let button="";
+const classes=
+[
+"Economy",
+"Business",
+"First"
+];
 
-if(isBooked){
+let classHtml="";
 
-button=`
-<button class="book booked" disabled>
-Booked
-</button>
-`;
+for(
+const className of classes
+){
 
-}else if(
+const capacity=
+getCapacity(
+flight,
+className
+);
+
+const booked=
+await getBookedCount(
+flight.id,
+className
+);
+
+const remaining=
+Math.max(
+capacity-booked,
+0
+);
+
+const boardingTime=
+getBoardingTime(
+flight,
+className
+);
+
+classHtml+=
+
+'<div class="class-box">'+
+
+'<div class="class-name">'+
+className+
+'</div>'+
+
+'<div class="seats">'+
+remaining+
+' / '+
+capacity+
+' seats available'+
+'</div>'+
+
+'<div class="class-time">'+
+'Boarding: '+
+escapeHtml(
+formatDate(
+boardingTime
+)
+)+
+'</div>'+
+
+'</div>';
+
+}
+
+const canChoose=
 status==="Scheduled"||
-status==="Boarding"
-){
+status==="Boarding";
 
-button=`
-<button class="book"
-onclick="openBooking(${flight.id})">
-Choose Class
-</button>
-`;
+card.innerHTML=
 
-}else{
+'<div class="flight-top">'+
 
-button=`
-<button class="book" disabled>
-Booking Closed
-</button>
-`;
+'<div>'+
 
-}
-
-function seatClass(
-state
-){
-
-if(state.remaining<=0){
-return"seat full";
-}
-
-if(!state.open){
-return"seat not-open";
-}
-
-return"seat";
-
-}
-
-function seatText(
-state
-){
-
-if(state.remaining<=0){
-return"Full";
-}
-
-if(!state.open){
-return"Not Open";
-}
-
-return state.remaining;
-
-}
-
-item.innerHTML=`
-
-<h3>
-
-${escapeHtml(
+'<div class="flight-number">'+
+escapeHtml(
 flight.flight_number
-)}
+)+
+'</div>'+
 
-•
-
-${escapeHtml(
+'<div class="route">'+
+escapeHtml(
 flight.departure
-)}
-
-→
-
-${escapeHtml(
+)+
+' → '+
+escapeHtml(
 flight.destination
-)}
+)+
+'</div>'+
 
-</h3>
+'</div>'+
 
-<p>
+'<div class="'+
+statusClass(status)+
+'">'+
+escapeHtml(status)+
+'</div>'+
 
-Aircraft:
-${escapeHtml(
-flight.aircraft
-)}
+'</div>'+
 
-<br>
+'<div class="info">'+
 
-Pilot:
-${escapeHtml(
-flight.pilot||"—"
-)}
+'<div class="info-box">'+
+'<div class="info-title">Aircraft</div>'+
+'<div class="info-value">'+
+escapeHtml(flight.aircraft)+
+'</div>'+
+'</div>'+
 
-<br>
+'<div class="info-box">'+
+'<div class="info-title">Pilot</div>'+
+'<div class="info-value">'+
+escapeHtml(
+flight.pilot||
+"Not assigned"
+)+
+'</div>'+
+'</div>'+
 
-Final Boarding:
-${escapeHtml(
+'<div class="info-box">'+
+'<div class="info-title">Final Boarding</div>'+
+'<div class="info-value">'+
+escapeHtml(
 formatDate(
 flight.boarding_time
 )
-)}
+)+
+'</div>'+
+'</div>'+
 
-<br>
-
-Departure:
-${escapeHtml(
+'<div class="info-box">'+
+'<div class="info-title">Departure</div>'+
+'<div class="info-value">'+
+escapeHtml(
 formatDate(
 flight.departure_time
 )
-)}
+)+
+'</div>'+
+'</div>'+
 
-</p>
+'</div>'+
 
-<span class="${statusClass(status)}">
+'<div class="class-grid">'+
+classHtml+
+'</div>'+
 
-${escapeHtml(status)}
+'<button class="choose" '+
+(canChoose?"":"disabled")+
+'>'+
+(
+canChoose?
+"Choose Class":
+"Booking Closed"
+)+
+'</button>';
 
-</span>
+if(canChoose){
 
-<div class="seats">
-
-<div class="${seatClass(economy)}">
-
-<strong>
-${seatText(economy)}
-</strong>
-
-Economy
-
-</div>
-
-<div class="${seatClass(business)}">
-
-<strong>
-${seatText(business)}
-</strong>
-
-Business
-
-</div>
-
-<div class="${seatClass(first)}">
-
-<strong>
-${seatText(first)}
-</strong>
-
-First
-
-</div>
-
-</div>
-
-${button}
-
-`;
-
-box.appendChild(item);
-
+card
+.querySelector(".choose")
+.addEventListener(
+"click",
+function(){
+openClassModal(flight);
 }
-
-}
-
-async function openBooking(id){
-
-const {
-data,
-error
-}=
-await db
-.from("flights")
-.select("*")
-.eq(
-"id",
-id
-)
-.single();
-
-if(
-error||
-!data
-){
-
-return;
-
-}
-
-const flight=data;
-
-const status=
-getStatus(flight);
-
-if(
-status!=="Scheduled"&&
-status!=="Boarding"
-){
-
-alert(
-"Booking is closed for this flight."
 );
 
-return;
+}
+
+box.appendChild(card);
 
 }
 
-const {
-data:existing
-}=
-await db
-.from("bookings")
-.select("id")
-.eq(
-"flight_id",
-flight.id
-)
-.eq(
-"passenger",
-passenger
-)
-.maybeSingle();
-
-if(existing){
-
-alert(
-"You already booked this flight."
-);
-
-return;
-
 }
 
-selectedFlight=flight;
+async function openClassModal(
+flight
+){
+
+selectedFlight=
+flight;
+
+selectedClass=
+null;
 
 document
 .getElementById(
-"selectedFlight"
+"modalFlight"
 )
 .textContent=
-flight.flight_number+
-" • "+
+flight.flight_number;
+
+document
+.getElementById(
+"modalRoute"
+)
+.textContent=
 flight.departure+
 " → "+
 flight.destination;
 
 document
 .getElementById(
-"bookingMessage"
+"classInfo"
 )
-.textContent="";
+.textContent=
+"Select a class.";
 
 document
 .getElementById(
-"bookingModal"
+"confirmButton"
 )
-.style.display="block";
+.disabled=true;
 
-await updateClassInfo();
+document
+.getElementById(
+"modalMessage"
+)
+.textContent="";
+
+const choices=
+document.getElementById(
+"classChoices"
+);
+
+choices.innerHTML="";
+
+for(
+const className of
+[
+"Economy",
+"Business",
+"First"
+]
+){
+
+const state=
+await getClassState(
+flight,
+className
+);
+
+const button=
+document.createElement(
+"div"
+);
+
+button.className=
+"class-select"+
+(
+state.state==="full"?
+" full":
+""
+);
+
+let stateText=
+state.remaining+
+" seats available";
+
+if(state.state==="full"){
+stateText=
+"Class Full";
+}
+
+if(state.state==="waiting"){
+
+stateText=
+"Boarding: "+
+formatDate(
+getBoardingTime(
+flight,
+className
+)
+);
+
+}
+
+button.innerHTML=
+'<strong>'+
+className+
+'</strong>'+
+'<span>'+
+escapeHtml(stateText)+
+'</span>';
+
+if(state.state!=="full"){
+
+button.addEventListener(
+"click",
+function(){
+
+document
+.querySelectorAll(
+".class-select"
+)
+.forEach(
+function(item){
+item.classList.remove(
+"selected"
+);
+}
+);
+
+button.classList.add(
+"selected"
+);
+
+selectedClass=
+className;
+
+updateClassInfo();
+
+}
+);
+
+}
+
+choices.appendChild(button);
+
+}
+
+document
+.getElementById(
+"classModal"
+)
+.style.display=
+"block";
 
 }
 
 async function updateClassInfo(){
 
-if(!selectedFlight){
-return;
-}
+if(
+!selectedFlight||
+!selectedClass
+){
 
-const className=
-document
-.getElementById(
-"classSelect"
-)
-.value;
+return;
+
+}
 
 const info=
 document.getElementById(
 "classInfo"
 );
 
-const button=
+const confirm=
 document.getElementById(
 "confirmButton"
 );
@@ -1326,114 +1318,107 @@ document.getElementById(
 const state=
 await getClassState(
 selectedFlight,
-className
+selectedClass
 );
 
-button.disabled=true;
+const status=
+getStatus(
+selectedFlight
+);
 
-if(state.reason==="full"){
+if(
+status==="Closed"||
+status==="Cancelled"||
+status==="Departed"||
+status==="In Flight"||
+status==="Landed"
+){
 
 info.textContent=
-className+
+"Booking is closed for this flight.";
+
+confirm.disabled=true;
+
+return;
+
+}
+
+if(state.state==="full"){
+
+info.textContent=
+selectedClass+
 " is full.";
 
-info.className=
-"class-info full";
+confirm.disabled=true;
 
 return;
 
 }
 
-if(state.reason==="waiting"){
+if(state.state==="waiting"){
 
-const boarding=
+info.textContent=
+selectedClass+
+" boarding starts at "+
+formatDate(
 getBoardingTime(
 selectedFlight,
-className
-);
-
-info.textContent=
-className+
-" boarding starts at "+
-formatDate(boarding)+
-". "+
-state.remaining+
-" seat"+
-(
-state.remaining===1
-?""
-:"s"
+selectedClass
+)
 )+
-" available.";
+". You cannot book yet.";
 
-info.className=
-"class-info waiting";
+confirm.disabled=true;
 
 return;
 
 }
 
 info.textContent=
+selectedClass+
+" is open. "+
 state.remaining+
-" seat"+
-(
-state.remaining===1
-?""
-:"s"
-)+
-" available in "+
-className+
-". Boarding is open.";
+" seats remaining.";
 
-info.className=
-"class-info";
-
-button.disabled=false;
+confirm.disabled=false;
 
 }
 
 async function confirmBooking(){
 
-if(!selectedFlight){
-return;
-}
-
 const message=
 document.getElementById(
-"bookingMessage"
+"modalMessage"
 );
-
-const button=
-document.getElementById(
-"confirmButton"
-);
-
-const selectedClass=
-document
-.getElementById(
-"classSelect"
-)
-.value;
-
-const currentStatus=
-getStatus(selectedFlight);
 
 if(
-currentStatus!=="Scheduled"&&
-currentStatus!=="Boarding"
+!selectedFlight||
+!selectedClass
+){
+
+return;
+
+}
+
+const status=
+getStatus(
+selectedFlight
+);
+
+if(
+status==="Closed"||
+status==="Cancelled"||
+status==="Departed"||
+status==="In Flight"||
+status==="Landed"
 ){
 
 message.textContent=
-"Booking is no longer available.";
+"Booking is closed.";
 
 return;
 
 }
-
-button.disabled=true;
-
-message.textContent=
-"Checking availability...";
 
 const {
 data:existing
@@ -1442,21 +1427,19 @@ await db
 .from("bookings")
 .select("id")
 .eq(
-"flight_id",
-selectedFlight.id
-)
-.eq(
 "passenger",
 passenger
+)
+.eq(
+"flight_id",
+selectedFlight.id
 )
 .maybeSingle();
 
 if(existing){
 
 message.textContent=
-"You already booked this flight.";
-
-button.disabled=false;
+"You already have a booking for this flight.";
 
 return;
 
@@ -1468,23 +1451,12 @@ selectedFlight,
 selectedClass
 );
 
-if(state.reason==="full"){
+if(state.state!=="open"){
 
 message.textContent=
-"This class is full.";
+"The selected class is not available yet.";
 
-await updateClassInfo();
-
-return;
-
-}
-
-if(state.reason==="waiting"){
-
-message.textContent=
-"Boarding for this class has not started.";
-
-await updateClassInfo();
+updateClassInfo();
 
 return;
 
@@ -1498,7 +1470,7 @@ error
 }=
 await db
 .from("bookings")
-.insert([{
+.insert({
 
 flight_id:
 selectedFlight.id,
@@ -1509,24 +1481,46 @@ passenger,
 class:
 selectedClass
 
-}]);
+});
 
 if(error){
 
 message.textContent=
-"Could not complete the booking.";
-
-button.disabled=false;
+"Could not create booking.";
 
 return;
 
 }
 
-closeBookingModal();
+message.textContent=
+"Booking confirmed.";
 
-await loadFlights();
+setTimeout(
+function(){
 
-await loadBookings();
+closeModal();
+
+loadFlights();
+
+loadBookings();
+
+},
+700
+);
+
+}
+
+function closeModal(){
+
+document
+.getElementById(
+"classModal"
+)
+.style.display=
+"none";
+
+selectedFlight=null;
+selectedClass=null;
 
 }
 
@@ -1534,7 +1528,7 @@ async function loadBookings(){
 
 const box=
 document.getElementById(
-"bookingList"
+"myBooking"
 );
 
 const {
@@ -1543,20 +1537,24 @@ error
 }=
 await db
 .from("bookings")
-.select("*")
+.select(
+"*, flights(*)"
+)
 .eq(
 "passenger",
 passenger
 )
 .order(
 "created_at",
-{ascending:false}
+{
+ascending:false
+}
 );
 
 if(error){
 
 box.innerHTML=
-'<div class="empty">تعذر تحميل الحجوزات.</div>';
+'<div class="empty">Could not load booking.</div>';
 
 return;
 
@@ -1568,29 +1566,11 @@ data.length===0
 ){
 
 box.innerHTML=
-'<div class="empty">لا يوجد حجز مرتبط بهذا الحساب حاليًا.</div>';
+'<div class="empty">You have no booking.</div>';
 
 return;
 
 }
-
-const flightIds=
-data.map(
-function(booking){
-return booking.flight_id;
-}
-);
-
-const {
-data:flights
-}=
-await db
-.from("flights")
-.select("*")
-.in(
-"id",
-flightIds
-);
 
 box.innerHTML="";
 
@@ -1598,12 +1578,7 @@ data.forEach(
 function(booking){
 
 const flight=
-(flights||[]).find(
-function(item){
-return item.id===
-booking.flight_id;
-}
-);
+booking.flights;
 
 if(!flight){
 return;
@@ -1612,157 +1587,82 @@ return;
 const status=
 getStatus(flight);
 
-const item=
+const card=
 document.createElement(
 "div"
 );
 
-item.className="flight";
+card.className=
+"booking-card";
 
-item.innerHTML=`
+card.innerHTML=
 
-<h3>
-
-${escapeHtml(
+'<div class="booking-title">'+
+escapeHtml(
 flight.flight_number
-)}
+)+
+'</div>'+
 
-•
+'<div class="booking-line">'+
 
-${escapeHtml(
+'<strong>Route:</strong> '+
+escapeHtml(
 flight.departure
-)}
-
-→
-
-${escapeHtml(
+)+
+' → '+
+escapeHtml(
 flight.destination
-)}
+)+
+'<br>'+
 
-</h3>
-
-<p>
-
-Class:
-${escapeHtml(
+'<strong>Class:</strong> '+
+escapeHtml(
 booking.class
-)}
+)+
+'<br>'+
 
-<br>
+'<strong>Aircraft:</strong> '+
+escapeHtml(
+flight.aircraft
+)+
+'<br>'+
 
-Class Boarding:
-${escapeHtml(
+'<strong>Class Boarding:</strong> '+
+escapeHtml(
 formatDate(
 getBoardingTime(
 flight,
 booking.class
 )
 )
-)}
+)+
+'<br>'+
 
-<br>
-
-Final Boarding:
-${escapeHtml(
+'<strong>Final Boarding:</strong> '+
+escapeHtml(
 formatDate(
 flight.boarding_time
 )
-)}
+)+
+'<br>'+
 
-<br>
-
-Departure:
-${escapeHtml(
+'<strong>Departure:</strong> '+
+escapeHtml(
 formatDate(
 flight.departure_time
 )
-)}
+)+
+'<br>'+
 
-</p>
+'<strong>Status:</strong> '+
+escapeHtml(status)+
 
-<span class="${statusClass(status)}">
+'</div>';
 
-${escapeHtml(status)}
-
-</span>
-
-`;
-
-box.appendChild(item);
+box.appendChild(card);
 
 }
 );
-
-}
-
-function closeBookingModal(){
-
-document
-.getElementById(
-"bookingModal"
-)
-.style.display="none";
-
-selectedFlight=null;
-
-document
-.getElementById(
-"confirmButton"
-)
-.disabled=false;
-
-}
-
-function scrollToSection(id){
-
-document
-.getElementById(id)
-.scrollIntoView({
-behavior:"smooth"
-});
-
-}
-
-function showBooking(){
-
-document
-.getElementById("booking")
-.scrollIntoView({
-behavior:"smooth"
-});
-
-}
-
-function showServices(){
-
-document
-.getElementById("services")
-.scrollIntoView({
-behavior:"smooth"
-});
-
-}
-
-function logout(){
-
-localStorage.removeItem(
-"af_passenger"
-);
-
-location.replace(
-"index.html"
-);
-
-}
-
-function escapeHtml(value){
-
-return String(value??"")
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
 
 }
 
@@ -1772,26 +1672,26 @@ function(event){
 
 const modal=
 document.getElementById(
-"bookingModal"
+"classModal"
 );
 
-if(event.target===modal){
+if(
+event.target===modal
+){
 
-closeBookingModal();
+closeModal();
 
 }
 
 });
 
 loadFlights();
-
 loadBookings();
 
 setInterval(
 function(){
 
 loadFlights();
-
 loadBookings();
 
 },
