@@ -6,9 +6,7 @@
 <title>Create Flight — AirFrance PTFS</title>
 
 <style>
-*{
-box-sizing:border-box
-}
+*{box-sizing:border-box}
 
 body{
 margin:0;
@@ -21,9 +19,7 @@ min-height:100vh
 header{
 padding:18px;
 background:#0c1118;
-border-bottom:1px solid #202a35;
-display:flex;
-align-items:center
+border-bottom:1px solid #202a35
 }
 
 .back{
@@ -37,12 +33,8 @@ font-size:14px;
 cursor:pointer
 }
 
-.back:hover{
-background:#1d2733
-}
-
 .container{
-max-width:760px;
+max-width:780px;
 margin:auto;
 padding:24px 18px 40px
 }
@@ -97,47 +89,50 @@ border-color:#1677ff;
 box-shadow:0 0 0 3px rgba(22,119,255,.12)
 }
 
-.seat-title{
-margin-top:24px;
+.section{
+margin-top:25px;
+padding-top:20px;
+border-top:1px solid #202a35
+}
+
+.section-title{
 font-size:17px;
 font-weight:800
 }
 
-.seat-sub{
+.section-sub{
 margin-top:5px;
 color:#758292;
-font-size:12px
+font-size:12px;
+line-height:1.6
 }
 
-.seat-grid{
+.grid{
 display:grid;
 grid-template-columns:repeat(3,1fr);
 gap:12px;
 margin-top:14px
 }
 
-.seat-box{
+.box{
 background:#090d13;
 border:1px solid #202a35;
 border-radius:13px;
 padding:13px
 }
 
-.seat-box span{
-display:block;
+.box-title{
 font-size:12px;
 font-weight:800;
 margin-bottom:8px
 }
 
-.seat-box input{
-height:46px
+.box input{
+height:47px
 }
 
-.time-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:14px
+.time-main{
+margin-top:14px
 }
 
 .create{
@@ -173,22 +168,16 @@ padding:20px 14px 35px
 }
 
 .card{
-padding:19px;
-border-radius:18px
+padding:19px
 }
 
 .hero h1{
 font-size:28px
 }
 
-.time-grid{
+.grid{
 grid-template-columns:1fr
 }
-
-.seat-grid{
-grid-template-columns:1fr
-}
-
 }
 </style>
 </head>
@@ -259,65 +248,124 @@ Pilot
 id="pilot"
 placeholder="Pilot username">
 
-<div class="seat-title">
+<div class="section">
+
+<div class="section-title">
 Seat Capacity
 </div>
 
-<div class="seat-sub">
+<div class="section-sub">
 Set the available seats for each cabin class.
 </div>
 
-<div class="seat-grid">
+<div class="grid">
 
-<div class="seat-box">
+<div class="box">
 
-<span>
-Economy
-</span>
+<div class="box-title">
+Economy Seats
+</div>
 
 <input
 id="economySeats"
 type="number"
 min="0"
-value="0"
-placeholder="0">
+value="0">
 
 </div>
 
-<div class="seat-box">
+<div class="box">
 
-<span>
-Business
-</span>
+<div class="box-title">
+Business Seats
+</div>
 
 <input
 id="businessSeats"
 type="number"
 min="0"
-value="0"
-placeholder="0">
+value="0">
 
 </div>
 
-<div class="seat-box">
+<div class="box">
 
-<span>
-First
-</span>
+<div class="box-title">
+First Seats
+</div>
 
 <input
 id="firstSeats"
 type="number"
 min="0"
-value="0"
-placeholder="0">
+value="0">
 
 </div>
 
+</div>
+
+</div>
+
+<div class="section">
+
+<div class="section-title">
+Class Boarding Times
+</div>
+
+<div class="section-sub">
+Set when each cabin class can begin boarding.
+</div>
+
+<div class="grid">
+
+<div class="box">
+
+<div class="box-title">
+Economy Boarding
+</div>
+
+<input
+id="economyBoarding"
+type="datetime-local">
+
+</div>
+
+<div class="box">
+
+<div class="box-title">
+Business Boarding
+</div>
+
+<input
+id="businessBoarding"
+type="datetime-local">
+
+</div>
+
+<div class="box">
+
+<div class="box-title">
+First Boarding
+</div>
+
+<input
+id="firstBoarding"
+type="datetime-local">
+
+</div>
+
+</div>
+
+</div>
+
+<div class="section">
+
+<div class="section-title">
+Flight Timing
 </div>
 
 <label>
-Boarding Time
+Final Boarding Time
 </label>
 
 <input
@@ -332,9 +380,13 @@ Departure Time
 id="departureTime"
 type="datetime-local">
 
-<label>
+</div>
+
+<div class="section">
+
+<div class="section-title">
 Initial Status
-</label>
+</div>
 
 <select id="status">
 
@@ -351,6 +403,8 @@ Delayed
 </option>
 
 </select>
+
+</div>
 
 <button
 class="create"
@@ -400,9 +454,7 @@ if(
 !role
 ){
 
-location.replace(
-"employee.html"
-);
+location.replace("employee.html");
 
 }
 
@@ -410,15 +462,11 @@ function goBack(){
 
 if(role==="Owner"){
 
-location.replace(
-"owner.html"
-);
+location.replace("owner.html");
 
 }else{
 
-location.replace(
-"staff.html"
-);
+location.replace("staff.html");
 
 }
 
@@ -439,7 +487,9 @@ pilotInput.readOnly=true;
 function getISO(id){
 
 const value=
-document.getElementById(id).value;
+document
+.getElementById(id)
+.value;
 
 if(!value){
 
@@ -455,7 +505,9 @@ function getSeats(id){
 
 const value=
 Number(
-document.getElementById(id).value
+document
+.getElementById(id)
+.value
 );
 
 if(
@@ -503,6 +555,24 @@ document
 const pilot=
 pilotInput.value.trim();
 
+const economySeats=
+getSeats("economySeats");
+
+const businessSeats=
+getSeats("businessSeats");
+
+const firstSeats=
+getSeats("firstSeats");
+
+const economyBoarding=
+getISO("economyBoarding");
+
+const businessBoarding=
+getISO("businessBoarding");
+
+const firstBoarding=
+getISO("firstBoarding");
+
 const boardingTime=
 getISO("boardingTime");
 
@@ -514,22 +584,16 @@ document
 .getElementById("status")
 .value;
 
-const economySeats=
-getSeats("economySeats");
-
-const businessSeats=
-getSeats("businessSeats");
-
-const firstSeats=
-getSeats("firstSeats");
-
 if(
 !flightNumber||
 !aircraft||
 !departure||
 !destination||
 !boardingTime||
-!departureTime
+!departureTime||
+!economyBoarding||
+!businessBoarding||
+!firstBoarding
 ){
 
 message.textContent=
@@ -552,13 +616,40 @@ return;
 
 }
 
+const economyDate=
+new Date(economyBoarding);
+
+const businessDate=
+new Date(businessBoarding);
+
+const firstDate=
+new Date(firstBoarding);
+
+const finalBoardingDate=
+new Date(boardingTime);
+
+const departureDate=
+new Date(departureTime);
+
 if(
-new Date(departureTime)<=
-new Date(boardingTime)
+economyDate>=finalBoardingDate||
+businessDate>=finalBoardingDate||
+firstDate>=finalBoardingDate
 ){
 
 message.textContent=
-"Departure time must be after boarding time.";
+"Class boarding times must be before final boarding time.";
+
+return;
+
+}
+
+if(
+departureDate<=finalBoardingDate
+){
+
+message.textContent=
+"Departure must be after final boarding time.";
 
 return;
 
@@ -639,7 +730,16 @@ business_seats:
 businessSeats,
 
 first_seats:
-firstSeats
+firstSeats,
+
+economy_boarding_time:
+economyBoarding,
+
+business_boarding_time:
+businessBoarding,
+
+first_boarding_time:
+firstBoarding
 
 }]);
 
