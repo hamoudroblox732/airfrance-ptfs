@@ -6,7 +6,9 @@
 <title>Create Flight — AirFrance PTFS</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+box-sizing:border-box
+}
 
 body{
 margin:0;
@@ -21,8 +23,7 @@ padding:18px;
 background:#0c1118;
 border-bottom:1px solid #202a35;
 display:flex;
-align-items:center;
-gap:12px
+align-items:center
 }
 
 .back{
@@ -52,8 +53,7 @@ margin-bottom:20px
 
 .hero h1{
 margin:0;
-font-size:32px;
-letter-spacing:-.5px
+font-size:32px
 }
 
 .hero p{
@@ -97,6 +97,43 @@ border-color:#1677ff;
 box-shadow:0 0 0 3px rgba(22,119,255,.12)
 }
 
+.seat-title{
+margin-top:24px;
+font-size:17px;
+font-weight:800
+}
+
+.seat-sub{
+margin-top:5px;
+color:#758292;
+font-size:12px
+}
+
+.seat-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px;
+margin-top:14px
+}
+
+.seat-box{
+background:#090d13;
+border:1px solid #202a35;
+border-radius:13px;
+padding:13px
+}
+
+.seat-box span{
+display:block;
+font-size:12px;
+font-weight:800;
+margin-bottom:8px
+}
+
+.seat-box input{
+height:46px
+}
+
 .time-grid{
 display:grid;
 grid-template-columns:1fr 1fr;
@@ -106,7 +143,7 @@ gap:14px
 .create{
 width:100%;
 height:54px;
-margin-top:24px;
+margin-top:25px;
 border:0;
 border-radius:13px;
 background:#1677ff;
@@ -118,8 +155,7 @@ box-shadow:0 8px 25px rgba(22,119,255,.22)
 }
 
 .create:hover{
-background:#0d68e8;
-transform:translateY(-1px)
+background:#0d68e8
 }
 
 .message{
@@ -131,6 +167,7 @@ font-size:14px
 }
 
 @media(max-width:600px){
+
 .container{
 padding:20px 14px 35px
 }
@@ -147,6 +184,11 @@ font-size:28px
 .time-grid{
 grid-template-columns:1fr
 }
+
+.seat-grid{
+grid-template-columns:1fr
+}
+
 }
 </style>
 </head>
@@ -154,115 +196,332 @@ grid-template-columns:1fr
 <body>
 
 <header>
-<button class="back" onclick="goBack()">Back</button>
+
+<button class="back" onclick="goBack()">
+Back
+</button>
+
 </header>
 
 <div class="container">
 
 <div class="hero">
-<h1>Create Flight</h1>
-<p>Create and schedule a new AirFrance PTFS flight.</p>
+
+<h1>
+Create Flight
+</h1>
+
+<p>
+Create and schedule a new AirFrance PTFS flight.
+</p>
+
 </div>
 
 <div class="card">
 
-<label>Flight Number</label>
-<input id="flightNumber" placeholder="AF101">
+<label>
+Flight Number
+</label>
 
-<label>Aircraft</label>
-<input id="aircraft" placeholder="A350-900">
+<input
+id="flightNumber"
+placeholder="AF101">
 
-<label>Departure</label>
-<input id="departure" placeholder="JED">
+<label>
+Aircraft
+</label>
 
-<label>Destination</label>
-<input id="destination" placeholder="CDG">
+<input
+id="aircraft"
+placeholder="A350-900">
 
-<label>Pilot</label>
-<input id="pilot" placeholder="Pilot username">
+<label>
+Departure
+</label>
 
-<label>Boarding Time</label>
-<input id="boardingTime" type="datetime-local">
+<input
+id="departure"
+placeholder="JED">
 
-<label>Departure Time</label>
-<input id="departureTime" type="datetime-local">
+<label>
+Destination
+</label>
 
-<label>Initial Status</label>
-<select id="status">
-<option value="Scheduled">Scheduled</option>
-<option value="Boarding">Boarding</option>
-<option value="Delayed">Delayed</option>
-</select>
+<input
+id="destination"
+placeholder="CDG">
 
-<button class="create" onclick="createFlight()">Create Flight</button>
+<label>
+Pilot
+</label>
 
-<div class="message" id="message"></div>
+<input
+id="pilot"
+placeholder="Pilot username">
+
+<div class="seat-title">
+Seat Capacity
+</div>
+
+<div class="seat-sub">
+Set the available seats for each cabin class.
+</div>
+
+<div class="seat-grid">
+
+<div class="seat-box">
+
+<span>
+Economy
+</span>
+
+<input
+id="economySeats"
+type="number"
+min="0"
+value="0"
+placeholder="0">
 
 </div>
+
+<div class="seat-box">
+
+<span>
+Business
+</span>
+
+<input
+id="businessSeats"
+type="number"
+min="0"
+value="0"
+placeholder="0">
+
+</div>
+
+<div class="seat-box">
+
+<span>
+First
+</span>
+
+<input
+id="firstSeats"
+type="number"
+min="0"
+value="0"
+placeholder="0">
+
+</div>
+
+</div>
+
+<label>
+Boarding Time
+</label>
+
+<input
+id="boardingTime"
+type="datetime-local">
+
+<label>
+Departure Time
+</label>
+
+<input
+id="departureTime"
+type="datetime-local">
+
+<label>
+Initial Status
+</label>
+
+<select id="status">
+
+<option value="Scheduled">
+Scheduled
+</option>
+
+<option value="Boarding">
+Boarding
+</option>
+
+<option value="Delayed">
+Delayed
+</option>
+
+</select>
+
+<button
+class="create"
+onclick="createFlight()">
+
+Create Flight
+
+</button>
+
+<div
+class="message"
+id="message">
+</div>
+
+</div>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-const SUPABASE_URL="https://pjsadqfyvibsjrccnaum.supabase.co";
-const SUPABASE_KEY="sb_publishable_HKBI1QKk53w8Vp8Eq23X-A_gmrUk1px";
 
-const db=window.supabase.createClient(
+const SUPABASE_URL=
+"https://pjsadqfyvibsjrccnaum.supabase.co";
+
+const SUPABASE_KEY=
+"sb_publishable_HKBI1QKk53w8Vp8Eq23X-A_gmrUk1px";
+
+const db=
+window.supabase.createClient(
 SUPABASE_URL,
 SUPABASE_KEY
 );
 
-const username=sessionStorage.getItem("af_user");
-const employeeId=sessionStorage.getItem("af_id");
-const role=sessionStorage.getItem("af_role");
+const username=
+sessionStorage.getItem("af_user");
 
-if(!username||!employeeId||!role){
-location.replace("employee.html");
+const employeeId=
+sessionStorage.getItem("af_id");
+
+const role=
+sessionStorage.getItem("af_role");
+
+if(
+!username||
+!employeeId||
+!role
+){
+
+location.replace(
+"employee.html"
+);
+
 }
 
 function goBack(){
 
 if(role==="Owner"){
-location.replace("owner.html");
+
+location.replace(
+"owner.html"
+);
+
 }else{
-location.replace("staff.html");
-}
+
+location.replace(
+"staff.html"
+);
 
 }
 
-const pilotInput=document.getElementById("pilot");
+}
+
+const pilotInput=
+document.getElementById("pilot");
 
 if(role==="Pilot"){
-pilotInput.value=username;
+
+pilotInput.value=
+username;
+
 pilotInput.readOnly=true;
+
 }
 
 function getISO(id){
 
-const value=document.getElementById(id).value;
+const value=
+document.getElementById(id).value;
 
 if(!value){
+
 return null;
+
 }
 
 return new Date(value).toISOString();
 
 }
 
+function getSeats(id){
+
+const value=
+Number(
+document.getElementById(id).value
+);
+
+if(
+!Number.isFinite(value)||
+value<0
+){
+
+return 0;
+
+}
+
+return Math.floor(value);
+
+}
+
 async function createFlight(){
 
-const message=document.getElementById("message");
+const message=
+document.getElementById("message");
 
-const flightNumber=document.getElementById("flightNumber").value.trim();
-const aircraft=document.getElementById("aircraft").value.trim();
-const departure=document.getElementById("departure").value.trim();
-const destination=document.getElementById("destination").value.trim();
-const pilot=pilotInput.value.trim();
+const flightNumber=
+document
+.getElementById("flightNumber")
+.value
+.trim();
 
-const boardingTime=getISO("boardingTime");
-const departureTime=getISO("departureTime");
+const aircraft=
+document
+.getElementById("aircraft")
+.value
+.trim();
 
-const status=document.getElementById("status").value;
+const departure=
+document
+.getElementById("departure")
+.value
+.trim();
+
+const destination=
+document
+.getElementById("destination")
+.value
+.trim();
+
+const pilot=
+pilotInput.value.trim();
+
+const boardingTime=
+getISO("boardingTime");
+
+const departureTime=
+getISO("departureTime");
+
+const status=
+document
+.getElementById("status")
+.value;
+
+const economySeats=
+getSeats("economySeats");
+
+const businessSeats=
+getSeats("businessSeats");
+
+const firstSeats=
+getSeats("firstSeats");
 
 if(
 !flightNumber||
@@ -273,66 +532,132 @@ if(
 !departureTime
 ){
 
-message.textContent="Please fill in all required fields.";
+message.textContent=
+"Please fill in all required fields.";
+
 return;
 
 }
 
-if(new Date(departureTime)<=new Date(boardingTime)){
+if(
+economySeats+
+businessSeats+
+firstSeats<=0
+){
 
-message.textContent="Departure time must be after boarding time.";
+message.textContent=
+"Add at least one available seat.";
+
 return;
 
 }
 
-message.textContent="Creating flight...";
+if(
+new Date(departureTime)<=
+new Date(boardingTime)
+){
 
-const {data:existing,error:checkError}=await db
+message.textContent=
+"Departure time must be after boarding time.";
+
+return;
+
+}
+
+message.textContent=
+"Creating flight...";
+
+const {
+data:existing,
+error:checkError
+}=
+await db
 .from("flights")
 .select("id")
-.eq("flight_number",flightNumber)
+.eq(
+"flight_number",
+flightNumber
+)
 .maybeSingle();
 
 if(checkError){
 
-message.textContent="Could not check the flight number.";
+message.textContent=
+"Could not check the flight number.";
+
 return;
 
 }
 
 if(existing){
 
-message.textContent="This flight number already exists.";
+message.textContent=
+"This flight number already exists.";
+
 return;
 
 }
 
-const {error}=await db
+const {
+error
+}=
+await db
 .from("flights")
 .insert([{
 
-flight_number:flightNumber,
-departure:departure,
-destination:destination,
-aircraft:aircraft,
-pilot:pilot||null,
-status:status,
-boarding_time:boardingTime,
-departure_time:departureTime,
-closed:false
+flight_number:
+flightNumber,
+
+departure:
+departure,
+
+destination:
+destination,
+
+aircraft:
+aircraft,
+
+pilot:
+pilot||null,
+
+status:
+status,
+
+boarding_time:
+boardingTime,
+
+departure_time:
+departureTime,
+
+closed:
+false,
+
+economy_seats:
+economySeats,
+
+business_seats:
+businessSeats,
+
+first_seats:
+firstSeats
 
 }]);
 
 if(error){
 
-message.textContent="Could not create the flight.";
+message.textContent=
+"Could not create the flight.";
+
 return;
 
 }
 
-location.replace("flights.html");
+location.replace(
+"flights.html"
+);
 
 }
+
 </script>
 
 </body>
