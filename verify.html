@@ -1,209 +1,42 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AirFrance PTFS - Passenger</title>
-
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
-
-        body {
-            min-height: 100vh;
-            background: radial-gradient(circle at top, #18202b, #080b10 48%, #040507);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .panel {
-            width: 100%;
-            max-width: 450px;
-            background: #10141a;
-            border: 1px solid #252c35;
-            border-radius: 22px;
-            padding: 32px 25px;
-            box-shadow: 0 25px 70px rgba(0,0,0,.55);
-        }
-
-        .brand {
-            text-align: center;
-            font-size: 28px;
-            font-weight: 800;
-        }
-
-        .sub {
-            text-align: center;
-            color: #8994a2;
-            font-size: 13px;
-            margin-top: 7px;
-            margin-bottom: 30px;
-        }
-
-        .badge {
-            display: inline-block;
-            background: #172033;
-            color: #76a3ff;
-            border-radius: 7px;
-            padding: 6px 9px;
-            font-size: 11px;
-            margin-bottom: 15px;
-        }
-
-        h1 {
-            font-size: 21px;
-            margin-bottom: 9px;
-        }
-
-        .description {
-            color: #8e98a5;
-            font-size: 13px;
-            line-height: 1.7;
-            margin-bottom: 22px;
-        }
-
-        .label {
-            display: block;
-            color: #c8ced7;
-            font-size: 13px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        input {
-            width: 100%;
-            background: #090d12;
-            border: 1px solid #303944;
-            color: white;
-            border-radius: 11px;
-            padding: 14px;
-            outline: none;
-            font-size: 14px;
-            direction: ltr;
-            text-align: left;
-        }
-
-        input:focus {
-            border-color: #2563eb;
-        }
-
-        button {
-            width: 100%;
-            border: 0;
-            border-radius: 11px;
-            padding: 14px;
-            margin-top: 12px;
-            background: #2563eb;
-            color: white;
-            font-weight: 700;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .status {
-            display: none;
-            margin-top: 15px;
-            padding: 12px;
-            border-radius: 10px;
-            background: #171d25;
-            color: #b4becb;
-            font-size: 13px;
-            line-height: 1.6;
-        }
-
-        .back {
-            background: #171c23;
-            color: #c8ced7;
-            border: 1px solid #303944;
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 27px;
-            color: #586270;
-            font-size: 11px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Passenger Verification</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{min-height:100vh;background:radial-gradient(circle at top right,#18304a,transparent 35%),#05080d;color:#fff;display:flex;align-items:center;justify-content:center;padding:20px}
+.box{width:100%;max-width:470px;background:#0b1219;border:1px solid #223143;border-radius:23px;padding:30px}
+.logo{text-align:center;font-size:25px;font-weight:900;margin-bottom:25px}
+h1{font-size:21px;margin-bottom:8px}p{color:#718092;font-size:12px;line-height:1.7;margin-bottom:20px}
+input{width:100%;padding:13px;background:#070b10;border:1px solid #2a3949;border-radius:10px;color:#fff;outline:none}
+button{width:100%;padding:13px;background:#2563eb;color:#fff;border:0;border-radius:10px;margin-top:12px;font-weight:bold}
+.msg{margin-top:12px;font-size:11px}
+footer{text-align:center;color:#43505f;font-size:10px;margin-top:20px}
+</style>
 </head>
-
 <body>
-
-<div class="panel">
-
-    <div class="brand">AirFrance PTFS</div>
-
-    <div class="sub">Passenger Portal</div>
-
-    <span class="badge">ROBLOX VERIFICATION</span>
-
-    <h1>تسجيل دخول المسافر</h1>
-
-    <div class="description">
-        اكتب اسم حسابك في Roblox ثم اضغط تحقق Roblox للمتابعة.
-    </div>
-
-    <label class="label">
-        حط يوزرك روبلوكس
-    </label>
-
-    <input
-        id="robloxUsername"
-        type="text"
-        placeholder="Roblox Username"
-        autocomplete="off"
-        maxlength="20">
-
-    <button onclick="verifyRoblox()">
-        تحقق Roblox
-    </button>
-
-    <div id="status" class="status"></div>
-
-    <button class="back" onclick="goBack()">
-        رجوع
-    </button>
-
-    <div class="footer">
-        HAMOUD • AirFrance PTFS
-    </div>
-
+<div class="box">
+<div class="logo">AirFrance PTFS</div>
+<h1>Passenger Verification</h1>
+<p>أدخل اسم Roblox للوصول إلى نظام المسافر.</p>
+<input id="username" placeholder="Roblox Username">
+<button onclick="enter()">متابعة</button>
+<div id="msg" class="msg"></div>
+<footer>HAMOUD • AirFrance PTFS</footer>
 </div>
 
 <script>
-    function verifyRoblox() {
-        const username =
-            document.getElementById("robloxUsername").value.trim();
-
-        const status =
-            document.getElementById("status");
-
-        if (!username) {
-            status.style.display = "block";
-            status.textContent =
-                "اكتب يوزرك روبلوكس أولًا.";
-            return;
-        }
-
-        status.style.display = "block";
-        status.textContent =
-            "تم التحقق من اليوزر: " + username;
-
-        setTimeout(function() {
-            window.location.href = "passenger.html";
-        }, 700);
+function enter(){
+    const username=document.getElementById("username").value.trim();
+    if(!username){
+        document.getElementById("msg").textContent="أدخل اسم Roblox.";
+        return;
     }
-
-    function goBack() {
-        window.location.href = "index.html";
-    }
+    sessionStorage.setItem("af_passenger",username);
+    location.href="passenger.html";
+}
 </script>
-
 </body>
 </html>
