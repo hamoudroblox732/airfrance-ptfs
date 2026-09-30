@@ -1,14 +1,29 @@
 {
+  "company": "AirFrance PTFS",
   "owner": {
     "username": "Ahmad_roblox2222",
-    "employeeId": "AF-OWNER-4827",
     "role": "Owner"
   },
-  "roles": [
-    "Management",
-    "Pilot",
-    "Co-Pilot",
-    "Cabin Crew",
-    "Ground Crew"
-  ]
+  "roles": {
+    "Pilot": {
+      "name": "Pilot",
+      "description": "Flight operations and aircraft management."
+    },
+    "Co-Pilot": {
+      "name": "Co-Pilot",
+      "description": "Assists the pilot with flight operations."
+    },
+    "Cabin Crew": {
+      "name": "Cabin Crew",
+      "description": "Passenger and cabin services."
+    },
+    "Ground Crew": {
+      "name": "Ground Crew",
+      "description": "Airport and ground operations."
+    },
+    "Management": {
+      "name": "Management",
+      "description": "Airline administration and operations."
+    }
+  }
 }
