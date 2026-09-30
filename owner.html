@@ -3,580 +3,405 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>AirFrance PTFS — Owner</title>
+<title>AirFrance PTFS - Owner</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+*{box-sizing:border-box}
 
 body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#080b10;
+color:#fff;
 min-height:100vh;
-background:
-radial-gradient(circle at 10% 0%,#183650,transparent 30%),
-#05080d;
-color:#fff
 }
 
-header{
-height:70px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:0 22px;
-background:#080d14;
-border-bottom:1px solid #202e3d
-}
-
-.logo{font-size:21px;font-weight:900}
-
-.badge{
-font-size:10px;
-color:#9bb9df;
-border:1px solid #2b4057;
-padding:8px 12px;
-border-radius:20px
-}
-
-main{
-max-width:1100px;
+.container{
+max-width:900px;
 margin:auto;
-padding:22px
+padding:25px 16px;
 }
 
-.hero,.panel{
-background:#0b1219;
-border:1px solid #202e3d;
+.header{
+background:#111720;
+border:1px solid #263242;
 border-radius:18px;
 padding:22px;
-margin-bottom:15px
+margin-bottom:18px;
 }
 
-.hero h1{font-size:27px;margin:8px 0}
-
-.hero p,.muted{
-font-size:11px;
-color:#788697;
-line-height:1.8
+h1{
+margin:0 0 7px;
+font-size:27px;
 }
 
-.grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:14px
+.sub{
+color:#8e9aaa;
+font-size:14px;
+}
+
+.card{
+background:#111720;
+border:1px solid #263242;
+border-radius:18px;
+padding:20px;
+margin-bottom:18px;
 }
 
 label{
 display:block;
-font-size:11px;
-font-weight:bold;
-margin-bottom:7px
+margin:12px 0 7px;
+color:#aab5c4;
+font-size:14px;
 }
 
-input,select{
+input,
+select{
 width:100%;
-padding:12px;
-margin-bottom:12px;
-background:#070b10;
-border:1px solid #2b3b4d;
-border-radius:9px;
+padding:13px;
+border-radius:11px;
+border:1px solid #303d4d;
+background:#0a0e14;
 color:#fff;
-outline:none
+outline:none;
+font-size:15px;
 }
 
 button{
 border:0;
-border-radius:9px;
-padding:11px 15px;
-background:#2563eb;
-color:#fff;
+border-radius:11px;
+padding:12px 16px;
+background:#1769ff;
+color:white;
 font-weight:bold;
-cursor:pointer
+cursor:pointer;
+margin-top:15px;
 }
 
-button:hover{background:#3474f0}
+button:hover{
+opacity:.9;
+}
+
+.danger{
+background:#b82b3b;
+}
 
 .employee{
-background:#0e161f;
-border:1px solid #26384b;
-border-radius:13px;
+border:1px solid #293646;
+background:#0c1118;
+border-radius:14px;
 padding:15px;
-margin-top:10px
-}
-
-.employee h3{
-font-size:14px;
-margin-bottom:8px
-}
-
-.employee p{
-font-size:11px;
-color:#8b99a8;
-line-height:1.8
-}
-
-.actions{
-display:flex;
-gap:8px;
 margin-top:12px;
-flex-wrap:wrap
 }
 
-.delete{
-background:#3a181d;
-color:#e2a5aa
+.row{
+display:flex;
+justify-content:space-between;
+gap:10px;
+align-items:center;
+flex-wrap:wrap;
+}
+
+.role{
+color:#6ea2ff;
+font-size:13px;
+margin-top:5px;
+}
+
+.id{
+color:#9da9b8;
+font-size:13px;
+margin-top:5px;
+}
+
+#message{
+display:none;
+padding:12px;
+border-radius:10px;
+margin-bottom:15px;
+background:#172131;
+color:#cdd8e8;
 }
 
 .empty{
+color:#8995a5;
 text-align:center;
-padding:25px;
-font-size:11px;
-color:#657486
+padding:20px;
 }
 
-.success{
-display:none;
-margin-top:12px;
-padding:10px;
-border-radius:9px;
-background:#10281d;
-color:#9bd4ae;
-font-size:11px
-}
-
-footer{
+.footer{
 text-align:center;
-padding:25px;
-color:#40505f;
-font-size:10px
-}
-
-@media(max-width:700px){
-.grid{grid-template-columns:1fr}
-main{padding:13px}
+color:#667386;
+font-size:12px;
+padding:20px;
 }
 </style>
 </head>
 
 <body>
 
-<header>
+<div class="container">
 
-<div class="logo">
-AirFrance PTFS
+<div class="header">
+<h1>AirFrance PTFS — Owner</h1>
+<div class="sub">Employee Identity Management</div>
 </div>
 
-<div class="badge">
-OWNER PANEL
-</div>
+<div id="message"></div>
 
-</header>
+<div class="card">
+<h2>Create Employee Identity</h2>
 
-<main>
+<label>Roblox Username</label>
+<input id="username" placeholder="Roblox Username">
 
-<section class="hero">
+<label>Employee ID</label>
+<input id="employeeId" placeholder="Employee ID">
 
-<h1>
-Owner Dashboard
-</h1>
-
-<p>
-مرحبًا Ahmad_roblox2222 — من هنا يمكنك إنشاء وإدارة هويات الموظفين.
-</p>
-
-</section>
-
-<div class="grid">
-
-<section class="panel">
-
-<h2 style="font-size:16px;margin-bottom:16px">
-Create Employee
-</h2>
-
-<label>
-Roblox Username
-</label>
-
-<input
-id="username"
-placeholder="Roblox Username"
-autocomplete="off">
-
-<label>
-Employee ID
-</label>
-
-<input
-id="employeeId"
-placeholder="Employee ID"
-autocomplete="off">
-
-<label>
-Role
-</label>
-
+<label>Role</label>
 <select id="role">
-
 <option value="Pilot">Pilot</option>
 <option value="Co-Pilot">Co-Pilot</option>
 <option value="Cabin Crew">Cabin Crew</option>
 <option value="Ground Crew">Ground Crew</option>
 <option value="Management">Management</option>
-
 </select>
 
-<button onclick="createEmployee()">
-Create Identity
-</button>
-
-<div
-class="success"
-id="success">
-تم حفظ الهوية بنجاح.
+<button onclick="createEmployee()">Create Identity</button>
 </div>
 
-</section>
+<div class="card">
 
-<section class="panel">
-
-<h2 style="font-size:16px;margin-bottom:8px">
-System
-</h2>
-
-<p class="muted">
-Employee identities saved:
-</p>
-
-<h1 id="count" style="font-size:30px;margin-top:5px">
-0
-</h1>
-
-<p class="muted" style="margin-top:10px">
-Owner Username: Ahmad_roblox2222
-<br>
-Owner ID: AF-OWNER-4827
-</p>
-
-</section>
-
+<div class="row">
+<h2 style="margin:0">Employees</h2>
+<strong id="count">0</strong>
 </div>
-
-<section class="panel">
-
-<h2 style="font-size:16px;margin-bottom:15px">
-Employee Identities
-</h2>
 
 <div id="employees"></div>
 
-</section>
+</div>
 
-<section class="panel">
-
-<button
-class="delete"
-onclick="logout()">
-Logout
-</button>
-
-</section>
-
-</main>
-
-<footer>
+<div class="footer">
 HAMOUD • AirFrance PTFS
-</footer>
+</div>
+
+</div>
 
 <script>
+
+const SUPABASE_URL="https://pjsadqfyvibsjrccnaum.supabase.co";
+
+const SUPABASE_KEY="sb_publishable_HKBI1QKk53w8Vp8Eq23X-A_gmrUk1px";
+
+const db=supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
 
 const OWNER_USERNAME="Ahmad_roblox2222";
 const OWNER_ID="AF-OWNER-4827";
 
-const STORAGE_KEY="af_employees";
+function showMessage(text){
 
-function getEmployees(){
+const box=document.getElementById("message");
 
-try{
-
-const raw=
-localStorage.getItem(STORAGE_KEY);
-
-if(!raw){
-return [];
-}
-
-const data=
-JSON.parse(raw);
-
-return Array.isArray(data) ? data : [];
-
-}catch(error){
-
-return [];
+box.textContent=text;
+box.style.display="block";
 
 }
 
-}
+async function checkOwner(){
 
-function saveEmployees(data){
+const username=sessionStorage.getItem("af_user");
+const id=sessionStorage.getItem("af_id");
+const role=sessionStorage.getItem("af_role");
 
-localStorage.setItem(
-STORAGE_KEY,
-JSON.stringify(data)
-);
+if(
+username!==OWNER_USERNAME ||
+id!==OWNER_ID ||
+role!=="Owner"
+){
 
-}
+window.location.href="employee.html";
 
-function normalizeUsername(value){
-
-return String(value || "")
-.trim()
-.toLowerCase();
-
-}
-
-function normalizeId(value){
-
-return String(value || "")
-.trim()
-.toUpperCase();
+return false;
 
 }
 
-function createEmployee(){
+return true;
 
-const username=
-document
+}
+
+async function createEmployee(){
+
+const username=document
 .getElementById("username")
 .value
 .trim();
 
-const employeeId=
-document
+const employeeId=document
 .getElementById("employeeId")
 .value
 .trim();
 
-const role=
-document
+const role=document
 .getElementById("role")
 .value;
 
 if(!username || !employeeId){
 
-alert("اكتب Roblox Username و Employee ID.");
+showMessage("اكتب Roblox Username و Employee ID.");
 
 return;
 
 }
 
-if(
-normalizeUsername(username)===
-normalizeUsername(OWNER_USERNAME)
-){
-
-alert("هذا اسم المالك.");
-
-return;
-
-}
-
-let employees=
-getEmployees();
-
-const duplicateUsername=
-employees.some(function(employee){
-
-return normalizeUsername(employee.username)===
-normalizeUsername(username);
-
-});
-
-if(duplicateUsername){
-
-alert("هذا Roblox Username موجود بالفعل.");
-
-return;
-
-}
-
-const duplicateId=
-employees.some(function(employee){
-
-return normalizeId(employee.employeeId)===
-normalizeId(employeeId);
-
-});
-
-if(duplicateId){
-
-alert("هذا Employee ID موجود بالفعل.");
-
-return;
-
-}
-
-employees.push({
-
+const {error}=await db
+.from("employees")
+.insert({
 username:username,
-
-employeeId:employeeId,
-
-role:role,
-
-createdAt:new Date().toISOString()
-
+employee_id:employeeId,
+role:role
 });
 
-saveEmployees(employees);
+if(error){
+
+showMessage("خطأ: "+error.message);
+
+return;
+
+}
 
 document.getElementById("username").value="";
 document.getElementById("employeeId").value="";
 
-document.getElementById("success")
-.style.display="block";
+showMessage("تم إنشاء هوية الموظف وحفظها أونلاين.");
 
-setTimeout(function(){
-
-document.getElementById("success")
-.style.display="none";
-
-},2500);
-
-renderEmployees();
+loadEmployees();
 
 }
 
-function deleteEmployee(index){
+async function loadEmployees(){
 
-const employees=
-getEmployees();
+const {data,error}=await db
+.from("employees")
+.select("*")
+.order("created_at",{ascending:false});
 
-if(!employees[index]){
-return;
-}
+if(error){
 
-if(!confirm(
-"هل تريد حذف هذه الهوية؟"
-)){
+showMessage("خطأ في تحميل الموظفين: "+error.message);
 
 return;
 
 }
 
-employees.splice(index,1);
+document.getElementById("count").textContent=data.length;
 
-saveEmployees(employees);
+const box=document.getElementById("employees");
 
-renderEmployees();
-
-}
-
-async function copyId(id){
-
-try{
-
-await navigator.clipboard.writeText(id);
-
-alert("تم نسخ Employee ID.");
-
-}catch(error){
-
-alert(
-"انسخ الـID يدويًا:\n"+id
-);
-
-}
-
-}
-
-function renderEmployees(){
-
-const box=
-document.getElementById("employees");
-
-const employees=
-getEmployees();
-
-document.getElementById("count")
-.textContent=employees.length;
-
-if(!employees.length){
-
-box.innerHTML=`
-<div class="empty">
-لا توجد هويات موظفين حتى الآن.
-</div>
-`;
-
-return;
-
-}
+if(!data.length){
 
 box.innerHTML=
-employees.map(function(employee,index){
+'<div class="empty">لا توجد هويات موظفين.</div>';
 
-return `
-<div class="employee">
+return;
 
-<h3>
-${escapeHtml(employee.username)}
-</h3>
+}
 
-<p>
-Employee ID:
-<strong>
-${escapeHtml(employee.employeeId)}
-</strong>
+box.innerHTML="";
 
-<br>
+data.forEach(employee=>{
 
-Role:
+const div=document.createElement("div");
+
+div.className="employee";
+
+div.innerHTML=`
+
+<div class="row">
+
+<div>
+
+<strong>${escapeHtml(employee.username)}</strong>
+
+<div class="role">
 ${escapeHtml(employee.role)}
+</div>
 
-</p>
+<div class="id">
+Employee ID: ${escapeHtml(employee.employee_id)}
+</div>
 
-<div class="actions">
-
-<button
-onclick="copyId('${escapeHtml(employee.employeeId)}')">
-Copy ID
-</button>
+</div>
 
 <button
-class="delete"
-onclick="deleteEmployee(${index})">
+class="danger"
+onclick="deleteEmployee(${employee.id})">
 Delete
 </button>
 
 </div>
 
-</div>
 `;
 
-}).join("");
+box.appendChild(div);
+
+});
+
+}
+
+async function deleteEmployee(id){
+
+if(!confirm("حذف هوية هذا الموظف؟")){
+
+return;
+
+}
+
+const {error}=await db
+.from("employees")
+.delete()
+.eq("id",id);
+
+if(error){
+
+showMessage("خطأ: "+error.message);
+
+return;
+
+}
+
+showMessage("تم حذف الهوية.");
+
+loadEmployees();
 
 }
 
 function escapeHtml(value){
 
 return String(value)
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
 
 }
 
-function logout(){
+(async()=>{
 
-sessionStorage.clear();
+const ok=await checkOwner();
 
-location.href="index.html";
+if(ok){
+
+loadEmployees();
 
 }
 
-renderEmployees();
+})();
 
 </script>
 
