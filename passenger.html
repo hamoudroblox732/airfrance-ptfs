@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AirFrance PTFS - Passenger</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top right, #182638 0%, transparent 35%),
+                radial-gradient(circle at bottom left, #101a28 0%, transparent 35%),
+                #05070a;
+            color: #ffffff;
+        }
+
+        .topbar {
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 22px;
+            background: rgba(10, 14, 20, 0.94);
+            border-bottom: 1px solid #202833;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            backdrop-filter: blur(12px);
+        }
+
+        .brand {
+            font-size: 21px;
+            font-weight: 800;
+        }
+
+        .passenger-badge {
+            font-size: 11px;
+            color: #8fa8cc;
+            background: #121b29;
+            border: 1px solid #26344a;
+            padding: 7px 10px;
+            border-radius: 8px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1050px;
+            margin: auto;
+            padding: 35px 20px 60px;
+        }
+
+        .welcome {
+            background:
+                linear-gradient(135deg, #111923, #0b1017);
+            border: 1px solid #222c38;
+            border-radius: 20px;
+            padding: 28px;
+            margin-bottom: 22px;
+            box-shadow: 0 20px 55px rgba(0,0,0,.35);
+        }
+
+        .welcome-small {
+            color: #718096;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
+        .welcome h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .welcome p {
+            color: #8995a4;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .section-title {
+            font-size: 18px;
+            margin-bottom: 13px;
+        }
+
+        .quick-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 13px;
+            margin-bottom: 28px;
+        }
+
+        .quick-card {
+            background: #10151c;
+            border: 1px solid #222b36;
+            border-radius: 16px;
+            padding: 19px;
+            min-height: 115px;
+        }
+
+        .quick-card .number {
+            font-size: 25px;
+            font-weight: 800;
+            margin-bottom: 7px;
+        }
+
+        .quick-card .text {
+            color: #7f8a98;
+            font-size: 12px;
+        }
+
+        .flights-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 13px;
+        }
+
+        .refresh {
+            background: #151c25;
+            color: #aeb8c5;
+            border: 1px solid #2a3440;
+            border-radius: 9px;
+            padding: 9px 13px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .flight-list {
+            display: grid;
+            gap: 13px;
+        }
+
+        .flight-card {
+            background: #10151c;
+            border: 1px solid #222b36;
+            border-radius: 17px;
+            padding: 19px;
+        }
+
+        .flight-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .flight-number {
+            font-size: 12px;
+            color: #718096;
+        }
+
+        .status {
+            font-size: 10px;
+            color: #7fb18d;
+            background: #112219;
+            border: 1px solid #24402d;
+            padding: 6px 8px;
+            border-radius: 7px;
+        }
+
+        .route {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .airport {
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .airport-name {
+            color: #778392;
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        .route-line {
+            color: #52606f;
+            font-size: 18px;
+        }
+
+        .route-right {
+            text-align: left;
+        }
+
+        .flight-info {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 19px;
+            padding-top: 15px;
+            border-top: 1px solid #202832;
+        }
+
+        .info {
+            background: #0b1016;
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        .info-title {
+            color: #697687;
+            font-size: 10px;
+            margin-bottom: 4px;
+        }
+
+        .info-value {
+            font-size: 12px;
+            color: #d3d8df;
+        }
+
+        .book {
+            width: 100%;
+            margin-top: 12px;
+            border: 0;
+            border-radius: 10px;
+            padding: 13px;
+            background: #2563eb;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .book:hover {
+            filter: brightness(1.08);
+        }
+
+        .footer {
+            text-align: center;
+            color: #4e5967;
+            font-size: 11px;
+            margin-top: 45px;
+        }
+
+        @media (max-width: 700px) {
+            .quick-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .welcome h1 {
+                font-size: 23px;
+            }
+
+            .flight-info {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar {
+                padding: 0 15px;
+            }
+
+            .container {
+                padding: 25px 14px 50px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="topbar">
+
+    <div class="brand">
+        AirFrance PTFS
+    </div>
+
+    <div class="passenger-badge">
+        PASSENGER
+    </div>
+
+</header>
+
+<main class="container">
+
+    <section class="welcome">
+
+        <div class="welcome-small">
+            PASSENGER PORTAL
+        </div>
+
+        <h1>
+            مرحبًا بك في AirFrance PTFS
+        </h1>
+
+        <p>
+            من هنا تقدر تشوف الرحلات المتاحة وتحجز مقعدك
+            وتتابع معلومات رحلتك.
+        </p>
+
+    </section>
+
+    <h2 class="section-title">
+        نظرة سريعة
+    </h2>
+
+    <section class="quick-grid">
+
+        <div class="quick-card">
+            <div class="number">0</div>
+            <div class="text">
+                حجوزاتي
+            </div>
+        </div>
+
+        <div class="quick-card">
+            <div class="number">0</div>
+            <div class="text">
+                رحلات متاحة
+            </div>
+        </div>
+
+        <div class="quick-card">
+            <div class="number">—</div>
+            <div class="text">
+                الرحلة القادمة
+            </div>
+        </div>
+
+    </section>
+
+    <section>
+
+        <div class="flights-header">
+
+            <h2 class="section-title">
+                الرحلات المتاحة
+            </h2>
+
+            <button class="refresh" onclick="refreshFlights()">
+                تحديث
+            </button>
+
+        </div>
+
+        <div id="flightList" class="flight-list">
+
+            <div class="flight-card">
+
+                <div class="flight-top">
+
+                    <div class="flight-number">
+                        AF-001
+                    </div>
+
+                    <div class="status">
+                        متاحة للحجز
+                    </div>
+
+                </div>
+
+                <div class="route">
+
+                    <div>
+                        <div class="airport">
+                            RUH
+                        </div>
+
+                        <div class="airport-name">
+                            الرياض
+                        </div>
+                    </div>
+
+                    <div class="route-line">
+                        ───✈───
+                    </div>
+
+                    <div class="route-right">
+                        <div class="airport">
+                            CDG
+                        </div>
+
+                        <div class="airport-name">
+                            باريس
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="flight-info">
+
+                    <div class="info">
+                        <div class="info-title">
+                            الوقت
+                        </div>
+
+                        <div class="info-value">
+                            20:00
+                        </div>
+                    </div>
+
+                    <div class="info">
+                        <div class="info-title">
+                            الطائرة
+                        </div>
+
+                        <div class="info-value">
+                            Airbus A350
+                        </div>
+                    </div>
+
+                    <div class="info">
+                        <div class="info-title">
+                            الدرجة
+                        </div>
+
+                        <div class="info-value">
+                            Economy
+                        </div>
+                    </div>
+
+                </div>
+
+                <button class="book" onclick="bookFlight('AF-001')">
+                    عرض الرحلة
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <div class="footer">
+        HAMOUD • AirFrance PTFS
+    </div>
+
+</main>
+
+<script>
+    function refreshFlights() {
+        alert("تم تحديث قائمة الرحلات.");
+    }
+
+    function bookFlight(flightNumber) {
+        alert(
+            "تم اختيار الرحلة " +
+            flightNumber +
+            ". سنضيف نظام الحجز في الخطوة القادمة."
+        );
+    }
+</script>
+
+</body>
+</html>
