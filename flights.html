@@ -19,9 +19,7 @@ min-height:100vh
 header{
 padding:18px;
 background:#0c1118;
-border-bottom:1px solid #202a35;
-display:flex;
-align-items:center
+border-bottom:1px solid #202a35
 }
 
 .back{
@@ -30,29 +28,28 @@ background:#151c25;
 color:#fff;
 padding:12px 18px;
 border-radius:12px;
-font-weight:700;
-cursor:pointer
+font-weight:700
 }
 
 .container{
-max-width:1000px;
+max-width:1050px;
 margin:auto;
-padding:24px 18px 40px
+padding:24px 18px 45px
 }
 
 .title{
-margin:0;
-font-size:32px
+font-size:32px;
+margin:0
 }
 
 .sub{
-margin-top:7px;
-color:#8491a1
+color:#8491a1;
+margin-top:7px
 }
 
 .card{
 margin-top:20px;
-background:linear-gradient(145deg,#10161f,#0b1017);
+background:#0e141c;
 border:1px solid #222d3a;
 border-radius:20px;
 padding:20px
@@ -70,8 +67,7 @@ border-bottom:0
 .top{
 display:flex;
 justify-content:space-between;
-gap:15px;
-align-items:flex-start
+gap:15px
 }
 
 .route{
@@ -80,49 +76,93 @@ font-weight:800
 }
 
 .number{
-color:#8491a1;
+color:#7d8998;
 font-size:13px;
 margin-top:6px
 }
 
 .status{
-padding:8px 11px;
+padding:8px 12px;
 border-radius:9px;
 background:#18202b;
-color:#b9c4d1;
 font-size:12px;
 font-weight:800;
-white-space:nowrap
+height:max-content
+}
+
+.boarding{
+background:#153a29;
+color:#8fe0ad
+}
+
+.closed{
+background:#332a17;
+color:#e4c47d
+}
+
+.delayed{
+background:#352916;
+color:#e3bc70
+}
+
+.cancelled{
+background:#3a181d;
+color:#e09ca5
+}
+
+.departed,
+.inflight,
+.landed{
+background:#182d45;
+color:#9fc9f5
 }
 
 .meta{
 margin-top:15px;
 color:#9aa6b6;
-line-height:1.8;
+line-height:1.9;
 font-size:14px
 }
 
 .actions{
 display:flex;
-gap:10px;
 flex-wrap:wrap;
-margin-top:16px
+gap:9px;
+margin-top:17px
 }
 
 .action{
-padding:12px 16px;
-border-radius:11px;
+border:0;
+padding:12px 15px;
+border-radius:10px;
 background:#1677ff;
 color:#fff;
-font-weight:800
+font-weight:800;
+cursor:pointer
 }
 
-.manage{
+.action:hover{
+background:#0d68e8
+}
+
+.dark{
 background:#202a35
 }
 
-.delete{
+.dark:hover{
+background:#2c3744
+}
+
+.warning{
+background:#8a681f
+}
+
+.cancel{
 background:#9f3039
+}
+
+.delete{
+background:#70242c
 }
 
 .empty{
@@ -135,7 +175,7 @@ padding:35px
 display:none;
 position:fixed;
 inset:0;
-background:rgba(0,0,0,.72);
+background:rgba(0,0,0,.76);
 padding:18px;
 z-index:20;
 overflow:auto
@@ -147,35 +187,46 @@ margin:7vh auto;
 background:#0e141c;
 border:1px solid #293442;
 border-radius:20px;
-padding:22px
+padding:23px
 }
 
 .modal-box h2{
-margin-top:0
+margin:0 0 7px
+}
+
+.modal-sub{
+color:#8491a1;
+font-size:13px;
+margin-bottom:18px
 }
 
 label{
 display:block;
 margin:15px 0 7px;
-color:#aeb8c5;
 font-size:13px;
-font-weight:700
+font-weight:700;
+color:#aeb8c5
 }
 
 select,
 input{
 width:100%;
 height:50px;
-padding:0 14px;
 background:#080c12;
 border:1px solid #293442;
 border-radius:11px;
 color:#fff;
+padding:0 13px;
 font-size:15px;
 outline:none
 }
 
-.manage-actions{
+select:focus,
+input:focus{
+border-color:#1677ff
+}
+
+.modal-actions{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:10px;
@@ -190,7 +241,7 @@ border-radius:11px;
 font-weight:800
 }
 
-.close-btn{
+.close{
 background:#202a35;
 color:#fff;
 padding:14px;
@@ -201,11 +252,17 @@ font-weight:800
 .message{
 text-align:center;
 color:#9aa6b6;
+font-size:13px;
 margin-top:13px;
-min-height:20px
+min-height:18px
 }
 
 @media(max-width:650px){
+
+.container{
+padding:20px 14px
+}
+
 .top{
 flex-direction:column
 }
@@ -214,7 +271,7 @@ flex-direction:column
 font-size:19px
 }
 
-.manage-actions{
+.modal-actions{
 grid-template-columns:1fr
 }
 }
@@ -224,16 +281,27 @@ grid-template-columns:1fr
 <body>
 
 <header>
-<button class="back" onclick="goBack()">Back</button>
+
+<button class="back" onclick="goBack()">
+Back
+</button>
+
 </header>
 
 <div class="container">
 
-<h1 class="title">Flights</h1>
+<h1 class="title">
+Flights
+</h1>
+
 <div class="sub" id="account"></div>
 
 <div class="card" id="flights">
-<div class="empty">Loading flights...</div>
+
+<div class="empty">
+Loading flights...
+</div>
+
 </div>
 
 </div>
@@ -242,63 +310,131 @@ grid-template-columns:1fr
 
 <div class="modal-box">
 
-<h2>Manage Flight</h2>
+<h2>
+Manage Flight
+</h2>
 
-<div id="manageFlightInfo" class="sub"></div>
+<div class="modal-sub" id="manageInfo"></div>
 
-<label>Status</label>
+<label>
+Flight Status
+</label>
 
 <select id="manageStatus">
-<option value="Scheduled">Scheduled</option>
-<option value="Boarding">Boarding</option>
-<option value="Delayed">Delayed</option>
-<option value="Cancelled">Cancelled</option>
-<option value="Closed">Closed</option>
-<option value="Departed">Departed</option>
-<option value="In Flight">In Flight</option>
-<option value="Landed">Landed</option>
+
+<option value="Scheduled">
+Scheduled
+</option>
+
+<option value="Boarding">
+Boarding
+</option>
+
+<option value="Delayed">
+Delayed
+</option>
+
+<option value="Closed">
+Closed — Boarding Closed
+</option>
+
+<option value="Cancelled">
+Cancelled
+</option>
+
+<option value="Departed">
+Departed
+</option>
+
+<option value="In Flight">
+In Flight
+</option>
+
+<option value="Landed">
+Landed
+</option>
+
 </select>
 
-<label>Boarding Time</label>
-<input id="manageBoarding" type="datetime-local">
+<label>
+Boarding Time
+</label>
 
-<label>Departure Time</label>
-<input id="manageDeparture" type="datetime-local">
+<input
+id="manageBoarding"
+type="datetime-local">
 
-<div class="manage-actions">
+<label>
+Departure Time
+</label>
 
-<button class="save" onclick="saveFlight()">Save Changes</button>
+<input
+id="manageDeparture"
+type="datetime-local">
 
-<button class="close-btn" onclick="closeModal()">Close</button>
+<div class="modal-actions">
+
+<button
+class="save"
+onclick="saveFlight()">
+
+Save Changes
+
+</button>
+
+<button
+class="close"
+onclick="closeModal()">
+
+Close
+
+</button>
 
 </div>
 
-<div class="message" id="manageMessage"></div>
+<div
+class="message"
+id="manageMessage">
+</div>
 
 </div>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-const SUPABASE_URL="https://pjsadqfyvibsjrccnaum.supabase.co";
 
-const SUPABASE_KEY="sb_publishable_HKBI1QKk53w8Vp8Eq23X-A_gmrUk1px";
+const SUPABASE_URL=
+"https://pjsadqfyvibsjrccnaum.supabase.co";
 
-const db=window.supabase.createClient(
+const SUPABASE_KEY=
+"sb_publishable_HKBI1QKk53w8Vp8Eq23X-A_gmrUk1px";
+
+const db=
+window.supabase.createClient(
 SUPABASE_URL,
 SUPABASE_KEY
 );
 
-const username=sessionStorage.getItem("af_user");
-const employeeId=sessionStorage.getItem("af_id");
-const role=sessionStorage.getItem("af_role");
+const username=
+sessionStorage.getItem("af_user");
+
+const employeeId=
+sessionStorage.getItem("af_id");
+
+const role=
+sessionStorage.getItem("af_role");
 
 if(!username||!employeeId||!role){
+
 location.replace("employee.html");
+
 }else{
+
 document.getElementById("account").textContent=
 username+" • "+employeeId+" • "+role;
+
 }
 
 let selectedFlight=null;
@@ -306,16 +442,22 @@ let selectedFlight=null;
 function goBack(){
 
 if(role==="Owner"){
+
 location.replace("owner.html");
+
 }else{
+
 location.replace("staff.html");
+
 }
 
 }
 
 function formatDate(value){
 
-if(!value)return"Not set";
+if(!value){
+return"Not set";
+}
 
 return new Date(value).toLocaleString([],{
 year:"numeric",
@@ -329,120 +471,172 @@ minute:"2-digit"
 
 function toLocalInput(value){
 
-if(!value)return"";
+if(!value){
+return"";
+}
 
 const date=new Date(value);
-const offset=date.getTimezoneOffset()*60000;
 
-return new Date(date.getTime()-offset)
-.toISOString()
-.slice(0,16);
+const offset=
+date.getTimezoneOffset()*60000;
+
+return new Date(
+date.getTime()-offset
+).toISOString().slice(0,16);
 
 }
 
-function getAutomaticStatus(flight){
+function getStatus(flight){
 
-if(
-flight.status==="Delayed"||
-flight.status==="Cancelled"
-){
-return flight.status;
+if(flight.status==="Cancelled"){
+return"Cancelled";
+}
+
+if(flight.status==="Delayed"){
+return"Delayed";
 }
 
 if(flight.status==="Landed"){
-return "Landed";
+return"Landed";
 }
 
 if(flight.status==="In Flight"){
-return "In Flight";
+return"In Flight";
 }
 
-if(!flight.boarding_time||!flight.departure_time){
-return flight.status||"Scheduled";
+if(flight.status==="Departed"){
+return"Departed";
 }
 
 if(flight.closed){
-return "Closed";
+return"Closed";
+}
+
+if(
+!flight.boarding_time||
+!flight.departure_time
+){
+
+return flight.status||"Scheduled";
+
 }
 
 const now=new Date();
-const boarding=new Date(flight.boarding_time);
-const departure=new Date(flight.departure_time);
+
+const boarding=
+new Date(flight.boarding_time);
+
+const departure=
+new Date(flight.departure_time);
 
 if(now<boarding){
-return "Scheduled";
+return"Scheduled";
 }
 
-if(now>=boarding&&now<departure){
-return "Boarding";
+if(
+now>=boarding&&
+now<departure
+){
+
+return"Boarding";
+
 }
 
 if(now>=departure){
-return "Departed";
-}
 
-return "Scheduled";
-}
-
-async function updateAutomaticStatus(flight){
-
-const newStatus=getAutomaticStatus(flight);
-
-if(
-newStatus!==flight.status&&
-flight.status!=="Delayed"&&
-flight.status!=="Cancelled"&&
-flight.status!=="Landed"&&
-flight.status!=="In Flight"&&
-!flight.closed
-){
-
-await db
-.from("flights")
-.update({
-status:newStatus
-})
-.eq("id",flight.id);
+return"Departed";
 
 }
 
-return newStatus;
+return"Scheduled";
+
+}
+
+function statusClass(status){
+
+if(status==="Boarding"){
+return"status boarding";
+}
+
+if(status==="Closed"){
+return"status closed";
+}
+
+if(status==="Delayed"){
+return"status delayed";
+}
+
+if(status==="Cancelled"){
+return"status cancelled";
+}
+
+if(status==="Departed"){
+return"status departed";
+}
+
+if(status==="In Flight"){
+return"status inflight";
+}
+
+if(status==="Landed"){
+return"status landed";
+}
+
+return"status";
+
 }
 
 async function loadFlights(){
 
-const box=document.getElementById("flights");
+const box=
+document.getElementById("flights");
 
-let request=db
+let request=
+db
 .from("flights")
 .select("*")
-.order("created_at",{ascending:false});
+.order(
+"departure_time",
+{ascending:true}
+);
 
 if(role==="Pilot"){
-request=request.eq("pilot",username);
+
+request=
+request.eq("pilot",username);
+
 }
 
-const {data,error}=await request;
+const {data,error}=
+await request;
 
 if(error){
+
 box.innerHTML=
 '<div class="empty">Could not load flights.</div>';
+
 return;
+
 }
 
 if(!data||data.length===0){
+
 box.innerHTML=
-'<div class="empty">No flights found for this account.</div>';
+'<div class="empty">No flights found.</div>';
+
 return;
+
 }
 
 box.innerHTML="";
 
-for(const flight of data){
+data.forEach(function(flight){
 
-const status=await updateAutomaticStatus(flight);
+const status=
+getStatus(flight);
 
-const item=document.createElement("div");
+const item=
+document.createElement("div");
 
 item.className="flight";
 
@@ -464,7 +658,9 @@ escapeHtml(flight.flight_number)+
 
 '</div>'+
 
-'<div class="status">'+
+'<div class="'+
+statusClass(status)+
+'">'+
 escapeHtml(status)+
 '</div>'+
 
@@ -494,8 +690,38 @@ html+='<div class="actions">';
 if(role==="Owner"||role==="Pilot"){
 
 html+=
-'<button class="action manage" onclick="openManage('+flight.id+')">'+
-'Manage Flight'+
+
+'<button class="action" '+
+'onclick="quickStatus('+flight.id+',\'Boarding\')">'+
+'Start Boarding'+
+'</button>';
+
+html+=
+
+'<button class="action dark" '+
+'onclick="quickStatus('+flight.id+',\'Closed\')">'+
+'Close Boarding'+
+'</button>';
+
+html+=
+
+'<button class="action warning" '+
+'onclick="quickStatus('+flight.id+',\'Delayed\')">'+
+'Delay'+
+'</button>';
+
+html+=
+
+'<button class="action cancel" '+
+'onclick="quickStatus('+flight.id+',\'Cancelled\')">'+
+'Cancel'+
+'</button>';
+
+html+=
+
+'<button class="action manage" '+
+'onclick="openManage('+flight.id+')">'+
+'Manage'+
 '</button>';
 
 }
@@ -503,8 +729,10 @@ html+=
 if(role==="Owner"){
 
 html+=
-'<button class="action delete" onclick="deleteFlight('+flight.id+')">'+
-'Delete Flight'+
+
+'<button class="action delete" '+
+'onclick="deleteFlight('+flight.id+')">'+
+'Delete'+
 '</button>';
 
 }
@@ -515,52 +743,166 @@ item.innerHTML=html;
 
 box.appendChild(item);
 
-}
+});
 
 }
 
-async function openManage(id){
+async function quickStatus(id,status){
 
-const {data,error}=await db
+if(role!=="Owner"&&role!=="Pilot"){
+return;
+}
+
+const {data,error}=
+await db
 .from("flights")
 .select("*")
 .eq("id",id)
 .single();
 
 if(error||!data){
-alert("Could not open this flight.");
+
+alert("Could not find the flight.");
+
 return;
+
+}
+
+if(
+status==="Closed"
+){
+
+if(
+data.status==="Cancelled"||
+data.status==="Landed"
+){
+
+alert(
+"This flight cannot be closed."
+);
+
+return;
+
+}
+
+}
+
+if(status==="Cancelled"){
+
+if(!confirm(
+"Cancel this flight?"
+)){
+
+return;
+
+}
+
+}
+
+const updateData={
+status:status
+};
+
+if(status==="Closed"){
+
+updateData.closed=true;
+
+}
+
+if(status==="Boarding"){
+
+updateData.closed=false;
+
+}
+
+if(status==="Cancelled"){
+
+updateData.closed=false;
+
+}
+
+const {error:updateError}=
+await db
+.from("flights")
+.update(updateData)
+.eq("id",id);
+
+if(updateError){
+
+alert(
+"Could not update the flight."
+);
+
+return;
+
+}
+
+loadFlights();
+
+}
+
+async function openManage(id){
+
+const {data,error}=
+await db
+.from("flights")
+.select("*")
+.eq("id",id)
+.single();
+
+if(error||!data){
+
+alert(
+"Could not open this flight."
+);
+
+return;
+
 }
 
 selectedFlight=data;
 
-document.getElementById("manageFlightInfo").textContent=
+document
+.getElementById("manageInfo")
+.textContent=
 data.flight_number+
 " • "+
 data.departure+
 " → "+
 data.destination;
 
-document.getElementById("manageStatus").value=
+document
+.getElementById("manageStatus")
+.value=
 data.closed
 ?"Closed"
 :(data.status||"Scheduled");
 
-document.getElementById("manageBoarding").value=
+document
+.getElementById("manageBoarding")
+.value=
 toLocalInput(data.boarding_time);
 
-document.getElementById("manageDeparture").value=
+document
+.getElementById("manageDeparture")
+.value=
 toLocalInput(data.departure_time);
 
-document.getElementById("manageMessage").textContent="";
+document
+.getElementById("manageMessage")
+.textContent="";
 
-document.getElementById("manageModal").style.display="block";
+document
+.getElementById("manageModal")
+.style.display="block";
 
 }
 
 function closeModal(){
 
-document.getElementById("manageModal").style.display="none";
+document
+.getElementById("manageModal")
+.style.display="none";
 
 selectedFlight=null;
 
@@ -568,30 +910,47 @@ selectedFlight=null;
 
 async function saveFlight(){
 
-if(!selectedFlight)return;
+if(!selectedFlight){
+return;
+}
 
-const message=document.getElementById("manageMessage");
+const message=
+document.getElementById("manageMessage");
 
-const status=document.getElementById("manageStatus").value;
+const status=
+document
+.getElementById("manageStatus")
+.value;
 
-const boarding=document.getElementById("manageBoarding").value;
+const boarding=
+document
+.getElementById("manageBoarding")
+.value;
 
-const departure=document.getElementById("manageDeparture").value;
+const departure=
+document
+.getElementById("manageDeparture")
+.value;
 
 if(!boarding||!departure){
 
-message.textContent="Please set both times.";
+message.textContent=
+"Please set both times.";
+
 return;
 
 }
 
-const boardingDate=new Date(boarding);
-const departureDate=new Date(departure);
+const boardingDate=
+new Date(boarding);
+
+const departureDate=
+new Date(departure);
 
 if(departureDate<=boardingDate){
 
 message.textContent=
-"Departure time must be after boarding time.";
+"Departure must be after boarding.";
 
 return;
 
@@ -599,18 +958,20 @@ return;
 
 message.textContent="Saving...";
 
-const closed=status==="Closed";
-
-const {error}=await db
-.from("flights")
-.update({
-
+const updateData={
 status:status,
-boarding_time:boardingDate.toISOString(),
-departure_time:departureDate.toISOString(),
-closed:closed
+boarding_time:
+boardingDate.toISOString(),
+departure_time:
+departureDate.toISOString(),
+closed:
+status==="Closed"
+};
 
-})
+const {error}=
+await db
+.from("flights")
+.update(updateData)
 .eq("id",selectedFlight.id);
 
 if(error){
@@ -630,18 +991,29 @@ loadFlights();
 
 async function deleteFlight(id){
 
-if(role!=="Owner")return;
+if(role!=="Owner"){
+return;
+}
 
-if(!confirm("Delete this flight?"))return;
+if(!confirm(
+"Delete this flight?"
+)){
 
-const {error}=await db
+return;
+
+}
+
+const {error}=
+await db
 .from("flights")
 .delete()
 .eq("id",id);
 
 if(error){
 
-alert("Failed to delete flight.");
+alert(
+"Failed to delete flight."
+);
 
 return;
 
@@ -662,19 +1034,30 @@ return String(value??"")
 
 }
 
-window.addEventListener("click",function(event){
+window.addEventListener(
+"click",
+function(event){
 
-const modal=document.getElementById("manageModal");
+const modal=
+document.getElementById(
+"manageModal"
+);
 
 if(event.target===modal){
+
 closeModal();
+
 }
 
 });
 
 loadFlights();
 
-setInterval(loadFlights,30000);
+setInterval(
+loadFlights,
+30000
+);
+
 </script>
 
 </body>
