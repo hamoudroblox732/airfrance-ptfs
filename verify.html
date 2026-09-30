@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AirFrance PTFS - Verification</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #05070a;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .box {
+            width: 100%;
+            max-width: 430px;
+            background: #10141a;
+            border: 1px solid #252c35;
+            border-radius: 20px;
+            padding: 35px 25px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,.5);
+        }
+
+        h1 {
+            font-size: 25px;
+            margin-bottom: 10px;
+        }
+
+        .text {
+            color: #8d98a6;
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 28px;
+        }
+
+        .roblox {
+            width: 100%;
+            border: 0;
+            border-radius: 12px;
+            padding: 15px;
+            background: #2563eb;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .roblox:active {
+            transform: scale(.98);
+        }
+
+        .status {
+            display: none;
+            margin-top: 18px;
+            background: #171d25;
+            border-radius: 10px;
+            padding: 12px;
+            color: #aeb8c6;
+            font-size: 13px;
+        }
+
+        .footer {
+            margin-top: 25px;
+            color: #586270;
+            font-size: 11px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="box">
+
+        <h1>التحقق من Roblox</h1>
+
+        <div class="text">
+            سيتم تحويلك إلى Roblox لتسجيل الدخول
+            والموافقة على ربط حسابك بموقع AirFrance PTFS.
+            <br><br>
+            لن نطلب كلمة مرور Roblox منك.
+        </div>
+
+        <button class="roblox" onclick="startVerification()">
+            متابعة إلى Roblox
+        </button>
+
+        <div id="status" class="status"></div>
+
+        <div class="footer">
+            HAMOUD • AirFrance PTFS
+        </div>
+
+    </div>
+
+    <script>
+        function startVerification() {
+            const status = document.getElementById("status");
+
+            status.style.display = "block";
+            status.textContent = "جاري تجهيز التحقق الآمن...";
+
+            setTimeout(function () {
+                status.textContent =
+                    "نظام Roblox OAuth لم يتم ربطه بالسيرفر بعد.";
+            }, 800);
+        }
+    </script>
+
+</body>
+</html>
