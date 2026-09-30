@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>AirFrance PTFS - Owner</title>
+
+<title>AirFrance PTFS - Owner Panel</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -19,9 +20,9 @@ min-height:100vh;
 }
 
 .container{
-max-width:900px;
+max-width:950px;
 margin:auto;
-padding:25px 16px;
+padding:20px 15px 40px;
 }
 
 .header{
@@ -29,44 +30,77 @@ background:#111720;
 border:1px solid #263242;
 border-radius:18px;
 padding:22px;
-margin-bottom:18px;
+margin-bottom:15px;
 }
 
-h1{
-margin:0 0 7px;
-font-size:27px;
+.header h1{
+margin:0;
+font-size:26px;
 }
 
-.sub{
+.header p{
+margin:7px 0 0;
 color:#8e9aaa;
 font-size:14px;
 }
 
-.card{
+.tabs{
+display:flex;
+gap:8px;
+overflow-x:auto;
+margin-bottom:15px;
+}
+
+.tab{
+white-space:nowrap;
+background:#111720;
+border:1px solid #263242;
+color:#aeb9c8;
+padding:12px 16px;
+border-radius:12px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.tab.active{
+background:#1769ff;
+color:#fff;
+border-color:#1769ff;
+}
+
+.panel{
+display:none;
 background:#111720;
 border:1px solid #263242;
 border-radius:18px;
 padding:20px;
-margin-bottom:18px;
+margin-bottom:15px;
+}
+
+.panel.active{
+display:block;
+}
+
+h2{
+margin-top:0;
 }
 
 label{
 display:block;
-margin:12px 0 7px;
-color:#aab5c4;
+margin:14px 0 7px;
 font-size:14px;
+color:#aab5c4;
 }
 
-input,
-select{
+input,select{
 width:100%;
 padding:13px;
 border-radius:11px;
 border:1px solid #303d4d;
 background:#0a0e14;
 color:#fff;
-outline:none;
 font-size:15px;
+outline:none;
 }
 
 button{
@@ -74,7 +108,7 @@ border:0;
 border-radius:11px;
 padding:12px 16px;
 background:#1769ff;
-color:white;
+color:#fff;
 font-weight:bold;
 cursor:pointer;
 margin-top:15px;
@@ -88,9 +122,9 @@ opacity:.9;
 background:#b82b3b;
 }
 
-.employee{
-border:1px solid #293646;
+.employee,.flight{
 background:#0c1118;
+border:1px solid #293646;
 border-radius:14px;
 padding:15px;
 margin-top:12px;
@@ -99,43 +133,51 @@ margin-top:12px;
 .row{
 display:flex;
 justify-content:space-between;
-gap:10px;
 align-items:center;
+gap:10px;
 flex-wrap:wrap;
 }
 
-.role{
-color:#6ea2ff;
+.small{
 font-size:13px;
+color:#8996a8;
 margin-top:5px;
 }
 
-.id{
-color:#9da9b8;
-font-size:13px;
-margin-top:5px;
+.blue{
+color:#6ea2ff;
+}
+
+.status{
+display:inline-block;
+margin-top:8px;
+padding:5px 9px;
+border-radius:8px;
+background:#182b20;
+color:#78d69a;
+font-size:12px;
 }
 
 #message{
 display:none;
+background:#172131;
+border:1px solid #293b52;
 padding:12px;
 border-radius:10px;
 margin-bottom:15px;
-background:#172131;
-color:#cdd8e8;
 }
 
 .empty{
-color:#8995a5;
 text-align:center;
 padding:20px;
+color:#7f8b9c;
 }
 
 .footer{
 text-align:center;
 color:#667386;
 font-size:12px;
-padding:20px;
+margin-top:20px;
 }
 </style>
 </head>
@@ -145,13 +187,30 @@ padding:20px;
 <div class="container">
 
 <div class="header">
-<h1>AirFrance PTFS — Owner</h1>
-<div class="sub">Employee Identity Management</div>
+<h1>AirFrance PTFS — Owner Panel</h1>
+<p>Owner: Ahmad_roblox2222 • AF-OWNER-4827</p>
 </div>
 
 <div id="message"></div>
 
-<div class="card">
+<div class="tabs">
+
+<button class="tab active" onclick="openPanel('identities',this)">
+Identities
+</button>
+
+<button class="tab" onclick="openPanel('flights',this)">
+Flights
+</button>
+
+<button class="tab" onclick="openPanel('createFlight',this)">
+Create Flight
+</button>
+
+</div>
+
+<div id="identities" class="panel active">
+
 <h2>Create Employee Identity</h2>
 
 <label>Roblox Username</label>
@@ -169,17 +228,54 @@ padding:20px;
 <option value="Management">Management</option>
 </select>
 
-<button onclick="createEmployee()">Create Identity</button>
-</div>
+<button onclick="createEmployee()">
+Create Identity
+</button>
 
-<div class="card">
+<hr style="border:0;border-top:1px solid #293646;margin:25px 0">
 
 <div class="row">
 <h2 style="margin:0">Employees</h2>
-<strong id="count">0</strong>
+<strong id="employeeCount">0</strong>
 </div>
 
 <div id="employees"></div>
+
+</div>
+
+<div id="flights" class="panel">
+
+<div class="row">
+<h2>Flights</h2>
+<strong id="flightCount">0</strong>
+</div>
+
+<div id="flightsList"></div>
+
+</div>
+
+<div id="createFlight" class="panel">
+
+<h2>Create Flight</h2>
+
+<label>Flight Number</label>
+<input id="flightNumber" placeholder="Flight Number">
+
+<label>Departure</label>
+<input id="departure" placeholder="Departure">
+
+<label>Destination</label>
+<input id="destination" placeholder="Destination">
+
+<label>Aircraft</label>
+<input id="aircraft" placeholder="Aircraft">
+
+<label>Pilot</label>
+<input id="pilot" placeholder="Pilot">
+
+<button onclick="createFlight()">
+Create Flight
+</button>
 
 </div>
 
@@ -209,6 +305,28 @@ const box=document.getElementById("message");
 
 box.textContent=text;
 box.style.display="block";
+
+}
+
+function openPanel(id,button){
+
+document
+.querySelectorAll(".panel")
+.forEach(panel=>panel.classList.remove("active"));
+
+document
+.querySelectorAll(".tab")
+.forEach(tab=>tab.classList.remove("active"));
+
+document
+.getElementById(id)
+.classList.add("active");
+
+button.classList.add("active");
+
+if(id==="flights"){
+loadFlights();
+}
 
 }
 
@@ -277,7 +395,7 @@ return;
 document.getElementById("username").value="";
 document.getElementById("employeeId").value="";
 
-showMessage("تم إنشاء هوية الموظف وحفظها أونلاين.");
+showMessage("تم إنشاء الهوية وحفظها أونلاين.");
 
 loadEmployees();
 
@@ -292,20 +410,20 @@ const {data,error}=await db
 
 if(error){
 
-showMessage("خطأ في تحميل الموظفين: "+error.message);
+showMessage("خطأ في تحميل الموظفين.");
 
 return;
 
 }
 
-document.getElementById("count").textContent=data.length;
+document.getElementById("employeeCount").textContent=data.length;
 
 const box=document.getElementById("employees");
 
 if(!data.length){
 
 box.innerHTML=
-'<div class="empty">لا توجد هويات موظفين.</div>';
+'<div class="empty">لا توجد هويات.</div>';
 
 return;
 
@@ -327,11 +445,11 @@ div.innerHTML=`
 
 <strong>${escapeHtml(employee.username)}</strong>
 
-<div class="role">
+<div class="blue">
 ${escapeHtml(employee.role)}
 </div>
 
-<div class="id">
+<div class="small">
 Employee ID: ${escapeHtml(employee.employee_id)}
 </div>
 
@@ -355,11 +473,7 @@ box.appendChild(div);
 
 async function deleteEmployee(id){
 
-if(!confirm("حذف هوية هذا الموظف؟")){
-
-return;
-
-}
+if(!confirm("حذف هوية هذا الموظف؟")) return;
 
 const {error}=await db
 .from("employees")
@@ -368,7 +482,7 @@ const {error}=await db
 
 if(error){
 
-showMessage("خطأ: "+error.message);
+showMessage("تعذر حذف الهوية.");
 
 return;
 
@@ -377,6 +491,178 @@ return;
 showMessage("تم حذف الهوية.");
 
 loadEmployees();
+
+}
+
+async function createFlight(){
+
+const flightNumber=document
+.getElementById("flightNumber")
+.value
+.trim();
+
+const departure=document
+.getElementById("departure")
+.value
+.trim();
+
+const destination=document
+.getElementById("destination")
+.value
+.trim();
+
+const aircraft=document
+.getElementById("aircraft")
+.value
+.trim();
+
+const pilot=document
+.getElementById("pilot")
+.value
+.trim();
+
+if(
+!flightNumber ||
+!departure ||
+!destination ||
+!aircraft
+){
+
+showMessage("أكمل بيانات الرحلة.");
+
+return;
+
+}
+
+const {error}=await db
+.from("flights")
+.insert({
+flight_number:flightNumber,
+departure:departure,
+destination:destination,
+aircraft:aircraft,
+pilot:pilot || null,
+status:"Scheduled"
+});
+
+if(error){
+
+showMessage("خطأ في إنشاء الرحلة: "+error.message);
+
+return;
+
+}
+
+document.getElementById("flightNumber").value="";
+document.getElementById("departure").value="";
+document.getElementById("destination").value="";
+document.getElementById("aircraft").value="";
+document.getElementById("pilot").value="";
+
+showMessage("تم إنشاء الرحلة وحفظها أونلاين.");
+
+}
+
+async function loadFlights(){
+
+const {data,error}=await db
+.from("flights")
+.select("*")
+.order("created_at",{ascending:false});
+
+if(error){
+
+showMessage("خطأ في تحميل الرحلات.");
+
+return;
+
+}
+
+document.getElementById("flightCount").textContent=data.length;
+
+const box=document.getElementById("flightsList");
+
+if(!data.length){
+
+box.innerHTML=
+'<div class="empty">لا توجد رحلات.</div>';
+
+return;
+
+}
+
+box.innerHTML="";
+
+data.forEach(flight=>{
+
+const div=document.createElement("div");
+
+div.className="flight";
+
+div.innerHTML=`
+
+<div class="row">
+
+<div>
+
+<strong>${escapeHtml(flight.flight_number)}</strong>
+
+<div class="blue">
+${escapeHtml(flight.departure)}
+ →
+ ${escapeHtml(flight.destination)}
+</div>
+
+<div class="small">
+Aircraft: ${escapeHtml(flight.aircraft)}
+</div>
+
+<div class="small">
+Pilot: ${escapeHtml(flight.pilot || "Not assigned")}
+</div>
+
+<div class="status">
+${escapeHtml(flight.status)}
+</div>
+
+</div>
+
+<button
+class="danger"
+onclick="deleteFlight(${flight.id})">
+Delete
+</button>
+
+</div>
+
+`;
+
+box.appendChild(div);
+
+});
+
+}
+
+async function deleteFlight(id){
+
+if(!confirm("حذف هذه الرحلة؟")) return;
+
+const {error}=await db
+.from("flights")
+.delete()
+.eq("id",id);
+
+if(error){
+
+showMessage("تعذر حذف الرحلة.");
+
+return;
+
+}
+
+showMessage("تم حذف الرحلة.");
+
+loadFlights();
 
 }
 
