@@ -3,509 +3,115 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-
-<title>AirFrance PTFS — Create Flight</title>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
+<title>Create Flight — AirFrance PTFS</title>
 <style>
-*{
-box-sizing:border-box;
-}
-
-html,body{
-margin:0;
+*{box-sizing:border-box}
+body{margin:0;background:#07090d;color:#fff;font-family:Arial,sans-serif}
+header{padding:20px;background:#0d121a;border-bottom:1px solid #222b36}
+.container{max-width:760px;margin:auto;padding:22px}
+.back{background:#202832;width:auto;padding:12px 20px}
+.card{margin-top:20px;background:#0e131b;border:1px solid #222d3a;border-radius:18px;padding:24px}
+h1{font-size:30px;margin-bottom:6px}
+.sub{color:#8793a3}
+label{display:block;margin-top:18px;margin-bottom:7px;color:#aeb7c4}
+input,select{
 width:100%;
-min-height:100%;
-font-family:Arial,sans-serif;
-background:#070a0f;
-color:#fff;
-}
-
-body{
-overflow-x:hidden;
-}
-
-.app{
-min-height:100vh;
-background:
-radial-gradient(circle at 75% 10%,rgba(23,105,255,.12),transparent 30%),
-radial-gradient(circle at 20% 80%,rgba(23,105,255,.05),transparent 25%),
-#070a0f;
-}
-
-.main{
-min-height:100vh;
-padding:25px;
-}
-
-.back{
-background:#111923;
-color:#cbd5e3;
-border:1px solid #293747;
-padding:12px 16px;
-border-radius:10px;
-cursor:pointer;
-margin-bottom:25px;
-}
-
-.topbar{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:15px;
-margin-bottom:25px;
-}
-
-.title{
-font-size:28px;
-font-weight:bold;
-}
-
-.sub{
-font-size:13px;
-color:#778599;
-margin-top:5px;
-}
-
-.online{
-display:flex;
-align-items:center;
-gap:8px;
-padding:9px 13px;
-border:1px solid #203026;
-background:#0c1712;
-border-radius:10px;
-font-size:12px;
-color:#80d49a;
-}
-
-.dot{
-width:7px;
-height:7px;
-border-radius:50%;
-background:#4bd477;
-box-shadow:0 0 10px #4bd477;
-}
-
-.card{
-max-width:850px;
-background:#0d131c;
-border:1px solid #202c3d;
-border-radius:20px;
-padding:25px;
-}
-
-.card-title{
-font-size:19px;
-font-weight:bold;
-}
-
-.card-sub{
-font-size:12px;
-color:#69778a;
-margin-top:5px;
-margin-bottom:23px;
-}
-
-.form-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:16px;
-}
-
-.form-group{
-display:flex;
-flex-direction:column;
-}
-
-.form-group.full{
-grid-column:1/-1;
-}
-
-label{
-font-size:12px;
-color:#7d8b9e;
-margin-bottom:8px;
-}
-
-input,
-select{
-width:100%;
-background:#080d14;
-border:1px solid #293747;
-color:#fff;
-border-radius:11px;
-padding:14px;
-outline:none;
-}
-
-input:focus,
-select:focus{
-border-color:#1769ff;
-box-shadow:0 0 0 2px rgba(23,105,255,.08);
-}
-
-.primary{
-width:100%;
-background:#1769ff;
-color:#fff;
-border:0;
 padding:15px;
-border-radius:11px;
-font-weight:bold;
-cursor:pointer;
-transition:.2s;
-margin-top:5px;
+background:#080b10;
+border:1px solid #293442;
+border-radius:10px;
+color:#fff;
+font-size:16px;
+outline:none
 }
-
-.primary:hover{
-transform:translateY(-2px);
-box-shadow:0 10px 25px rgba(23,105,255,.25);
+input:focus,select:focus{border-color:#1677ff}
+.submit{
+width:100%;
+margin-top:24px;
+background:#1677ff
 }
-
-.preview{
-margin-top:22px;
-padding:17px;
-background:#0a1018;
-border:1px solid #202d3d;
-border-radius:14px;
-}
-
-.preview-title{
-font-size:12px;
-color:#6d7b8e;
-margin-bottom:10px;
-}
-
-.preview-flight{
-font-size:20px;
-font-weight:bold;
-}
-
-.preview-route{
-font-size:13px;
-color:#76a8ff;
-margin-top:6px;
-}
-
-.message{
-position:fixed;
-left:25px;
-bottom:25px;
-background:#111a27;
-border:1px solid #2b3e57;
-padding:13px 16px;
-border-radius:11px;
-display:none;
-z-index:50;
-box-shadow:0 10px 30px rgba(0,0,0,.35);
-}
-
-@media(max-width:650px){
-
-.main{
-padding:15px;
-}
-
-.title{
-font-size:23px;
-}
-
-.topbar{
-align-items:flex-start;
-}
-
-.form-grid{
-grid-template-columns:1fr;
-}
-
-.form-group.full{
-grid-column:auto;
-}
-
-.card{
-padding:20px;
-}
-
-}
+.message{text-align:center;margin-top:15px;color:#9aa6b6}
 </style>
 </head>
-
 <body>
 
-<div class="app">
+<header>
+<button class="back" onclick="location.href='staff.html'">Back to Dashboard</button>
+</header>
 
-<main class="main">
+<div class="container">
 
-<button class="back" onclick="location.href='owner.html'">
-← Back to Owner Dashboard
-</button>
-
-<div class="topbar">
-
-<div>
-
-<div class="title">
-Create Flight
-</div>
-
-<div class="sub">
-Create a new AirFrance PTFS flight
-</div>
-
-</div>
-
-<div class="online">
-
-<div class="dot"></div>
-
-Online
-
-</div>
-
-</div>
+<h1>Create Flight</h1>
+<div class="sub">Create a new AirFrance PTFS flight.</div>
 
 <div class="card">
 
-<div class="card-title">
-Flight Information
-</div>
+<label>Flight Number</label>
+<input id="flightNumber" placeholder="AF101">
 
-<div class="card-sub">
-Enter the flight details below. The flight will be saved online.
-</div>
+<label>Aircraft</label>
+<input id="aircraft" placeholder="A350-900">
 
-<div class="form-grid">
+<label>Departure</label>
+<input id="departure" placeholder="JED">
 
-<div class="form-group">
+<label>Destination</label>
+<input id="destination" placeholder="CDG">
 
-<label>
-Flight Number
-</label>
+<label>Pilot</label>
+<input id="pilot">
 
-<input
-id="flightNumber"
-placeholder="Example: AF101"
-autocomplete="off">
-
-</div>
-
-<div class="form-group">
-
-<label>
-Aircraft
-</label>
-
-<input
-id="aircraft"
-placeholder="Example: Airbus A350"
-autocomplete="off">
-
-</div>
-
-<div class="form-group">
-
-<label>
-Departure
-</label>
-
-<input
-id="departure"
-placeholder="Example: LFPG"
-autocomplete="off">
-
-</div>
-
-<div class="form-group">
-
-<label>
-Destination
-</label>
-
-<input
-id="destination"
-placeholder="Example: EGLL"
-autocomplete="off">
-
-</div>
-
-<div class="form-group">
-
-<label>
-Pilot
-</label>
-
-<input
-id="pilot"
-placeholder="Pilot Roblox Username"
-autocomplete="off">
-
-</div>
-
-<div class="form-group">
-
-<label>
-Status
-</label>
-
+<label>Status</label>
 <select id="status">
-
-<option value="Scheduled">
-Scheduled
-</option>
-
-<option value="Boarding">
-Boarding
-</option>
-
-<option value="Departed">
-Departed
-</option>
-
-<option value="In Flight">
-In Flight
-</option>
-
-<option value="Landed">
-Landed
-</option>
-
+<option value="Scheduled">Scheduled</option>
+<option value="Boarding">Boarding</option>
+<option value="Departed">Departed</option>
+<option value="In Flight">In Flight</option>
+<option value="Landed">Landed</option>
 </select>
 
-</div>
+<button class="submit" onclick="createFlight()">Create Flight</button>
 
-<div class="form-group full">
-
-<button
-class="primary"
-onclick="createFlight()">
-
-Create Flight
-
-</button>
+<div class="message" id="message"></div>
 
 </div>
-
 </div>
 
-<div class="preview">
-
-<div class="preview-title">
-FLIGHT PREVIEW
-</div>
-
-<div id="previewFlight" class="preview-flight">
-AF---
-</div>
-
-<div id="previewRoute" class="preview-route">
-Departure → Destination
-</div>
-
-</div>
-
-</div>
-
-</main>
-
-</div>
-
-<div id="message" class="message"></div>
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-
 const SUPABASE_URL="https://pjsadqfyvibsjrccnaum.supabase.co";
-
 const SUPABASE_KEY="sb_publishable_HKBI1QKk53w8Vp8Eq23X-A_gmrUk1px";
-
-const db=supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
-);
-
-const OWNER_USERNAME="Ahmad_roblox2222";
-const OWNER_ID="AF-OWNER-4827";
-
-function checkOwner(){
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 const username=sessionStorage.getItem("af_user");
-const id=sessionStorage.getItem("af_id");
+const employeeId=sessionStorage.getItem("af_id");
 const role=sessionStorage.getItem("af_role");
 
-if(
-username!==OWNER_USERNAME ||
-id!==OWNER_ID ||
-role!=="Owner"
-){
-
-location.href="employee.html";
-
-return false;
-
+if(!username||!employeeId||!role){
+location.replace("employee.html");
 }
 
-return true;
+const pilotInput=document.getElementById("pilot");
 
-}
-
-function showMessage(text){
-
-const message=document.getElementById("message");
-
-message.textContent=text;
-message.style.display="block";
-
-setTimeout(function(){
-
-message.style.display="none";
-
-},3000);
-
+if(role==="Pilot"){
+pilotInput.value=username;
+pilotInput.readOnly=true;
 }
 
 async function createFlight(){
 
-const flightNumber=document
-.getElementById("flightNumber")
-.value
-.trim();
+const message=document.getElementById("message");
 
-const aircraft=document
-.getElementById("aircraft")
-.value
-.trim();
+const flightNumber=document.getElementById("flightNumber").value.trim();
+const aircraft=document.getElementById("aircraft").value.trim();
+const departure=document.getElementById("departure").value.trim();
+const destination=document.getElementById("destination").value.trim();
+const pilot=pilotInput.value.trim();
+const status=document.getElementById("status").value;
 
-const departure=document
-.getElementById("departure")
-.value
-.trim();
-
-const destination=document
-.getElementById("destination")
-.value
-.trim();
-
-const pilot=document
-.getElementById("pilot")
-.value
-.trim();
-
-const status=document
-.getElementById("status")
-.value;
-
-if(
-!flightNumber ||
-!aircraft ||
-!departure ||
-!destination
-){
-
-showMessage("أكمل بيانات الرحلة.");
-
+if(!flightNumber||!aircraft||!departure||!destination){
+message.textContent="Please fill in all required fields.";
 return;
-
 }
 
 const {data:existing,error:checkError}=await db
@@ -515,114 +121,33 @@ const {data:existing,error:checkError}=await db
 .maybeSingle();
 
 if(checkError){
-
-showMessage("حدث خطأ أثناء التحقق.");
-
+message.textContent="Could not check the flight number.";
 return;
-
 }
 
 if(existing){
-
-showMessage("رقم الرحلة مستخدم بالفعل.");
-
+message.textContent="This flight number already exists.";
 return;
-
 }
 
 const {error}=await db
 .from("flights")
-.insert({
-
+.insert([{
 flight_number:flightNumber,
-
 departure:departure,
-
 destination:destination,
-
 aircraft:aircraft,
-
-pilot:pilot || null,
-
+pilot:pilot||null,
 status:status
-
-});
+}]);
 
 if(error){
-
-showMessage("تعذر إنشاء الرحلة.");
-
+message.textContent="Could not create the flight.";
 return;
-
 }
 
-showMessage("تم إنشاء الرحلة بنجاح.");
-
-document.getElementById("flightNumber").value="";
-document.getElementById("aircraft").value="";
-document.getElementById("departure").value="";
-document.getElementById("destination").value="";
-document.getElementById("pilot").value="";
-document.getElementById("status").value="Scheduled";
-
-updatePreview();
-
-setTimeout(function(){
-
-location.href="flights.html";
-
-},1000);
-
+location.replace("flights.html");
 }
-
-function updatePreview(){
-
-const flightNumber=document
-.getElementById("flightNumber")
-.value
-.trim();
-
-const departure=document
-.getElementById("departure")
-.value
-.trim();
-
-const destination=document
-.getElementById("destination")
-.value
-.trim();
-
-document.getElementById("previewFlight")
-.textContent=
-flightNumber || "AF---";
-
-document.getElementById("previewRoute")
-.textContent=
-(departure || "Departure")
-+
-" → " +
-(destination || "Destination");
-
-}
-
-document
-.getElementById("flightNumber")
-.addEventListener("input",updatePreview);
-
-document
-.getElementById("departure")
-.addEventListener("input",updatePreview);
-
-document
-.getElementById("destination")
-.addEventListener("input",updatePreview);
-
-if(checkOwner()){
-
-updatePreview();
-
-}
-
 </script>
 
 </body>
