@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>AirFrance PTFS - Employee</title>
+
     <style>
         * {
             box-sizing: border-box;
@@ -11,15 +13,18 @@
             padding: 0;
             font-family: Arial, sans-serif;
         }
+
         body {
             min-height: 100vh;
-            background: radial-gradient(circle at top, #18202b, #080b10 48%, #040507);
+            background:
+                radial-gradient(circle at top, #18202b 0%, #080b10 48%, #040507 100%);
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
         }
+
         .panel {
             width: 100%;
             max-width: 450px;
@@ -29,11 +34,13 @@
             padding: 32px 25px;
             box-shadow: 0 25px 70px rgba(0,0,0,.55);
         }
+
         .brand {
             text-align: center;
             font-size: 28px;
             font-weight: 800;
         }
+
         .sub {
             text-align: center;
             color: #8994a2;
@@ -41,6 +48,7 @@
             margin-top: 7px;
             margin-bottom: 30px;
         }
+
         .badge {
             display: inline-block;
             background: #172033;
@@ -50,24 +58,29 @@
             font-size: 11px;
             margin-bottom: 15px;
         }
+
         h1 {
             font-size: 21px;
             margin-bottom: 9px;
         }
+
         .description {
             color: #8e98a5;
             font-size: 13px;
             line-height: 1.7;
             margin-bottom: 22px;
         }
-        .row {
-            display: flex;
-            direction: ltr;
-            gap: 8px;
+
+        .label {
+            display: block;
+            color: #c8ced7;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
         }
+
         input {
-            flex: 1;
-            min-width: 0;
+            width: 100%;
             background: #090d12;
             border: 1px solid #303944;
             color: white;
@@ -75,19 +88,31 @@
             padding: 14px;
             outline: none;
             font-size: 14px;
+            direction: ltr;
+            text-align: left;
         }
+
         input:focus {
             border-color: #2563eb;
         }
-        .verify {
+
+        .continue {
+            width: 100%;
             border: 0;
             border-radius: 11px;
-            padding: 0 17px;
+            padding: 14px;
+            margin-top: 12px;
             background: #2563eb;
             color: white;
             font-weight: 700;
             cursor: pointer;
+            font-size: 14px;
         }
+
+        .continue:active {
+            transform: scale(.99);
+        }
+
         .status {
             display: none;
             margin-top: 15px;
@@ -96,7 +121,16 @@
             background: #171d25;
             color: #b4becb;
             font-size: 13px;
+            line-height: 1.6;
         }
+
+        .employee-section {
+            display: none;
+            margin-top: 22px;
+            padding-top: 22px;
+            border-top: 1px solid #252c35;
+        }
+
         .back {
             width: 100%;
             margin-top: 12px;
@@ -107,6 +141,7 @@
             color: #c8ced7;
             cursor: pointer;
         }
+
         .footer {
             text-align: center;
             margin-top: 27px;
@@ -115,56 +150,125 @@
         }
     </style>
 </head>
+
 <body>
+
 <div class="panel">
-    <div class="brand">AirFrance PTFS</div>
+
+    <div class="brand">
+        AirFrance PTFS
+    </div>
+
     <div class="sub">
         Employee Portal
     </div>
+
     <span class="badge">
         EMPLOYEE VERIFICATION
     </span>
+
     <h1>
         تسجيل دخول الموظف
     </h1>
+
     <div class="description">
-        أدخل رقم الهوية الوظيفية الصادر من إدارة
-        AirFrance PTFS ثم اضغط تحقق.
+        اكتب اسم حسابك في Roblox للمتابعة إلى بوابة الموظفين.
     </div>
-    <div class="row">
+
+    <label class="label">
+        حط يوزرك روبلوكس
+    </label>
+
+    <input
+        id="robloxUsername"
+        type="text"
+        placeholder="Roblox Username"
+        autocomplete="off"
+        maxlength="20">
+
+    <button class="continue" onclick="continueLogin()">
+        متابعة
+    </button>
+
+    <div id="status" class="status"></div>
+
+    <div id="employeeSection" class="employee-section">
+
+        <label class="label">
+            رقم الهوية الوظيفية
+        </label>
+
         <input
             id="employeeId"
             type="text"
             placeholder="AF-PILOT-0001"
             autocomplete="off">
-        <button class="verify" onclick="verifyId()">
-            تحقق
+
+        <button class="continue" onclick="verifyEmployee()">
+            تحقق من الهوية
         </button>
+
     </div>
-    <div id="status" class="status"></div>
+
     <button class="back" onclick="goBack()">
         رجوع
     </button>
+
     <div class="footer">
         HAMOUD • AirFrance PTFS
     </div>
+
 </div>
+
 <script>
-    function verifyId() {
-        const input = document.getElementById("employeeId");
-        const status = document.getElementById("status");
-        const id = input.value.trim();
-        status.style.display = "block";
-        if (!id) {
-            status.textContent = "اكتب رقم الهوية أولًا.";
+    function continueLogin() {
+        const username =
+            document.getElementById("robloxUsername").value.trim();
+
+        const status =
+            document.getElementById("status");
+
+        const employeeSection =
+            document.getElementById("employeeSection");
+
+        if (!username) {
+            status.style.display = "block";
+            status.textContent =
+                "اكتب يوزرك في Roblox أولًا.";
+            employeeSection.style.display = "none";
             return;
         }
+
+        status.style.display = "block";
         status.textContent =
-            "تم استلام رقم الهوية. سيتم التحقق منه من قاعدة بيانات الموظفين.";
+            "تم إدخال يوزر Roblox: " + username;
+
+        employeeSection.style.display = "block";
     }
+
+    function verifyEmployee() {
+        const employeeId =
+            document.getElementById("employeeId").value.trim();
+
+        const status =
+            document.getElementById("status");
+
+        if (!employeeId) {
+            status.style.display = "block";
+            status.textContent =
+                "اكتب رقم الهوية الوظيفية أولًا.";
+            return;
+        }
+
+        status.style.display = "block";
+        status.textContent =
+            "تم إرسال بيانات الموظف للمتابعة.";
+    }
+
     function goBack() {
         window.location.href = "index.html";
     }
 </script>
+
 </body>
 </html>
