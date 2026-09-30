@@ -4,51 +4,233 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>AirFrance PTFS</title>
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
-body{min-height:100vh;background:radial-gradient(circle at 20% 10%,#17304d,transparent 30%),radial-gradient(circle at 90% 90%,#101d30,transparent 35%),#05080d;color:#fff}
-header{height:75px;border-bottom:1px solid #202d3b;background:#080d14dd;backdrop-filter:blur(15px);display:flex;align-items:center;justify-content:space-between;padding:0 6%;position:sticky;top:0;z-index:5}
-.logo{font-size:22px;font-weight:900;letter-spacing:.5px}.badge{font-size:10px;color:#8da7c5;border:1px solid #27394d;padding:8px 12px;border-radius:20px}
-main{max-width:1200px;margin:auto;padding:70px 20px}
-.hero{text-align:center;padding:55px 20px}
-.hero small{color:#6281a4;letter-spacing:4px;font-weight:bold}.hero h1{font-size:54px;margin:15px 0}.hero p{color:#7f8c9d;max-width:650px;margin:auto;line-height:1.8}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;max-width:760px;margin:35px auto}
-.card{background:#0c131c;border:1px solid #202e3d;border-radius:22px;padding:28px;transition:.25s;cursor:pointer}
-.card:hover{transform:translateY(-5px);border-color:#315b89;background:#101a25}
-.card h2{font-size:19px;margin-bottom:8px}.card p{color:#778596;font-size:12px;line-height:1.7}
-.btn{margin-top:20px;width:100%;padding:13px;border:0;border-radius:10px;background:#2563eb;color:#fff;font-weight:bold;cursor:pointer}
-footer{text-align:center;color:#43505f;font-size:10px;padding:30px}
-@media(max-width:600px){.hero h1{font-size:38px}.grid{grid-template-columns:1fr}}
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+font-family:Arial,sans-serif
+}
+
+body{
+min-height:100vh;
+background:
+radial-gradient(circle at 15% 0%,#183650,transparent 32%),
+radial-gradient(circle at 100% 100%,#101e30,transparent 35%),
+#05080d;
+color:#fff
+}
+
+header{
+height:74px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 25px;
+border-bottom:1px solid #202e3d;
+background:#080d14ee
+}
+
+.logo{
+font-size:22px;
+font-weight:900
+}
+
+.badge{
+font-size:10px;
+color:#8ca7c3;
+border:1px solid #293c50;
+border-radius:20px;
+padding:8px 12px
+}
+
+main{
+min-height:calc(100vh - 74px);
+display:flex;
+align-items:center;
+justify-content:center;
+padding:25px
+}
+
+.container{
+width:100%;
+max-width:950px
+}
+
+.hero{
+text-align:center;
+margin-bottom:25px
+}
+
+.hero small{
+font-size:10px;
+letter-spacing:3px;
+color:#6885a5
+}
+
+.hero h1{
+font-size:42px;
+margin:12px 0
+}
+
+.hero p{
+font-size:13px;
+line-height:1.8;
+color:#788697;
+max-width:600px;
+margin:auto
+}
+
+.cards{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:16px
+}
+
+.card{
+background:#0b1219;
+border:1px solid #202e3d;
+border-radius:20px;
+padding:28px;
+transition:.2s
+}
+
+.card:hover{
+transform:translateY(-5px);
+border-color:#315b89
+}
+
+.card h2{
+font-size:18px;
+margin-bottom:9px
+}
+
+.card p{
+font-size:11px;
+line-height:1.8;
+color:#788697
+}
+
+button{
+width:100%;
+margin-top:20px;
+padding:13px;
+border:0;
+border-radius:10px;
+background:#2563eb;
+color:#fff;
+font-weight:bold;
+cursor:pointer
+}
+
+.employee{
+background:#101820
+}
+
+footer{
+text-align:center;
+color:#40505f;
+font-size:10px;
+padding:25px
+}
+
+@media(max-width:650px){
+
+.hero h1{
+font-size:31px
+}
+
+.cards{
+grid-template-columns:1fr
+}
+
+main{
+padding:15px
+}
+
+}
 </style>
 </head>
+
 <body>
+
 <header>
-<div class="logo">AirFrance PTFS</div>
-<div class="badge">OFFICIAL SYSTEM</div>
+
+<div class="logo">
+AirFrance PTFS
+</div>
+
+<div class="badge">
+PTFS AIRLINE SYSTEM
+</div>
+
 </header>
 
 <main>
+
+<div class="container">
+
 <section class="hero">
-<small>AIRFRANCE • PTFS</small>
-<h1>Travel Management</h1>
-<p>نظام إدارة الموظفين والرحلات والخدمات الخاصة بـ AirFrance PTFS.</p>
+
+<small>
+AIRFRANCE PTFS
+</small>
+
+<h1>
+Welcome
+</h1>
+
+<p>
+مرحبًا بك في نظام AirFrance PTFS.
+اختر البوابة التي تريد الدخول إليها.
+</p>
+
 </section>
 
-<div class="grid">
-<div class="card" onclick="location.href='verify.html?role=passenger'">
-<h2>Passenger</h2>
-<p>دخول نظام المسافرين ومتابعة الرحلات والخدمات.</p>
-<button class="btn">دخول المسافر</button>
+<section class="cards">
+
+<div class="card">
+
+<h2>
+Passenger
+</h2>
+
+<p>
+بوابة المسافر لمتابعة الرحلات والخدمات والحجوزات.
+</p>
+
+<button onclick="location.href='verify.html'">
+Passenger Portal
+</button>
+
 </div>
 
-<div class="card" onclick="location.href='employee.html'">
-<h2>Employee</h2>
-<p>دخول الموظفين حسب الهوية والدور والصلاحيات.</p>
-<button class="btn">دخول الموظف</button>
+<div class="card employee">
+
+<h2>
+Employee
+</h2>
+
+<p>
+بوابة الموظفين لتسجيل الدخول حسب الهوية والرتبة.
+</p>
+
+<button onclick="location.href='employee.html'">
+Employee Portal
+</button>
+
 </div>
+
+</section>
+
+<footer>
+HAMOUD • AirFrance PTFS
+</footer>
+
 </div>
+
 </main>
 
-<footer>HAMOUD • AirFrance PTFS</footer>
 </body>
 </html>
