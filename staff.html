@@ -3,112 +3,172 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>AirFrance PTFS - Staff</title>
+<title>AirFrance PTFS — Dashboard</title>
 <style>
 *{box-sizing:border-box}
-
 body{
 margin:0;
-background:#080b10;
+background:#07090d;
 color:#fff;
 font-family:Arial,sans-serif;
+min-height:100vh
 }
-
 header{
 padding:22px;
-background:#0c1017;
-border-bottom:1px solid #202631;
+background:linear-gradient(135deg,#101722,#0b0f16);
+border-bottom:1px solid #222b36;
+position:sticky;
+top:0;
+z-index:5
 }
-
-h1{
-margin:0;
-font-size:27px;
+.brand{
+font-size:25px;
+font-weight:800
 }
-
 .sub{
-margin-top:6px;
-color:#8d98a8;
+color:#8793a3;
+margin-top:5px
 }
-
 .container{
-max-width:900px;
+max-width:1050px;
 margin:auto;
-padding:24px;
+padding:24px
 }
-
+.hero{
+background:linear-gradient(145deg,#111a27,#0d121a);
+border:1px solid #263343;
+border-radius:22px;
+padding:28px;
+margin-bottom:20px;
+box-shadow:0 18px 50px rgba(0,0,0,.25)
+}
+.hero h1{
+margin:0 0 8px;
+font-size:30px
+}
+.hero p{
+margin:0;
+color:#9aa6b6
+}
+.grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:16px
+}
 .card{
-background:#10151d;
-border:1px solid #202936;
-border-radius:16px;
+background:#0e131b;
+border:1px solid #222d3a;
+border-radius:18px;
 padding:22px;
-margin-bottom:18px;
+transition:.2s
 }
-
-.info{
-color:#aeb7c4;
-line-height:1.8;
+.card:hover{
+border-color:#1677ff;
+transform:translateY(-2px)
 }
-
+.card h2{
+margin:0 0 8px
+}
+.card p{
+color:#8995a5;
+line-height:1.5;
+min-height:45px
+}
 button{
 width:100%;
-padding:15px;
-margin-top:10px;
+padding:16px;
 border:0;
-border-radius:10px;
+border-radius:11px;
 background:#1677ff;
 color:#fff;
 font-size:16px;
-font-weight:bold;
+font-weight:700;
+cursor:pointer
 }
-
 button:hover{
-background:#0d65df;
+background:#0d65df
 }
-
+.profile{
+margin-top:20px;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px
+}
+.info{
+background:#090d13;
+border:1px solid #202a35;
+border-radius:12px;
+padding:15px
+}
+.label{
+font-size:12px;
+color:#738092;
+margin-bottom:6px
+}
+.value{
+font-weight:700;
+word-break:break-word
+}
 .logout{
-background:#252b34;
+margin-top:20px;
+background:#242b35
 }
-
-.logout:hover{
-background:#303743;
+@media(max-width:700px){
+.grid{grid-template-columns:1fr}
+.profile{grid-template-columns:1fr}
+.container{padding:16px}
+.hero{padding:22px}
 }
 </style>
 </head>
-
 <body>
 
 <header>
-<h1>AirFrance PTFS</h1>
-<div class="sub">Staff Portal</div>
+<div class="brand">AirFrance PTFS</div>
+<div class="sub">Crew Dashboard</div>
 </header>
 
 <div class="container">
 
-<div class="card">
-<h2 id="welcome">Welcome</h2>
+<section class="hero">
+<h1 id="welcome">Welcome</h1>
+<p>Manage your AirFrance PTFS operations from your dashboard.</p>
+
+<div class="profile">
 <div class="info">
-<div id="username"></div>
-<div id="employeeId"></div>
-<div id="role"></div>
+<div class="label">USERNAME</div>
+<div class="value" id="username"></div>
 </div>
+
+<div class="info">
+<div class="label">EMPLOYEE ID</div>
+<div class="value" id="employeeId"></div>
+</div>
+
+<div class="info">
+<div class="label">ROLE</div>
+<div class="value" id="role"></div>
+</div>
+</div>
+</section>
+
+<div class="grid">
+
+<div class="card">
+<h2>My Flights</h2>
+<p>View the flights assigned to your pilot account.</p>
+<button onclick="location.href='flights.html'">Open My Flights</button>
 </div>
 
 <div class="card">
-<h2>Operations</h2>
-
-<button id="flightsButton" onclick="location.href='flights.html'">
-My Flights
-</button>
-
-<button id="createFlightButton" onclick="location.href='create-flight.html'">
-Create Flight
-</button>
+<h2>Create Flight</h2>
+<p>Create a new flight and assign yourself as the pilot.</p>
+<button onclick="location.href='create-flight.html'">Create Flight</button>
+</div>
 
 </div>
 
-<div class="card">
 <button class="logout" onclick="logout()">Logout</button>
-</div>
 
 </div>
 
@@ -118,28 +178,19 @@ const employeeId=sessionStorage.getItem("af_id");
 const role=sessionStorage.getItem("af_role");
 
 if(!username||!employeeId||!role){
-location.href="employee.html";
-}
-
-document.getElementById("welcome").textContent="Welcome, "+username;
-document.getElementById("username").textContent="Username: "+username;
-document.getElementById("employeeId").textContent="Employee ID: "+employeeId;
-document.getElementById("role").textContent="Role: "+role;
-
-const flightsButton=document.getElementById("flightsButton");
-const createFlightButton=document.getElementById("createFlightButton");
-
-if(role==="Pilot"){
-flightsButton.textContent="My Flights";
-createFlightButton.textContent="Create Flight";
+location.replace("employee.html");
 }else{
-flightsButton.textContent="Flights";
-createFlightButton.textContent="Create Flight";
+document.getElementById("welcome").textContent="Welcome, "+username;
+document.getElementById("username").textContent=username;
+document.getElementById("employeeId").textContent=employeeId;
+document.getElementById("role").textContent=role;
 }
 
 function logout(){
-sessionStorage.clear();
-location.href="employee.html";
+sessionStorage.removeItem("af_user");
+sessionStorage.removeItem("af_id");
+sessionStorage.removeItem("af_role");
+location.replace("employee.html");
 }
 </script>
 
