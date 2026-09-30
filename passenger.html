@@ -134,29 +134,50 @@ margin-bottom:14px
 background:#0e161f;
 border:1px solid #202e3d;
 border-radius:12px;
-padding:15px;
+padding:16px;
 margin-bottom:10px
 }
 
 .flight h3{
-font-size:13px;
-margin-bottom:7px
+font-size:15px;
+margin-bottom:8px
 }
 
 .flight p{
 font-size:11px;
 color:#788697;
-line-height:1.8
+line-height:1.9
 }
 
 .status{
 display:inline-block;
-margin-top:8px;
-padding:5px 8px;
+margin-top:9px;
+padding:6px 9px;
 border-radius:7px;
 background:#172438;
 color:#a3bee0;
-font-size:9px
+font-size:9px;
+font-weight:bold
+}
+
+.boarding{
+background:#163a28;
+color:#8ee0ad
+}
+
+.closed{
+background:#332a17;
+color:#e3c17c
+}
+
+.cancelled{
+background:#3a181d;
+color:#e0a0a8
+}
+
+.delayed{
+background:#342817;
+color:#e1bd7a
 }
 
 .empty{
@@ -179,6 +200,7 @@ font-size:10px
 }
 
 @media(max-width:800px){
+
 .grid{
 grid-template-columns:1fr
 }
@@ -198,9 +220,7 @@ padding:13px
 AirFrance PTFS
 </div>
 
-<div
-class="user"
-id="userName">
+<div class="user" id="userName">
 Passenger
 </div>
 
@@ -219,7 +239,7 @@ PASSENGER PORTAL
 </h1>
 
 <p>
-من هنا يمكنك متابعة الرحلات والخدمات الخاصة بالمسافر.
+من هنا يمكنك متابعة الرحلات وحالة الـBoarding ومواعيد المغادرة.
 </p>
 
 </section>
@@ -233,7 +253,7 @@ Flights
 </h2>
 
 <p>
-عرض الرحلات المتاحة وحالة الرحلات الحالية.
+عرض الرحلات المتاحة وحالتها ومواعيد الـBoarding والمغادرة.
 </p>
 
 <button onclick="scrollToSection('flights')">
@@ -276,35 +296,35 @@ Passenger Services
 
 </section>
 
-<section
-class="panel"
-id="flights">
+<section class="panel" id="flights">
 
 <h2>
 Available Flights
 </h2>
 
-<div id="flightList"></div>
+<div id="flightList">
+
+<div class="empty">
+جاري تحميل الرحلات...
+</div>
+
+</div>
 
 </section>
 
-<section
-class="panel"
-id="booking">
+<section class="panel" id="booking">
 
 <h2>
 My Booking
 </h2>
 
-<div class="empty" id="bookingText">
+<div class="empty">
 لا يوجد حجز مرتبط بهذا الحساب حاليًا.
 </div>
 
 </section>
 
-<section
-class="panel"
-id="services">
+<section class="panel" id="services">
 
 <h2>
 Passenger Services
@@ -350,12 +370,8 @@ Flight Information
 
 <section class="panel">
 
-<button
-class="logout"
-onclick="logout()">
-
+<button class="logout" onclick="logout()">
 تسجيل الخروج
-
 </button>
 
 </section>
@@ -366,14 +382,28 @@ onclick="logout()">
 HAMOUD • AirFrance PTFS
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
+
+const SUPABASE_URL=
+"https://pjsadqfyvibsjrccnaum.supabase.co";
+
+const SUPABASE_KEY=
+"sb_publishable_HKBI1QKk53w8Vp8Eq23X-A_gmrUk1px";
+
+const db=
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
 
 const passenger=
 localStorage.getItem("af_passenger");
 
 if(!passenger){
 
-location.href="verify.html";
+location.replace("verify.html");
 
 }
 
@@ -382,34 +412,122 @@ document
 .textContent=
 passenger || "Passenger";
 
-function getFlights(){
+function formatDate(value){
 
-try{
+if(!value){
+return"Not set";
+}
 
-const data=
-JSON.parse(
-localStorage.getItem("af_flights") || "[]"
-);
-
-return Array.isArray(data) ? data : [];
-
-}catch(error){
-
-return [];
+return new Date(value).toLocaleString([],{
+year:"numeric",
+month:"short",
+day:"numeric",
+hour:"2-digit",
+minute:"2-digit"
+});
 
 }
 
+function getStatus(flight){
+
+if(flight.status==="Cancelled"){
+return"Cancelled";
 }
 
-function renderFlights(){
+if(flight.status==="Delayed"){
+return"Delayed";
+}
+
+if(flight.status==="Landed"){
+return"Landed";
+}
+
+if(flight.status==="In Flight"){
+return"In Flight";
+}
+
+if(flight.status==="Departed"){
+return"Departed";
+}
+
+if(flight.closed){
+return"Closed";
+}
+
+if(!flight.boarding_time){
+return flight.status||"Scheduled";
+}
+
+const now=new Date();
+
+const boarding=
+new Date(flight.boarding_time);
+
+const departure=
+new Date(flight.departure_time);
+
+if(now<boarding){
+return"Scheduled";
+}
+
+if(now>=boarding&&now<departure){
+return"Boarding";
+}
+
+if(now>=departure){
+return"Departed";
+}
+
+return"Scheduled";
+
+}
+
+function statusClass(status){
+
+if(status==="Boarding"){
+return"status boarding";
+}
+
+if(status==="Closed"){
+return"status closed";
+}
+
+if(status==="Cancelled"){
+return"status cancelled";
+}
+
+if(status==="Delayed"){
+return"status delayed";
+}
+
+return"status";
+
+}
+
+async function loadFlights(){
 
 const box=
 document.getElementById("flightList");
 
-const flights=
-getFlights();
+const {data,error}=
+await db
+.from("flights")
+.select("*")
+.order("departure_time",{ascending:true});
 
-if(!flights.length){
+if(error){
+
+box.innerHTML=`
+<div class="empty">
+تعذر تحميل الرحلات.
+</div>
+`;
+
+return;
+
+}
+
+if(!data||data.length===0){
 
 box.innerHTML=`
 <div class="empty">
@@ -421,32 +539,59 @@ return;
 
 }
 
-box.innerHTML=
-flights.map(function(flight){
+box.innerHTML="";
 
-return `
-<div class="flight">
+data.forEach(function(flight){
+
+const status=
+getStatus(flight);
+
+const item=
+document.createElement("div");
+
+item.className="flight";
+
+item.innerHTML=`
 
 <h3>
-${escapeHtml(flight.title || "Flight")}
+${escapeHtml(flight.flight_number)}
+•
+${escapeHtml(flight.departure)}
+→
+${escapeHtml(flight.destination)}
 </h3>
 
 <p>
-Pilot:
-${escapeHtml(flight.pilot || "—")}
+
+Aircraft:
+${escapeHtml(flight.aircraft)}
+
 <br>
-موعد الرحلة:
-${escapeHtml(flight.time || "—")}
+
+Pilot:
+${escapeHtml(flight.pilot||"—")}
+
+<br>
+
+Boarding:
+${escapeHtml(formatDate(flight.boarding_time))}
+
+<br>
+
+Departure:
+${escapeHtml(formatDate(flight.departure_time))}
+
 </p>
 
-<span class="status">
-${escapeHtml(flight.status || "PENDING")}
+<span class="${statusClass(status)}">
+${escapeHtml(status)}
 </span>
 
-</div>
 `;
 
-}).join("");
+box.appendChild(item);
+
+});
 
 }
 
@@ -484,13 +629,13 @@ function logout(){
 
 localStorage.removeItem("af_passenger");
 
-location.href="index.html";
+location.replace("index.html");
 
 }
 
 function escapeHtml(value){
 
-return String(value)
+return String(value??"")
 .replace(/&/g,"&amp;")
 .replace(/</g,"&lt;")
 .replace(/>/g,"&gt;")
@@ -499,7 +644,9 @@ return String(value)
 
 }
 
-renderFlights();
+loadFlights();
+
+setInterval(loadFlights,30000);
 
 </script>
 
