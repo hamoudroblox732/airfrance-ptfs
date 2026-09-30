@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AirFrance PTFS - Verification</title>
-
     <style>
         * {
             box-sizing: border-box;
@@ -12,112 +11,225 @@
             padding: 0;
             font-family: Arial, sans-serif;
         }
-
         body {
             min-height: 100vh;
-            background: #05070a;
-            color: white;
+            background:
+                radial-gradient(circle at top, #18202b 0%, #080b10 45%, #040507 100%);
+            color: #fff;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
         }
-
         .box {
             width: 100%;
-            max-width: 430px;
-            background: #10141a;
-            border: 1px solid #252c35;
-            border-radius: 20px;
-            padding: 35px 25px;
+            max-width: 460px;
+            background: rgba(15, 19, 25, 0.96);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 22px;
+            padding: 32px 26px;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.55);
+        }
+        .brand {
             text-align: center;
-            box-shadow: 0 20px 60px rgba(0,0,0,.5);
+            font-size: 27px;
+            font-weight: 800;
+            margin-bottom: 6px;
         }
-
-        h1 {
-            font-size: 25px;
-            margin-bottom: 10px;
-        }
-
-        .text {
-            color: #8d98a6;
-            font-size: 14px;
-            line-height: 1.7;
+        .subtitle {
+            text-align: center;
+            color: #8f9aa8;
+            font-size: 13px;
             margin-bottom: 28px;
         }
-
-        .roblox {
+        .section {
+            display: none;
+        }
+        .section.active {
+            display: block;
+        }
+        .title {
+            font-size: 21px;
+            font-weight: 700;
+            margin-bottom: 9px;
+        }
+        .description {
+            color: #8f9aa8;
+            font-size: 13px;
+            line-height: 1.7;
+            margin-bottom: 22px;
+        }
+        .id-row {
+            display: flex;
+            direction: ltr;
+            gap: 9px;
+            width: 100%;
+        }
+        .id-input {
+            flex: 1;
+            min-width: 0;
+            background: #0b0f14;
+            color: white;
+            border: 1px solid #303944;
+            border-radius: 11px;
+            padding: 14px;
+            outline: none;
+            font-size: 14px;
+            text-align: left;
+        }
+        .id-input:focus {
+            border-color: #2563eb;
+        }
+        .verify-button {
+            border: 0;
+            border-radius: 11px;
+            padding: 0 17px;
+            background: #2563eb;
+            color: white;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .verify-button:active {
+            transform: scale(.97);
+        }
+        .status {
+            display: none;
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 10px;
+            background: #151b23;
+            color: #aeb8c6;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        .roblox-button {
             width: 100%;
             border: 0;
             border-radius: 12px;
             padding: 15px;
             background: #2563eb;
             color: white;
-            font-size: 15px;
-            font-weight: bold;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        .back {
+            width: 100%;
+            margin-top: 11px;
+            padding: 13px;
+            border-radius: 11px;
+            border: 1px solid #303944;
+            background: #171c23;
+            color: #c8ced7;
             cursor: pointer;
         }
-
-        .roblox:active {
-            transform: scale(.98);
+        .employee-badge {
+            display: inline-block;
+            background: #172033;
+            color: #7fa8ff;
+            border-radius: 7px;
+            padding: 5px 9px;
+            font-size: 11px;
+            margin-bottom: 16px;
         }
-
-        .status {
-            display: none;
-            margin-top: 18px;
-            background: #171d25;
-            border-radius: 10px;
-            padding: 12px;
-            color: #aeb8c6;
-            font-size: 13px;
-        }
-
         .footer {
-            margin-top: 25px;
+            text-align: center;
+            margin-top: 28px;
             color: #586270;
             font-size: 11px;
         }
     </style>
 </head>
-
 <body>
-
-    <div class="box">
-
-        <h1>التحقق من Roblox</h1>
-
-        <div class="text">
-            سيتم تحويلك إلى Roblox لتسجيل الدخول
-            والموافقة على ربط حسابك بموقع AirFrance PTFS.
-            <br><br>
-            لن نطلب كلمة مرور Roblox منك.
+<div class="box">
+    <div class="brand">AirFrance PTFS</div>
+    <div class="subtitle">
+        Secure Account Verification
+    </div>
+    <section id="passengerSection" class="section">
+        <div class="title">
+            التحقق من حساب المسافر
         </div>
-
-        <button class="roblox" onclick="startVerification()">
+        <div class="description">
+            سيتم تحويلك إلى Roblox لإتمام تسجيل الدخول وربط حسابك بالموقع.
+            لا نطلب كلمة مرور Roblox.
+        </div>
+        <button class="roblox-button" onclick="continuePassenger()">
             متابعة إلى Roblox
         </button>
-
-        <div id="status" class="status"></div>
-
-        <div class="footer">
-            HAMOUD • AirFrance PTFS
+    </section>
+    <section id="employeeSection" class="section">
+        <span class="employee-badge">
+            EMPLOYEE VERIFICATION
+        </span>
+        <div class="title">
+            التحقق من الموظف
         </div>
-
+        <div class="description">
+            أدخل رقم الهوية الوظيفية الصادر من إدارة AirFrance PTFS.
+        </div>
+        <div class="id-row">
+            <input
+                id="employeeId"
+                class="id-input"
+                type="text"
+                placeholder="AF-PILOT-0001"
+                autocomplete="off">
+            <button
+                class="verify-button"
+                onclick="verifyEmployeeId()">
+                تحقق
+            </button>
+        </div>
+        <div id="status" class="status"></div>
+    </section>
+    <button class="back" onclick="goBack()">
+        رجوع
+    </button>
+    <div class="footer">
+        HAMOUD • AirFrance PTFS
     </div>
-
-    <script>
-        function startVerification() {
-            const status = document.getElementById("status");
-
-            status.style.display = "block";
-            status.textContent = "جاري تجهيز التحقق الآمن...";
-
-            setTimeout(function () {
-                status.textContent =
-                    "نظام Roblox OAuth لم يتم ربطه بالسيرفر بعد.";
-            }, 800);
+</div>
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const role = params.get("role");
+    const passengerSection =
+        document.getElementById("passengerSection");
+    const employeeSection =
+        document.getElementById("employeeSection");
+    const status =
+        document.getElementById("status");
+    if (role === "employee") {
+        employeeSection.classList.add("active");
+    } else {
+        passengerSection.classList.add("active");
+    }
+    function continuePassenger() {
+        showStatus(
+            "سيتم ربط هذا الزر بتسجيل Roblox OAuth بعد إعداد السيرفر."
+        );
+    }
+    function verifyEmployeeId() {
+        const id =
+            document.getElementById("employeeId").value.trim();
+        if (!id) {
+            showStatus("أدخل رقم الهوية أولًا.");
+            return;
         }
-    </script>
-
+        showStatus(
+            "رقم الهوية مستلم. التحقق الحقيقي من الهوية يحتاج قاعدة بيانات الموظفين."
+        );
+    }
+    function showStatus(message) {
+        status.textContent = message;
+        status.style.display = "block";
+    }
+    function goBack() {
+        window.location.href = "index.html";
+    }
+</script>
 </body>
-</html>
+</html
