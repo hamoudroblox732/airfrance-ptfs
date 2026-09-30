@@ -2,220 +2,93 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AirFrance PTFS - Employee Login</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Employee Access</title>
 <style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-    font-family:Arial,sans-serif;
-}
-body{
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:
-        radial-gradient(circle at top right,#172638 0%,transparent 35%),
-        radial-gradient(circle at bottom left,#101a27 0%,transparent 35%),
-        #05070a;
-    color:#fff;
-    padding:20px;
-}
-.container{
-    width:100%;
-    max-width:430px;
-}
-.brand{
-    text-align:center;
-    font-size:25px;
-    font-weight:800;
-    margin-bottom:8px;
-}
-.subtitle{
-    text-align:center;
-    color:#697686;
-    font-size:12px;
-    margin-bottom:22px;
-}
-.panel{
-    background:#0d131a;
-    border:1px solid #202a35;
-    border-radius:18px;
-    padding:22px;
-    box-shadow:0 20px 60px rgba(0,0,0,.35);
-}
-.title{
-    font-size:19px;
-    font-weight:800;
-    margin-bottom:6px;
-}
-.description{
-    color:#748191;
-    font-size:12px;
-    line-height:1.7;
-    margin-bottom:20px;
-}
-.field{
-    margin-bottom:14px;
-}
-label{
-    display:block;
-    color:#cbd3dc;
-    font-size:12px;
-    font-weight:700;
-    margin-bottom:7px;
-}
-input{
-    width:100%;
-    background:#080c11;
-    border:1px solid #303b48;
-    color:#fff;
-    border-radius:10px;
-    padding:13px;
-    outline:none;
-    font-size:13px;
-}
-input:focus{
-    border-color:#2563eb;
-}
-button{
-    width:100%;
-    border:1px solid #2563eb;
-    background:#2563eb;
-    color:#fff;
-    border-radius:10px;
-    padding:13px;
-    cursor:pointer;
-    font-size:13px;
-    font-weight:800;
-}
-button:disabled{
-    opacity:.45;
-    cursor:not-allowed;
-}
-.message{
-    display:none;
-    margin-top:13px;
-    padding:11px;
-    border-radius:9px;
-    font-size:11px;
-    line-height:1.6;
-}
-.message.error{
-    display:block;
-    background:#241518;
-    border:1px solid #48272d;
-    color:#df9ca4;
-}
-.message.success{
-    display:block;
-    background:#142019;
-    border:1px solid #263d2d;
-    color:#9dc9aa;
-}
-.footer{
-    text-align:center;
-    color:#4d5967;
-    font-size:10px;
-    margin-top:18px;
-}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{min-height:100vh;background:radial-gradient(circle at top right,#17304b,transparent 35%),#05080d;color:#fff;display:flex;align-items:center;justify-content:center;padding:20px}
+.box{width:100%;max-width:500px;background:#0b121b;border:1px solid #243344;border-radius:24px;padding:35px;box-shadow:0 25px 80px #0008}
+.logo{text-align:center;font-size:27px;font-weight:900;margin-bottom:7px}.sub{text-align:center;color:#69798c;font-size:12px;margin-bottom:30px}
+h1{font-size:22px;margin-bottom:7px}p{color:#728093;font-size:12px;line-height:1.7;margin-bottom:22px}
+label{display:block;font-size:12px;font-weight:bold;margin-bottom:7px}
+input{width:100%;background:#070b10;color:#fff;border:1px solid #2a3949;border-radius:11px;padding:14px;margin-bottom:15px;outline:none}
+input:focus{border-color:#2563eb}
+button{width:100%;padding:14px;border:0;border-radius:11px;background:#2563eb;color:#fff;font-weight:bold;cursor:pointer}
+.msg{margin-top:15px;padding:12px;border-radius:10px;font-size:11px;display:none}
+.err{display:block;background:#251518;color:#e1a0a8}.ok{display:block;background:#122019;color:#9bd0aa}
+.footer{text-align:center;color:#43505f;font-size:10px;margin-top:22px}
 </style>
 </head>
 <body>
-<div class="container">
-    <div class="brand">
-        AirFrance PTFS
-    </div>
-    <div class="subtitle">
-        Employee Access
-    </div>
-    <div class="panel">
-        <div class="title">
-            تسجيل دخول الموظفين
-        </div>
-        <div class="description">
-            أدخل بيانات الموظف للوصول إلى النظام.
-        </div>
-        <div class="field">
-            <label>Roblox Username</label>
-            <input
-                id="username"
-                type="text"
-                placeholder="Roblox Username"
-                autocomplete="off">
-        </div>
-        <div class="field">
-            <label>Employee ID</label>
-            <input
-                id="employeeId"
-                type="text"
-                placeholder="Employee ID"
-                autocomplete="off">
-        </div>
-        <button id="loginButton" onclick="login()">
-            تسجيل الدخول
-        </button>
-        <div id="message" class="message"></div>
-    </div>
-    <div class="footer">
-        HAMOUD • AirFrance PTFS
-    </div>
+
+<div class="box">
+<div class="logo">AirFrance PTFS</div>
+<div class="sub">EMPLOYEE ACCESS SYSTEM</div>
+
+<h1>تسجيل دخول الموظف</h1>
+<p>استخدم اسم Roblox والهوية الخاصة بك للوصول إلى لوحة الموظف.</p>
+
+<label>Roblox Username</label>
+<input id="username" placeholder="Roblox Username" autocomplete="off">
+
+<label>Employee ID</label>
+<input id="employeeId" placeholder="Employee ID" autocomplete="off">
+
+<button onclick="login()">دخول النظام</button>
+<div id="msg" class="msg"></div>
+<div class="footer">HAMOUD • AirFrance PTFS</div>
 </div>
+
 <script>
-const OWNER_USERNAME = "Ahmad_roblox2222";
-const OWNER_ID = "AF-OWNER-4827";
+const OWNER_USERNAME="Ahmad_roblox2222";
+const OWNER_ID="AF-OWNER-4827";
+
+function getEmployees(){
+    return JSON.parse(localStorage.getItem("af_employees")||"[]");
+}
+
 function login(){
-    const username =
-        document.getElementById("username")
-        .value
-        .trim();
-    const employeeId =
-        document.getElementById("employeeId")
-        .value
-        .trim();
-    const message =
-        document.getElementById("message");
-    if(!username || !employeeId){
-        message.className = "message error";
-        message.textContent =
-            "أدخل اسم Roblox و Employee ID.";
+    const username=document.getElementById("username").value.trim();
+    const id=document.getElementById("employeeId").value.trim().toUpperCase();
+    const msg=document.getElementById("msg");
+
+    if(!username||!id){
+        msg.className="msg err";
+        msg.textContent="أدخل اسم Roblox والهوية.";
         return;
     }
-    if(
-        username.toLowerCase() ===
-        OWNER_USERNAME.toLowerCase()
-        &&
-        employeeId.toUpperCase() ===
-        OWNER_ID
-    ){
-        message.className = "message success";
-        message.textContent =
-            "تم التحقق. جاري فتح لوحة Owner...";
-        sessionStorage.setItem(
-            "af_username",
-            username
-        );
-        sessionStorage.setItem(
-            "af_employee_id",
-            employeeId.toUpperCase()
-        );
-        sessionStorage.setItem(
-            "af_role",
-            "Owner"
-        );
-        document.getElementById("loginButton")
-            .disabled = true;
-        setTimeout(function(){
-            window.location.href =
-                "owner.html";
-        },700);
+
+    if(username.toLowerCase()===OWNER_USERNAME.toLowerCase()&&id===OWNER_ID){
+        sessionStorage.setItem("af_user",username);
+        sessionStorage.setItem("af_id",id);
+        sessionStorage.setItem("af_role","Owner");
+        msg.className="msg ok";
+        msg.textContent="تم التحقق من Owner.";
+        setTimeout(()=>location.href="owner.html",500);
         return;
     }
-    message.className = "message error";
-    message.textContent =
-        "بيانات الموظف غير صحيحة.";
+
+    const employees=getEmployees();
+
+    const employee=employees.find(x=>
+        x.username.toLowerCase()===username.toLowerCase()&&
+        x.employeeId.toUpperCase()===id
+    );
+
+    if(!employee){
+        msg.className="msg err";
+        msg.textContent="اسم المستخدم أو الهوية غير صحيحة.";
+        return;
+    }
+
+    sessionStorage.setItem("af_user",employee.username);
+    sessionStorage.setItem("af_id",employee.employeeId);
+    sessionStorage.setItem("af_role",employee.role);
+
+    msg.className="msg ok";
+    msg.textContent="تم التحقق بنجاح.";
+
+    setTimeout(()=>location.href="staff.html",500);
 }
 </script>
 </body>
