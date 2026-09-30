@@ -3,56 +3,387 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>My Flights — AirFrance PTFS</title>
+<title>Flights — AirFrance PTFS</title>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#07090d;color:#fff;font-family:Arial,sans-serif}
-header{padding:20px;background:#0d121a;border-bottom:1px solid #222b36}
-.container{max-width:950px;margin:auto;padding:22px}
-.back{background:#202832;width:auto;padding:12px 20px}
-.title{margin:25px 0 5px;font-size:30px}
-.sub{color:#8793a3}
-.card{margin-top:20px;background:#0e131b;border:1px solid #222d3a;border-radius:18px;padding:20px}
-.flight{padding:20px 0;border-bottom:1px solid #202832}
-.flight:last-child{border-bottom:0}
-.route{font-size:22px;font-weight:800}
-.meta{color:#9aa6b6;line-height:1.8;margin-top:8px}
-.empty{text-align:center;color:#8995a5;padding:35px}
-.delete{margin-top:12px;background:#a82d37}
+
+body{
+margin:0;
+background:#07090d;
+color:#fff;
+font-family:Arial,sans-serif;
+min-height:100vh
+}
+
+header{
+padding:18px;
+background:#0c1118;
+border-bottom:1px solid #202a35;
+display:flex;
+align-items:center
+}
+
+.back{
+border:1px solid #2b3644;
+background:#151c25;
+color:#fff;
+padding:12px 18px;
+border-radius:12px;
+font-weight:700;
+cursor:pointer
+}
+
+.container{
+max-width:1000px;
+margin:auto;
+padding:24px 18px 40px
+}
+
+.title{
+margin:0;
+font-size:32px
+}
+
+.sub{
+margin-top:7px;
+color:#8491a1
+}
+
+.card{
+margin-top:20px;
+background:linear-gradient(145deg,#10161f,#0b1017);
+border:1px solid #222d3a;
+border-radius:20px;
+padding:20px
+}
+
+.flight{
+padding:20px 0;
+border-bottom:1px solid #202a35
+}
+
+.flight:last-child{
+border-bottom:0
+}
+
+.top{
+display:flex;
+justify-content:space-between;
+gap:15px;
+align-items:flex-start
+}
+
+.route{
+font-size:22px;
+font-weight:800
+}
+
+.number{
+color:#8491a1;
+font-size:13px;
+margin-top:6px
+}
+
+.status{
+padding:8px 11px;
+border-radius:9px;
+background:#18202b;
+color:#b9c4d1;
+font-size:12px;
+font-weight:800;
+white-space:nowrap
+}
+
+.meta{
+margin-top:15px;
+color:#9aa6b6;
+line-height:1.8;
+font-size:14px
+}
+
+.actions{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-top:16px
+}
+
+button{
+border:0;
+cursor:pointer
+}
+
+.action{
+padding:12px 16px;
+border-radius:11px;
+background:#1677ff;
+color:#fff;
+font-weight:800
+}
+
+.action:hover{
+background:#0d68e8
+}
+
+.manage{
+background:#202a35
+}
+
+.manage:hover{
+background:#2b3745
+}
+
+.delete{
+background:#9f3039
+}
+
+.delete:hover{
+background:#bd3944
+}
+
+.empty{
+text-align:center;
+color:#8995a5;
+padding:35px
+}
+
+.modal{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.72);
+padding:18px;
+z-index:20;
+overflow:auto
+}
+
+.modal-box{
+max-width:600px;
+margin:7vh auto;
+background:#0e141c;
+border:1px solid #293442;
+border-radius:20px;
+padding:22px
+}
+
+.modal-box h2{
+margin-top:0
+}
+
+label{
+display:block;
+margin:15px 0 7px;
+color:#aeb8c5;
+font-size:13px;
+font-weight:700
+}
+
+select,
+input{
+width:100%;
+height:50px;
+padding:0 14px;
+background:#080c12;
+border:1px solid #293442;
+border-radius:11px;
+color:#fff;
+font-size:15px;
+outline:none
+}
+
+select:focus,
+input:focus{
+border-color:#1677ff
+}
+
+.manage-actions{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-top:20px
+}
+
+.save{
+background:#1677ff;
+color:#fff;
+padding:14px;
+border-radius:11px;
+font-weight:800
+}
+
+.close-btn{
+background:#202a35;
+color:#fff;
+padding:14px;
+border-radius:11px;
+font-weight:800
+}
+
+.message{
+text-align:center;
+color:#9aa6b6;
+margin-top:13px;
+min-height:20px
+}
+
+@media(max-width:650px){
+
+.top{
+flex-direction:column
+}
+
+.route{
+font-size:19px
+}
+
+.manage-actions{
+grid-template-columns:1fr
+}
+
+.container{
+padding:20px 14px 35px
+}
+
+.card{
+padding:17px
+}
+}
 </style>
 </head>
+
 <body>
 
 <header>
-<button class="back" onclick="location.href='staff.html'">Back to Dashboard</button>
+<button class="back" onclick="goBack()">Back</button>
 </header>
 
 <div class="container">
-<h1 class="title">My Flights</h1>
+
+<h1 class="title">Flights</h1>
 <div class="sub" id="account"></div>
 
 <div class="card" id="flights">
 <div class="empty">Loading flights...</div>
 </div>
+
+</div>
+
+<div class="modal" id="manageModal">
+
+<div class="modal-box">
+
+<h2>Manage Flight</h2>
+
+<div id="manageFlightInfo" class="sub"></div>
+
+<label>Status</label>
+
+<select id="manageStatus">
+<option value="Scheduled">Scheduled</option>
+<option value="Boarding">Boarding</option>
+<option value="Delayed">Delayed</option>
+<option value="Cancelled">Cancelled</option>
+<option value="Closed">Closed</option>
+<option value="Departed">Departed</option>
+<option value="In Flight">In Flight</option>
+<option value="Landed">Landed</option>
+</select>
+
+<label>Boarding Time</label>
+<input id="manageBoarding" type="datetime-local">
+
+<label>Departure Time</label>
+<input id="manageDeparture" type="datetime-local">
+
+<div class="manage-actions">
+
+<button class="save" onclick="saveFlight()">Save Changes</button>
+
+<button class="close-btn" onclick="closeModal()">Close</button>
+
+</div>
+
+<div class="message" id="manageMessage"></div>
+
+</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
 const SUPABASE_URL="https://pjsadqfyvibsjrccnaum.supabase.co";
+
 const SUPABASE_KEY="sb_publishable_HKBI1QKk53w8Vp8Eq23X-A_gmrUk1px";
-const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
+const db=window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
 
 const username=sessionStorage.getItem("af_user");
 const employeeId=sessionStorage.getItem("af_id");
 const role=sessionStorage.getItem("af_role");
 
 if(!username||!employeeId||!role){
+
 location.replace("employee.html");
+
 }else{
-document.getElementById("account").textContent=username+" • "+employeeId;
+
+document.getElementById("account").textContent=
+username+" • "+employeeId+" • "+role;
+
+}
+
+let selectedFlight=null;
+
+function goBack(){
+
+if(role==="Owner"){
+
+location.replace("owner.html");
+
+}else{
+
+location.replace("staff.html");
+
+}
+
+}
+
+function formatDate(value){
+
+if(!value)return"Not set";
+
+const date=new Date(value);
+
+return date.toLocaleString([],{
+year:"numeric",
+month:"short",
+day:"numeric",
+hour:"2-digit",
+minute:"2-digit"
+});
+
+}
+
+function toLocalInput(value){
+
+if(!value)return"";
+
+const date=new Date(value);
+
+const offset=date.getTimezoneOffset()*60000;
+
+return new Date(date.getTime()-offset)
+.toISOString()
+.slice(0,16);
+
 }
 
 async function loadFlights(){
+
 const box=document.getElementById("flights");
 
 let request=db
@@ -61,45 +392,241 @@ let request=db
 .order("created_at",{ascending:false});
 
 if(role==="Pilot"){
+
 request=request.eq("pilot",username);
+
 }
 
 const {data,error}=await request;
 
 if(error){
-box.innerHTML='<div class="empty">Could not load flights.</div>';
+
+box.innerHTML=
+'<div class="empty">Could not load flights.</div>';
+
 return;
+
 }
 
 if(!data||data.length===0){
-box.innerHTML='<div class="empty">No flights found for this account.</div>';
+
+box.innerHTML=
+'<div class="empty">No flights found for this account.</div>';
+
 return;
+
 }
 
 box.innerHTML="";
 
-data.forEach(f=>{
+data.forEach(flight=>{
+
 const item=document.createElement("div");
+
 item.className="flight";
 
-let html=
-'<div class="route">'+escapeHtml(f.flight_number)+' — '+
-escapeHtml(f.departure)+' → '+escapeHtml(f.destination)+'</div>'+
-'<div class="meta">'+
-'Aircraft: '+escapeHtml(f.aircraft)+'<br>'+
-'Pilot: '+escapeHtml(f.pilot||"Not assigned")+'<br>'+
-'Status: '+escapeHtml(f.status)+'</div>';
+const status=flight.closed
+?"Closed"
+:(flight.status||"Scheduled");
 
-if(role==="Owner"){
-html+='<button class="delete" onclick="deleteFlight('+f.id+')">Delete Flight</button>';
+let html=
+
+'<div class="top">'+
+
+'<div>'+
+
+'<div class="route">'+
+escapeHtml(flight.departure)+
+' → '+
+escapeHtml(flight.destination)+
+'</div>'+
+
+'<div class="number">'+
+escapeHtml(flight.flight_number)+
+'</div>'+
+
+'</div>'+
+
+'<div class="status">'+
+escapeHtml(status)+
+'</div>'+
+
+'</div>'+
+
+'<div class="meta">'+
+
+'Aircraft: '+
+escapeHtml(flight.aircraft)+
+'<br>'+
+
+'Pilot: '+
+escapeHtml(flight.pilot||"Not assigned")+
+'<br>'+
+
+'Boarding: '+
+escapeHtml(formatDate(flight.boarding_time))+
+'<br>'+
+
+'Departure: '+
+escapeHtml(formatDate(flight.departure_time))+
+
+'</div>';
+
+html+='<div class="actions">';
+
+if(role==="Owner"||role==="Pilot"){
+
+html+=
+'<button class="action manage" onclick="openManage('+flight.id+')">'+
+'Manage Flight'+
+'</button>';
+
 }
 
+if(role==="Owner"){
+
+html+=
+'<button class="action delete" onclick="deleteFlight('+flight.id+')">'+
+'Delete Flight'+
+'</button>';
+
+}
+
+html+='</div>';
+
 item.innerHTML=html;
+
 box.appendChild(item);
+
 });
+
+}
+
+async function openManage(id){
+
+const {data,error}=await db
+.from("flights")
+.select("*")
+.eq("id",id)
+.single();
+
+if(error||!data){
+
+alert("Could not open this flight.");
+
+return;
+
+}
+
+selectedFlight=data;
+
+document.getElementById("manageFlightInfo").textContent=
+data.flight_number+
+" • "+
+data.departure+
+" → "+
+data.destination;
+
+document.getElementById("manageStatus").value=
+data.closed
+?"Closed"
+:(data.status||"Scheduled");
+
+document.getElementById("manageBoarding").value=
+toLocalInput(data.boarding_time);
+
+document.getElementById("manageDeparture").value=
+toLocalInput(data.departure_time);
+
+document.getElementById("manageMessage").textContent="";
+
+document.getElementById("manageModal").style.display="block";
+
+}
+
+function closeModal(){
+
+document.getElementById("manageModal").style.display="none";
+
+selectedFlight=null;
+
+}
+
+async function saveFlight(){
+
+if(!selectedFlight)return;
+
+const message=document.getElementById("manageMessage");
+
+const status=document.getElementById("manageStatus").value;
+
+const boarding=document.getElementById("manageBoarding").value;
+
+const departure=document.getElementById("manageDeparture").value;
+
+if(!boarding||!departure){
+
+message.textContent="Please set both times.";
+
+return;
+
+}
+
+const boardingDate=new Date(boarding);
+
+const departureDate=new Date(departure);
+
+if(departureDate<=boardingDate){
+
+message.textContent=
+"Departure time must be after boarding time.";
+
+return;
+
+}
+
+message.textContent="Saving...";
+
+let closed=status==="Closed";
+
+let realStatus=status;
+
+if(closed){
+
+realStatus="Closed";
+
+}
+
+const {error}=await db
+.from("flights")
+.update({
+
+status:realStatus,
+boarding_time:boardingDate.toISOString(),
+departure_time:departureDate.toISOString(),
+closed:closed
+
+})
+.eq("id",selectedFlight.id);
+
+if(error){
+
+message.textContent="Could not update the flight.";
+
+return;
+
+}
+
+closeModal();
+
+loadFlights();
+
 }
 
 async function deleteFlight(id){
+
+if(role!=="Owner")return;
+
 if(!confirm("Delete this flight?"))return;
 
 const {error}=await db
@@ -108,21 +635,39 @@ const {error}=await db
 .eq("id",id);
 
 if(error){
+
 alert("Failed to delete flight.");
+
 return;
+
 }
 
 loadFlights();
+
 }
 
 function escapeHtml(value){
+
 return String(value??"")
 .replace(/&/g,"&amp;")
 .replace(/</g,"&lt;")
 .replace(/>/g,"&gt;")
 .replace(/"/g,"&quot;")
 .replace(/'/g,"&#039;");
+
 }
+
+window.addEventListener("click",function(event){
+
+const modal=document.getElementById("manageModal");
+
+if(event.target===modal){
+
+closeModal();
+
+}
+
+});
 
 loadFlights();
 </script>
