@@ -3,58 +3,36 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Create Flight - AirFrance PTFS</title>
+<title>My Flights — AirFrance PTFS</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#080b10;color:#fff;font-family:Arial,sans-serif}
-header{padding:20px;border-bottom:1px solid #202631;background:#0c1017}
-button{padding:12px 18px;border:0;border-radius:9px;background:#1677ff;color:#fff;font-weight:bold}
-.container{max-width:700px;margin:auto;padding:22px}
-.card{background:#10151d;border:1px solid #202936;border-radius:16px;padding:22px;margin-top:18px}
-label{display:block;margin-top:16px;margin-bottom:7px;color:#aeb7c4}
-input,select{width:100%;padding:14px;border-radius:9px;border:1px solid #2b3440;background:#080b10;color:#fff;font-size:15px}
-.submit{width:100%;margin-top:22px}
-#message{margin-top:15px;text-align:center}
+body{margin:0;background:#07090d;color:#fff;font-family:Arial,sans-serif}
+header{padding:20px;background:#0d121a;border-bottom:1px solid #222b36}
+.container{max-width:950px;margin:auto;padding:22px}
+.back{background:#202832;width:auto;padding:12px 20px}
+.title{margin:25px 0 5px;font-size:30px}
+.sub{color:#8793a3}
+.card{margin-top:20px;background:#0e131b;border:1px solid #222d3a;border-radius:18px;padding:20px}
+.flight{padding:20px 0;border-bottom:1px solid #202832}
+.flight:last-child{border-bottom:0}
+.route{font-size:22px;font-weight:800}
+.meta{color:#9aa6b6;line-height:1.8;margin-top:8px}
+.empty{text-align:center;color:#8995a5;padding:35px}
+.delete{margin-top:12px;background:#a82d37}
 </style>
 </head>
 <body>
 
 <header>
-<button onclick="goBack()">Back</button>
+<button class="back" onclick="location.href='staff.html'">Back to Dashboard</button>
 </header>
 
 <div class="container">
-<h1>Create Flight</h1>
+<h1 class="title">My Flights</h1>
+<div class="sub" id="account"></div>
 
-<div class="card">
-
-<label>Flight Number</label>
-<input id="flightNumber" placeholder="AF101">
-
-<label>Aircraft</label>
-<input id="aircraft" placeholder="A350-900">
-
-<label>Departure</label>
-<input id="departure" placeholder="JED">
-
-<label>Destination</label>
-<input id="destination" placeholder="CDG">
-
-<label>Pilot</label>
-<input id="pilot">
-
-<label>Status</label>
-<select id="status">
-<option>Scheduled</option>
-<option>Boarding</option>
-<option>Departed</option>
-<option>In Flight</option>
-<option>Landed</option>
-</select>
-
-<button class="submit" onclick="createFlight()">Create Flight</button>
-
-<div id="message"></div>
+<div class="card" id="flights">
+<div class="empty">Loading flights...</div>
 </div>
 </div>
 
@@ -69,68 +47,84 @@ const employeeId=sessionStorage.getItem("af_id");
 const role=sessionStorage.getItem("af_role");
 
 if(!username||!employeeId||!role){
-location.href="employee.html";
+location.replace("employee.html");
+}else{
+document.getElementById("account").textContent=username+" • "+employeeId;
 }
 
-const pilotInput=document.getElementById("pilot");
+async function loadFlights(){
+const box=document.getElementById("flights");
+
+let request=db
+.from("flights")
+.select("*")
+.order("created_at",{ascending:false});
 
 if(role==="Pilot"){
-pilotInput.value=username;
-pilotInput.readOnly=true;
+request=request.eq("pilot",username);
 }
 
-function goBack(){
+const {data,error}=await request;
+
+if(error){
+box.innerHTML='<div class="empty">Could not load flights.</div>';
+return;
+}
+
+if(!data||data.length===0){
+box.innerHTML='<div class="empty">No flights found for this account.</div>';
+return;
+}
+
+box.innerHTML="";
+
+data.forEach(f=>{
+const item=document.createElement("div");
+item.className="flight";
+
+let html=
+'<div class="route">'+escapeHtml(f.flight_number)+' — '+
+escapeHtml(f.departure)+' → '+escapeHtml(f.destination)+'</div>'+
+'<div class="meta">'+
+'Aircraft: '+escapeHtml(f.aircraft)+'<br>'+
+'Pilot: '+escapeHtml(f.pilot||"Not assigned")+'<br>'+
+'Status: '+escapeHtml(f.status)+'</div>';
+
 if(role==="Owner"){
-location.href="owner.html";
-}else{
-location.href="staff.html";
-}
+html+='<button class="delete" onclick="deleteFlight('+f.id+')">Delete Flight</button>';
 }
 
-async function createFlight(){
-
-const flightNumber=document.getElementById("flightNumber").value.trim();
-const aircraft=document.getElementById("aircraft").value.trim();
-const departure=document.getElementById("departure").value.trim();
-const destination=document.getElementById("destination").value.trim();
-const pilot=document.getElementById("pilot").value.trim();
-const status=document.getElementById("status").value;
-const message=document.getElementById("message");
-
-if(!flightNumber||!aircraft||!departure||!destination){
-message.textContent="Fill in all fields.";
-return;
+item.innerHTML=html;
+box.appendChild(item);
+});
 }
 
-const {data:existing}=await db
-.from("flights")
-.select("id")
-.eq("flight_number",flightNumber)
-.maybeSingle();
-
-if(existing){
-message.textContent="Flight number already exists.";
-return;
-}
+async function deleteFlight(id){
+if(!confirm("Delete this flight?"))return;
 
 const {error}=await db
 .from("flights")
-.insert([{
-flight_number:flightNumber,
-aircraft:aircraft,
-departure:departure,
-destination:destination,
-pilot:pilot||null,
-status:status
-}]);
+.delete()
+.eq("id",id);
 
 if(error){
-message.textContent="Failed to create flight.";
+alert("Failed to delete flight.");
 return;
 }
 
-location.href="flights.html";
+loadFlights();
 }
+
+function escapeHtml(value){
+return String(value??"")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+}
+
+loadFlights();
 </script>
 
 </body>
