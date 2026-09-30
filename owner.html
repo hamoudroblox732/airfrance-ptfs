@@ -11,23 +11,19 @@
 body{
 min-height:100vh;
 background:
-radial-gradient(circle at 10% 0%,#18334f,transparent 30%),
-radial-gradient(circle at 100% 100%,#101d2d,transparent 35%),
+radial-gradient(circle at 10% 0%,#183650,transparent 30%),
 #05080d;
 color:#fff
 }
 
 header{
-height:74px;
+height:70px;
 display:flex;
 align-items:center;
 justify-content:space-between;
-padding:0 25px;
-background:#080d14ee;
-border-bottom:1px solid #202e3d;
-position:sticky;
-top:0;
-z-index:10
+padding:0 22px;
+background:#080d14;
+border-bottom:1px solid #202e3d
 }
 
 .logo{font-size:21px;font-weight:900}
@@ -40,128 +36,32 @@ padding:8px 12px;
 border-radius:20px
 }
 
-.layout{
-max-width:1400px;
+main{
+max-width:1100px;
 margin:auto;
-display:grid;
-grid-template-columns:235px 1fr;
-gap:20px;
-padding:20px
+padding:22px
 }
 
-nav{
-background:#0a1119;
+.hero,.panel{
+background:#0b1219;
 border:1px solid #202e3d;
 border-radius:18px;
-padding:12px;
-height:max-content;
-position:sticky;
-top:94px
+padding:22px;
+margin-bottom:15px
 }
 
-nav button{
-width:100%;
-padding:13px;
-margin-bottom:6px;
-border-radius:10px;
-border:1px solid transparent;
-background:transparent;
-color:#778696;
-text-align:right;
-cursor:pointer;
-font-weight:bold
-}
+.hero h1{font-size:27px;margin:8px 0}
 
-nav button:hover,
-nav button.active{
-background:#151f2b;
-border-color:#293c51;
-color:#fff
-}
-
-.logout{
-margin-top:15px;
-padding-top:15px;
-border-top:1px solid #202e3d
-}
-
-.logout button{
-background:#251619;
-color:#df9da5;
-border-color:#49292f
-}
-
-.page{display:none}
-.page.active{display:block}
-
-.hero{
-background:linear-gradient(135deg,#111c28,#080d13);
-border:1px solid #223244;
-border-radius:22px;
-padding:30px;
-margin-bottom:18px
-}
-
-.hero small{
-color:#6885a5;
-font-size:10px;
-letter-spacing:2px
-}
-
-.hero h1{
-font-size:30px;
-margin:10px 0
-}
-
-.hero p{
+.hero p,.muted{
+font-size:11px;
 color:#788697;
-font-size:12px;
-line-height:1.7
+line-height:1.8
 }
 
 .grid{
 display:grid;
-grid-template-columns:repeat(3,1fr);
+grid-template-columns:repeat(2,1fr);
 gap:14px
-}
-
-.card,.panel{
-background:#0b1219;
-border:1px solid #202e3d;
-border-radius:17px;
-padding:19px
-}
-
-.card h2{
-font-size:15px;
-margin-bottom:8px
-}
-
-.card p{
-font-size:11px;
-color:#778595;
-line-height:1.7
-}
-
-.stat{
-font-size:28px;
-font-weight:900;
-margin-bottom:4px
-}
-
-.label{
-font-size:10px;
-color:#647487
-}
-
-.form{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:13px
-}
-
-.field{
-margin-bottom:10px
 }
 
 label{
@@ -173,19 +73,16 @@ margin-bottom:7px
 
 input,select{
 width:100%;
+padding:12px;
+margin-bottom:12px;
 background:#070b10;
-border:1px solid #2b3a4b;
-border-radius:10px;
-padding:13px;
+border:1px solid #2b3b4d;
+border-radius:9px;
 color:#fff;
 outline:none
 }
 
-input:focus,select:focus{
-border-color:#2563eb
-}
-
-button.action{
+button{
 border:0;
 border-radius:9px;
 padding:11px 15px;
@@ -195,98 +92,66 @@ font-weight:bold;
 cursor:pointer
 }
 
-button.danger{
-background:#3a181d;
-color:#e0a0a8
+button:hover{background:#3474f0}
+
+.employee{
+background:#0e161f;
+border:1px solid #26384b;
+border-radius:13px;
+padding:15px;
+margin-top:10px
+}
+
+.employee h3{
+font-size:14px;
+margin-bottom:8px
+}
+
+.employee p{
+font-size:11px;
+color:#8b99a8;
+line-height:1.8
 }
 
 .actions{
 display:flex;
 gap:8px;
-flex-wrap:wrap;
-margin-top:10px
+margin-top:12px;
+flex-wrap:wrap
 }
 
-.table{
-overflow:auto;
-margin-top:18px
-}
-
-table{
-width:100%;
-min-width:700px;
-border-collapse:collapse
-}
-
-th,td{
-padding:12px;
-border-bottom:1px solid #202e3d;
-text-align:right;
-font-size:11px
-}
-
-th{color:#69798b}
-td{color:#d7dee6}
-
-.tag{
-background:#172438;
-color:#a3bee0;
-padding:5px 8px;
-border-radius:7px;
-font-size:9px
+.delete{
+background:#3a181d;
+color:#e2a5aa
 }
 
 .empty{
 text-align:center;
-padding:35px;
-color:#667587
-}
-
-.log{
-padding:12px 0;
-border-bottom:1px solid #202e3d;
+padding:25px;
 font-size:11px;
-color:#a4afbb
+color:#657486
 }
 
-.log small{
-color:#586777
+.success{
+display:none;
+margin-top:12px;
+padding:10px;
+border-radius:9px;
+background:#10281d;
+color:#9bd4ae;
+font-size:11px
 }
 
 footer{
 text-align:center;
-padding:30px;
+padding:25px;
 color:#40505f;
 font-size:10px
 }
 
-@media(max-width:850px){
-
-.layout{
-grid-template-columns:1fr;
-padding:12px
-}
-
-nav{
-position:static;
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:5px
-}
-
-nav button{margin:0}
-
-.logout{
-grid-column:1/-1
-}
-
-.grid{
-grid-template-columns:1fr
-}
-
-.form{
-grid-template-columns:1fr
-}
+@media(max-width:700px){
+.grid{grid-template-columns:1fr}
+main{padding:13px}
 }
 </style>
 </head>
@@ -294,101 +159,62 @@ grid-template-columns:1fr
 <body>
 
 <header>
-<div class="logo">AirFrance PTFS</div>
-<div class="badge">OWNER CONTROL</div>
-</header>
 
-<div class="layout">
-
-<nav>
-
-<button class="active" onclick="showPage('dashboard',this)">
-الرئيسية
-</button>
-
-<button onclick="showPage('employees',this)">
-الموظفون
-</button>
-
-<button onclick="showPage('flights',this)">
-الرحلات
-</button>
-
-<button onclick="showPage('permissions',this)">
-الصلاحيات
-</button>
-
-<button onclick="showPage('settings',this)">
-الإعدادات
-</button>
-
-<button onclick="showPage('logs',this)">
-السجل
-</button>
-
-<div class="logout">
-<button onclick="logout()">تسجيل الخروج</button>
+<div class="logo">
+AirFrance PTFS
 </div>
 
-</nav>
+<div class="badge">
+OWNER PANEL
+</div>
+
+</header>
 
 <main>
 
-<section id="dashboard" class="page active">
+<section class="hero">
 
-<div class="hero">
-<small>OWNER DASHBOARD</small>
-<h1>لوحة تحكم المالك</h1>
-<p>إدارة الموظفين والرحلات والصلاحيات وإعدادات النظام.</p>
-</div>
+<h1>
+Owner Dashboard
+</h1>
 
-<div class="grid">
-
-<div class="card">
-<div class="stat" id="employeeCount">0</div>
-<div class="label">الموظفون</div>
-</div>
-
-<div class="card">
-<div class="stat" id="flightCount">0</div>
-<div class="label">طلبات الرحلات</div>
-</div>
-
-<div class="card">
-<div class="stat">ONLINE</div>
-<div class="label">النظام</div>
-</div>
-
-</div>
+<p>
+مرحبًا Ahmad_roblox2222 — من هنا يمكنك إنشاء وإدارة هويات الموظفين.
+</p>
 
 </section>
 
-<section id="employees" class="page">
+<div class="grid">
 
-<div class="hero">
-<small>STAFF MANAGEMENT</small>
-<h1>إدارة الموظفين</h1>
-<p>إنشاء هوية مرتبطة بشكل مباشر بيوزر Roblox ودور الموظف.</p>
-</div>
+<section class="panel">
 
-<div class="panel">
+<h2 style="font-size:16px;margin-bottom:16px">
+Create Employee
+</h2>
 
-<div class="form">
+<label>
+Roblox Username
+</label>
 
-<div class="field">
-<label>Roblox Username</label>
-<input id="newUsername" placeholder="Roblox Username" autocomplete="off">
-</div>
+<input
+id="username"
+placeholder="Roblox Username"
+autocomplete="off">
 
-<div class="field">
-<label>Employee ID</label>
-<input id="newEmployeeId" placeholder="Employee ID" autocomplete="off">
-</div>
+<label>
+Employee ID
+</label>
 
-<div class="field">
-<label>Role</label>
+<input
+id="employeeId"
+placeholder="Employee ID"
+autocomplete="off">
 
-<select id="newRole">
+<label>
+Role
+</label>
+
+<select id="role">
 
 <option value="Pilot">Pilot</option>
 <option value="Co-Pilot">Co-Pilot</option>
@@ -398,303 +224,192 @@ grid-template-columns:1fr
 
 </select>
 
-</div>
-
-</div>
-
-<div class="actions">
-
-<button class="action" onclick="createEmployee()">
-إنشاء الهوية
+<button onclick="createEmployee()">
+Create Identity
 </button>
 
-</div>
-
-</div>
-
-<div class="panel">
-
-<div class="table">
-
-<table>
-
-<thead>
-
-<tr>
-<th>Roblox Username</th>
-<th>Employee ID</th>
-<th>Role</th>
-<th>الإجراء</th>
-</tr>
-
-</thead>
-
-<tbody id="employeesTable"></tbody>
-
-</table>
-
-</div>
-
+<div
+class="success"
+id="success">
+تم حفظ الهوية بنجاح.
 </div>
 
 </section>
 
-<section id="flights" class="page">
+<section class="panel">
 
-<div class="hero">
-<small>FLIGHT MANAGEMENT</small>
-<h1>إدارة الرحلات</h1>
-<p>طلبات الرحلات المرسلة من الموظفين.</p>
-</div>
+<h2 style="font-size:16px;margin-bottom:8px">
+System
+</h2>
 
-<div class="panel" id="flightList"></div>
+<p class="muted">
+Employee identities saved:
+</p>
 
-</section>
+<h1 id="count" style="font-size:30px;margin-top:5px">
+0
+</h1>
 
-<section id="permissions" class="page">
-
-<div class="hero">
-<small>PERMISSIONS</small>
-<h1>الصلاحيات</h1>
-<p>الأدوار الموجودة داخل النظام.</p>
-</div>
-
-<div class="grid">
-
-<div class="card">
-<h2>Management</h2>
-<p>إدارة الرحلات والموظفين حسب الصلاحيات.</p>
-</div>
-
-<div class="card">
-<h2>Pilot</h2>
-<p>إنشاء طلبات الرحلات وإدارة الرحلات المسندة.</p>
-</div>
-
-<div class="card">
-<h2>Co-Pilot</h2>
-<p>متابعة الرحلات المسندة إليه.</p>
-</div>
-
-<div class="card">
-<h2>Cabin Crew</h2>
-<p>إدارة ومتابعة طاقم المقصورة.</p>
-</div>
-
-<div class="card">
-<h2>Ground Crew</h2>
-<p>متابعة العمليات الأرضية.</p>
-</div>
-
-<div class="card">
-<h2>Owner</h2>
-<p>صلاحيات النظام الكاملة.</p>
-</div>
-
-</div>
+<p class="muted" style="margin-top:10px">
+Owner Username: Ahmad_roblox2222
+<br>
+Owner ID: AF-OWNER-4827
+</p>
 
 </section>
 
-<section id="settings" class="page">
-
-<div class="hero">
-<small>SYSTEM SETTINGS</small>
-<h1>إعدادات النظام</h1>
-<p>تعديل الإعدادات العامة.</p>
 </div>
 
-<div class="panel">
+<section class="panel">
 
-<div class="field">
-<label>System Name</label>
-<input id="systemName" value="AirFrance PTFS">
-</div>
+<h2 style="font-size:16px;margin-bottom:15px">
+Employee Identities
+</h2>
 
-<div class="field">
-<label>System Status</label>
+<div id="employees"></div>
 
-<select id="systemStatus">
-<option>ONLINE</option>
-<option>MAINTENANCE</option>
-</select>
+</section>
 
-</div>
+<section class="panel">
 
-<button class="action" onclick="saveSettings()">
-حفظ الإعدادات
+<button
+class="delete"
+onclick="logout()">
+Logout
 </button>
 
-</div>
-
 </section>
 
-<section id="logs" class="page">
-
-<div class="hero">
-<small>SYSTEM LOGS</small>
-<h1>سجل العمليات</h1>
-<p>كل العمليات التي تمت داخل لوحة Owner.</p>
-</div>
-
-<div class="panel" id="logsList"></div>
-
-</section>
+</main>
 
 <footer>
 HAMOUD • AirFrance PTFS
 </footer>
-
-</main>
-
-</div>
 
 <script>
 
 const OWNER_USERNAME="Ahmad_roblox2222";
 const OWNER_ID="AF-OWNER-4827";
 
+const STORAGE_KEY="af_employees";
+
 function getEmployees(){
 
-return JSON.parse(
-localStorage.getItem("af_employees") || "[]"
-);
+try{
+
+const raw=
+localStorage.getItem(STORAGE_KEY);
+
+if(!raw){
+return [];
+}
+
+const data=
+JSON.parse(raw);
+
+return Array.isArray(data) ? data : [];
+
+}catch(error){
+
+return [];
+
+}
 
 }
 
 function saveEmployees(data){
 
 localStorage.setItem(
-"af_employees",
+STORAGE_KEY,
 JSON.stringify(data)
 );
 
 }
 
-function getFlights(){
+function normalizeUsername(value){
 
-return JSON.parse(
-localStorage.getItem("af_flights") || "[]"
-);
-
-}
-
-function getLogs(){
-
-return JSON.parse(
-localStorage.getItem("af_logs") || "[]"
-);
+return String(value || "")
+.trim()
+.toLowerCase();
 
 }
 
-function addLog(text){
+function normalizeId(value){
 
-const logs=getLogs();
-
-logs.push({
-text:text,
-time:new Date().toLocaleString("ar-SA")
-});
-
-localStorage.setItem(
-"af_logs",
-JSON.stringify(logs)
-);
-
-renderLogs();
-
-}
-
-function showPage(id,button){
-
-document.querySelectorAll(".page")
-.forEach(function(page){
-
-page.classList.remove("active");
-
-});
-
-document.getElementById(id)
-.classList.add("active");
-
-document.querySelectorAll("nav button")
-.forEach(function(btn){
-
-btn.classList.remove("active");
-
-});
-
-if(button){
-
-button.classList.add("active");
-
-}
-
-render();
+return String(value || "")
+.trim()
+.toUpperCase();
 
 }
 
 function createEmployee(){
 
-const username=document
-.getElementById("newUsername")
+const username=
+document
+.getElementById("username")
 .value
 .trim();
 
-const employeeId=document
-.getElementById("newEmployeeId")
+const employeeId=
+document
+.getElementById("employeeId")
 .value
-.trim()
-.toUpperCase();
+.trim();
 
-const role=document
-.getElementById("newRole")
+const role=
+document
+.getElementById("role")
 .value;
 
 if(!username || !employeeId){
 
-alert("أكمل بيانات الموظف.");
+alert("اكتب Roblox Username و Employee ID.");
 
 return;
 
 }
 
 if(
-username.toLowerCase() ===
-OWNER_USERNAME.toLowerCase()
+normalizeUsername(username)===
+normalizeUsername(OWNER_USERNAME)
 ){
 
-alert("هذا الحساب محجوز للـOwner.");
+alert("هذا اسم المالك.");
 
 return;
 
 }
 
-const employees=getEmployees();
+let employees=
+getEmployees();
 
-const duplicateId=employees.some(function(employee){
+const duplicateUsername=
+employees.some(function(employee){
 
-return employee.employeeId.toUpperCase() === employeeId;
-
-});
-
-if(duplicateId){
-
-alert("Employee ID مستخدم بالفعل.");
-
-return;
-
-}
-
-const duplicateUsername=employees.some(function(employee){
-
-return employee.username.toLowerCase() ===
-username.toLowerCase();
+return normalizeUsername(employee.username)===
+normalizeUsername(username);
 
 });
 
 if(duplicateUsername){
 
-alert("هذا الحساب لديه هوية بالفعل.");
+alert("هذا Roblox Username موجود بالفعل.");
+
+return;
+
+}
+
+const duplicateId=
+employees.some(function(employee){
+
+return normalizeId(employee.employeeId)===
+normalizeId(employeeId);
+
+});
+
+if(duplicateId){
+
+alert("هذا Employee ID موجود بالفعل.");
 
 return;
 
@@ -703,125 +418,93 @@ return;
 employees.push({
 
 username:username,
+
 employeeId:employeeId,
-role:role
+
+role:role,
+
+createdAt:new Date().toISOString()
 
 });
 
 saveEmployees(employees);
 
-addLog(
-"تم إنشاء هوية "+employeeId+
-" للحساب "+username+
-" — "+role
-);
+document.getElementById("username").value="";
+document.getElementById("employeeId").value="";
 
-document.getElementById("newUsername").value="";
-document.getElementById("newEmployeeId").value="";
+document.getElementById("success")
+.style.display="block";
 
-render();
+setTimeout(function(){
 
-alert("تم إنشاء الهوية وحفظها بنجاح.");
+document.getElementById("success")
+.style.display="none";
+
+},2500);
+
+renderEmployees();
 
 }
 
 function deleteEmployee(index){
 
-const employees=getEmployees();
+const employees=
+getEmployees();
 
-if(!confirm("هل تريد حذف هذه الهوية؟")){
+if(!employees[index]){
+return;
+}
+
+if(!confirm(
+"هل تريد حذف هذه الهوية؟"
+)){
 
 return;
 
 }
-
-const employee=employees[index];
 
 employees.splice(index,1);
 
 saveEmployees(employees);
 
-addLog(
-"تم حذف هوية "+employee.employeeId
+renderEmployees();
+
+}
+
+async function copyId(id){
+
+try{
+
+await navigator.clipboard.writeText(id);
+
+alert("تم نسخ Employee ID.");
+
+}catch(error){
+
+alert(
+"انسخ الـID يدويًا:\n"+id
 );
 
-render();
+}
 
 }
 
 function renderEmployees(){
 
-const table=document
-.getElementById("employeesTable");
+const box=
+document.getElementById("employees");
 
-const employees=getEmployees();
+const employees=
+getEmployees();
 
-if(employees.length===0){
+document.getElementById("count")
+.textContent=employees.length;
 
-table.innerHTML=`
-<tr>
-<td colspan="4">
-<div class="empty">
-لا توجد هويات موظفين حاليًا.
-</div>
-</td>
-</tr>
-`;
-
-return;
-
-}
-
-table.innerHTML=employees.map(function(employee,index){
-
-return `
-<tr>
-
-<td>
-${escapeHtml(employee.username)}
-</td>
-
-<td>
-${escapeHtml(employee.employeeId)}
-</td>
-
-<td>
-<span class="tag">
-${escapeHtml(employee.role)}
-</span>
-</td>
-
-<td>
-
-<button
-class="action danger"
-onclick="deleteEmployee(${index})">
-
-حذف
-
-</button>
-
-</td>
-
-</tr>
-`;
-
-}).join("");
-
-}
-
-function renderFlights(){
-
-const box=document
-.getElementById("flightList");
-
-const flights=getFlights();
-
-if(flights.length===0){
+if(!employees.length){
 
 box.innerHTML=`
 <div class="empty">
-لا توجد طلبات رحلات حاليًا.
+لا توجد هويات موظفين حتى الآن.
 </div>
 `;
 
@@ -829,39 +512,40 @@ return;
 
 }
 
-box.innerHTML=flights.map(function(flight,index){
+box.innerHTML=
+employees.map(function(employee,index){
 
 return `
-<div class="card" style="margin-bottom:12px">
+<div class="employee">
 
-<h2>
-${escapeHtml(flight.title || "Flight Request")}
-</h2>
+<h3>
+${escapeHtml(employee.username)}
+</h3>
 
 <p>
-Pilot:
-${escapeHtml(flight.pilot || "Unknown")}
+Employee ID:
+<strong>
+${escapeHtml(employee.employeeId)}
+</strong>
+
 <br>
-Status:
-${escapeHtml(flight.status || "PENDING")}
+
+Role:
+${escapeHtml(employee.role)}
+
 </p>
 
 <div class="actions">
 
 <button
-class="action"
-onclick="approveFlight(${index})">
-
-قبول
-
+onclick="copyId('${escapeHtml(employee.employeeId)}')">
+Copy ID
 </button>
 
 <button
-class="action danger"
-onclick="rejectFlight(${index})">
-
-رفض
-
+class="delete"
+onclick="deleteEmployee(${index})">
+Delete
 </button>
 
 </div>
@@ -870,126 +554,6 @@ onclick="rejectFlight(${index})">
 `;
 
 }).join("");
-
-}
-
-function approveFlight(index){
-
-const flights=getFlights();
-
-flights[index].status="APPROVED";
-
-localStorage.setItem(
-"af_flights",
-JSON.stringify(flights)
-);
-
-addLog("تم قبول طلب رحلة.");
-
-render();
-
-}
-
-function rejectFlight(index){
-
-const flights=getFlights();
-
-flights[index].status="REJECTED";
-
-localStorage.setItem(
-"af_flights",
-JSON.stringify(flights)
-);
-
-addLog("تم رفض طلب رحلة.");
-
-render();
-
-}
-
-function saveSettings(){
-
-const name=document
-.getElementById("systemName")
-.value
-.trim();
-
-const status=document
-.getElementById("systemStatus")
-.value;
-
-if(!name){
-
-alert("اكتب اسم النظام.");
-
-return;
-
-}
-
-localStorage.setItem(
-"af_system_name",
-name
-);
-
-localStorage.setItem(
-"af_system_status",
-status
-);
-
-addLog("تم حفظ إعدادات النظام.");
-
-alert("تم حفظ الإعدادات.");
-
-}
-
-function renderLogs(){
-
-const box=document
-.getElementById("logsList");
-
-const logs=getLogs()
-.slice()
-.reverse();
-
-if(logs.length===0){
-
-box.innerHTML=`
-<div class="empty">
-لا توجد عمليات مسجلة.
-</div>
-`;
-
-return;
-
-}
-
-box.innerHTML=logs.map(function(log){
-
-return `
-<div class="log">
-
-${escapeHtml(log.text)}
-
-<br>
-
-<small>
-${escapeHtml(log.time)}
-</small>
-
-</div>
-`;
-
-}).join("");
-
-}
-
-function updateStats(){
-
-document.getElementById("employeeCount")
-.textContent=getEmployees().length;
-
-document.getElementById("flightCount")
-.textContent=getFlights().length;
 
 }
 
@@ -1004,27 +568,15 @@ return String(value)
 
 }
 
-function render(){
+function logout(){
 
-updateStats();
+sessionStorage.clear();
+
+location.href="index.html";
+
+}
+
 renderEmployees();
-renderFlights();
-renderLogs();
-
-}
-
-if(
-sessionStorage.getItem("af_role") !==
-"Owner"
-){
-
-location.href="employee.html";
-
-}else{
-
-render();
-
-}
 
 </script>
 
