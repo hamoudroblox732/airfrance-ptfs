@@ -1,337 +1,112 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>AirFrance PTFS - Staff</title>
-
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
-
-        body {
-            min-height: 100vh;
-            background:
-                radial-gradient(circle at top right, #182638 0%, transparent 32%),
-                radial-gradient(circle at bottom left, #111a26 0%, transparent 35%),
-                #05070a;
-            color: #ffffff;
-        }
-
-        .topbar {
-            min-height: 72px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
-            padding: 14px 24px;
-            background: rgba(9, 13, 18, .95);
-            border-bottom: 1px solid #202833;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            backdrop-filter: blur(12px);
-        }
-
-        .brand {
-            font-size: 22px;
-            font-weight: 800;
-        }
-
-        .portal {
-            color: #8b9aae;
-            font-size: 11px;
-            letter-spacing: .5px;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 1050px;
-            margin: auto;
-            padding: 35px 20px 60px;
-        }
-
-        .hero {
-            background: linear-gradient(135deg, #111923, #0b1017);
-            border: 1px solid #222c38;
-            border-radius: 21px;
-            padding: 29px;
-            margin-bottom: 25px;
-            box-shadow: 0 20px 55px rgba(0,0,0,.35);
-        }
-
-        .eyebrow {
-            color: #718096;
-            font-size: 11px;
-            margin-bottom: 9px;
-        }
-
-        .hero h1 {
-            font-size: 28px;
-            margin-bottom: 9px;
-        }
-
-        .hero p {
-            color: #8995a4;
-            font-size: 14px;
-            line-height: 1.7;
-        }
-
-        .role-title {
-            font-size: 18px;
-            margin-bottom: 14px;
-        }
-
-        .roles {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 13px;
-        }
-
-        .role {
-            background: #10151c;
-            border: 1px solid #222b36;
-            border-radius: 17px;
-            padding: 20px;
-            min-height: 145px;
-            cursor: pointer;
-            transition: .2s;
-        }
-
-        .role:hover {
-            transform: translateY(-3px);
-            border-color: #344253;
-            background: #121821;
-        }
-
-        .role-name {
-            font-size: 16px;
-            font-weight: 800;
-            margin-bottom: 8px;
-        }
-
-        .role-description {
-            color: #778392;
-            font-size: 12px;
-            line-height: 1.7;
-        }
-
-        .role-status {
-            display: inline-block;
-            margin-top: 14px;
-            padding: 6px 8px;
-            border-radius: 7px;
-            background: #151c25;
-            color: #748296;
-            font-size: 10px;
-        }
-
-        .notice {
-            margin-top: 25px;
-            background: #0e1319;
-            border: 1px solid #202833;
-            border-radius: 16px;
-            padding: 18px;
-            color: #707d8d;
-            font-size: 12px;
-            line-height: 1.7;
-        }
-
-        .footer {
-            text-align: center;
-            color: #4e5967;
-            font-size: 11px;
-            margin-top: 45px;
-        }
-
-        @media (max-width: 760px) {
-            .roles {
-                grid-template-columns: 1fr;
-            }
-
-            .hero h1 {
-                font-size: 23px;
-            }
-
-            .topbar {
-                padding: 13px 16px;
-            }
-
-            .container {
-                padding: 25px 14px 50px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>AirFrance PTFS Staff</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#05080d;color:#fff;min-height:100vh}
+header{height:72px;background:#080d14;border-bottom:1px solid #202d3b;display:flex;align-items:center;justify-content:space-between;padding:0 25px}
+.logo{font-size:21px;font-weight:900}.role{color:#9bb9df;font-size:10px;border:1px solid #2b3d53;padding:8px 12px;border-radius:20px}
+main{max-width:1200px;margin:auto;padding:30px 20px}
+.hero{padding:35px;background:linear-gradient(135deg,#101a26,#080d13);border:1px solid #223143;border-radius:22px;margin-bottom:18px}
+.hero small{color:#6480a0;letter-spacing:2px}.hero h1{font-size:32px;margin:10px 0}.hero p{color:#778595;font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.card{background:#0b1219;border:1px solid #202d3b;border-radius:17px;padding:20px}
+.card h2{font-size:15px;margin-bottom:8px}.card p{font-size:11px;color:#778595;line-height:1.7}
+input,select{width:100%;background:#070b10;color:#fff;border:1px solid #2a3949;border-radius:10px;padding:12px;margin:7px 0 12px}
+button{background:#2563eb;color:#fff;border:0;border-radius:9px;padding:11px 14px;font-weight:bold;cursor:pointer}
+.danger{background:#3a181d;color:#e1a0a8}
+.panel{background:#0b1219;border:1px solid #202d3b;border-radius:17px;padding:20px;margin-top:18px}
+footer{text-align:center;color:#40505f;padding:30px;font-size:10px}
+@media(max-width:750px){.grid{grid-template-columns:1fr}}
+</style>
 </head>
-
 <body>
 
-<header class="topbar">
-
-    <div class="brand">
-        AirFrance PTFS
-    </div>
-
-    <div class="portal">
-        STAFF PORTAL
-    </div>
-
+<header>
+<div class="logo">AirFrance PTFS</div>
+<div class="role" id="role">STAFF</div>
 </header>
 
-<main class="container">
+<main>
+<div class="hero">
+<small id="roleLabel">STAFF PORTAL</small>
+<h1 id="welcome">Employee Dashboard</h1>
+<p id="description"></p>
+</div>
 
-    <section class="hero">
+<div class="grid" id="cards"></div>
 
-        <div class="eyebrow">
-            AIRFRANCE PTFS
-        </div>
+<div class="panel" id="pilotPanel" style="display:none">
+<h2>طلب رحلة جديدة</h2>
+<input id="flightTitle" placeholder="اسم الرحلة">
+<button onclick="createFlight()">إرسال طلب الرحلة</button>
+</div>
 
-        <h1>
-            بوابة الموظفين
-        </h1>
-
-        <p>
-            اختر القسم الخاص بك للوصول إلى الأدوات والصلاحيات
-            المخصصة لدورك في AirFrance PTFS.
-        </p>
-
-    </section>
-
-    <h2 class="role-title">
-        أقسام الموظفين
-    </h2>
-
-    <section class="roles">
-
-        <div class="role" onclick="openRole('pilot')">
-
-            <div class="role-name">
-                Pilot
-            </div>
-
-            <div class="role-description">
-                إدارة الرحلات ومعلومات الطائرة
-                وإجراءات الطيار.
-            </div>
-
-            <span class="role-status">
-                PILOT
-            </span>
-
-        </div>
-
-        <div class="role" onclick="openRole('copilot')">
-
-            <div class="role-name">
-                Co-Pilot
-            </div>
-
-            <div class="role-description">
-                أدوات مساعد الطيار ومتابعة
-                الرحلات التي يشارك فيها.
-            </div>
-
-            <span class="role-status">
-                CO-PILOT
-            </span>
-
-        </div>
-
-        <div class="role" onclick="openRole('cabin')">
-
-            <div class="role-name">
-                Cabin Crew
-            </div>
-
-            <div class="role-description">
-                أدوات طاقم الضيافة وإدارة
-                المشاركة في الرحلات.
-            </div>
-
-            <span class="role-status">
-                CABIN CREW
-            </span>
-
-        </div>
-
-        <div class="role" onclick="openRole('ground')">
-
-            <div class="role-name">
-                Ground Crew
-            </div>
-
-            <div class="role-description">
-                أدوات الطاقم الأرضي ومعلومات
-                الرحلات والخدمات الأرضية.
-            </div>
-
-            <span class="role-status">
-                GROUND CREW
-            </span>
-
-        </div>
-
-        <div class="role" onclick="openRole('management')">
-
-            <div class="role-name">
-                Management
-            </div>
-
-            <div class="role-description">
-                إدارة الموظفين والرحلات
-                والموافقات والصلاحيات.
-            </div>
-
-            <span class="role-status">
-                MANAGEMENT
-            </span>
-
-        </div>
-
-        <div class="role" onclick="openRole('owner')">
-
-            <div class="role-name">
-                Owner
-            </div>
-
-            <div class="role-description">
-                لوحة التحكم الكاملة وإدارة
-                جميع أنظمة AirFrance PTFS.
-            </div>
-
-            <span class="role-status">
-                OWNER
-            </span>
-
-        </div>
-
-    </section>
-
-    <div class="notice">
-        صلاحيات كل قسم سيتم تحديدها من نظام الموظفين،
-        ولن يتمكن الموظف من استخدام أدوات لا يملك صلاحيتها.
-    </div>
-
-    <div class="footer">
-        HAMOUD • AirFrance PTFS
-    </div>
-
+<div class="panel">
+<button class="danger" onclick="logout()">تسجيل الخروج</button>
+</div>
 </main>
 
-<script>
-    function openRole(role) {
-        alert(
-            "قسم " +
-            role +
-            " سيتم تجهيزه في الصفحة الخاصة به."
-        );
-    }
-</script>
+<footer>HAMOUD • AirFrance PTFS</footer>
 
+<script>
+const user=sessionStorage.getItem("af_user");
+const role=sessionStorage.getItem("af_role");
+
+if(!user||!role||role==="Owner")location.href="employee.html";
+
+document.getElementById("role").textContent=role;
+document.getElementById("welcome").textContent="مرحبًا "+user;
+document.getElementById("roleLabel").textContent=role.toUpperCase()+" PORTAL";
+
+const descriptions={
+Pilot:"إنشاء طلبات الرحلات ومتابعة الرحلات الخاصة بك.",
+"Co-Pilot":"متابعة الرحلات التي يتم تعيينك عليها.",
+"Cabin Crew":"متابعة الرحلات والانضمام إلى طاقم المقصورة.",
+"Ground Crew":"متابعة العمليات الأرضية للرحلات.",
+Management:"إدارة الطلبات والموظفين حسب صلاحيات الإدارة."
+};
+
+document.getElementById("description").textContent=descriptions[role]||"بوابة الموظف.";
+
+const data={
+Pilot:["إنشاء رحلة","طلبات الرحلات","رحلاتي"],
+"Co-Pilot":["رحلاتي","الرحلات المسندة","المعلومات"],
+"Cabin Crew":["الرحلات","طاقم المقصورة","الجدول"],
+"Ground Crew":["الرحلات القادمة","العمليات الأرضية","الجدول"],
+Management:["إدارة الرحلات","طلبات الموظفين","المتابعة"]
+};
+
+document.getElementById("cards").innerHTML=(data[role]||[]).map(x=>
+`<div class="card"><h2>${x}</h2><p>الوصول إلى قسم ${x} داخل النظام.</p></div>`
+).join("");
+
+if(role==="Pilot")document.getElementById("pilotPanel").style.display="block";
+
+function createFlight(){
+    const title=document.getElementById("flightTitle").value.trim();
+    if(!title)return alert("اكتب اسم الرحلة.");
+
+    const a=JSON.parse(localStorage.getItem("af_flights")||"[]");
+
+    a.push({
+        title:title,
+        pilot:user,
+        status:"PENDING"
+    });
+
+    localStorage.setItem("af_flights",JSON.stringify(a));
+    document.getElementById("flightTitle").value="";
+    alert("تم إرسال طلب الرحلة إلى الإدارة.");
+}
+
+function logout(){
+    sessionStorage.clear();
+    location.href="index.html";
+}
+</script>
 </body>
 </html>
