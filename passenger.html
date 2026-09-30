@@ -117,6 +117,12 @@ font-weight:bold;
 cursor:pointer
 }
 
+button:disabled{
+background:#252d36;
+color:#66717e;
+cursor:not-allowed
+}
+
 .panel{
 margin-top:16px;
 padding:20px;
@@ -180,6 +186,19 @@ background:#342817;
 color:#e1bd7a
 }
 
+.book{
+display:block;
+width:100%;
+margin-top:13px;
+background:#2563eb;
+padding:12px
+}
+
+.booked{
+background:#183a29;
+color:#8ee0ad
+}
+
 .empty{
 text-align:center;
 padding:25px;
@@ -197,6 +216,79 @@ text-align:center;
 padding:30px;
 color:#40505f;
 font-size:10px
+}
+
+.modal{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.75);
+padding:18px;
+z-index:30
+}
+
+.modal-box{
+max-width:450px;
+margin:12vh auto;
+background:#0d141c;
+border:1px solid #293746;
+border-radius:18px;
+padding:22px
+}
+
+.modal-box h2{
+font-size:20px;
+margin-bottom:8px
+}
+
+.modal-sub{
+color:#7f8d9d;
+font-size:12px;
+line-height:1.7;
+margin-bottom:15px
+}
+
+label{
+display:block;
+font-size:12px;
+color:#aab5c2;
+margin-bottom:7px
+}
+
+select{
+width:100%;
+height:48px;
+background:#080c12;
+border:1px solid #293442;
+border-radius:10px;
+color:#fff;
+padding:0 12px;
+outline:none
+}
+
+.modal-buttons{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-top:18px
+}
+
+.confirm{
+background:#2563eb;
+margin-top:0
+}
+
+.cancel{
+background:#202a35;
+margin-top:0
+}
+
+.message{
+text-align:center;
+font-size:11px;
+color:#8e9aaa;
+margin-top:12px;
+min-height:18px
 }
 
 @media(max-width:800px){
@@ -239,7 +331,7 @@ PASSENGER PORTAL
 </h1>
 
 <p>
-من هنا يمكنك متابعة الرحلات وحالة الـBoarding ومواعيد المغادرة.
+تابع الرحلات واحجز مقعدك حسب الكلاس المتاح.
 </p>
 
 </section>
@@ -253,7 +345,7 @@ Flights
 </h2>
 
 <p>
-عرض الرحلات المتاحة وحالتها ومواعيد الـBoarding والمغادرة.
+عرض الرحلات المتاحة وحالة الـBoarding ومواعيد المغادرة.
 </p>
 
 <button onclick="scrollToSection('flights')">
@@ -269,7 +361,7 @@ My Booking
 </h2>
 
 <p>
-معلومات الحجز الخاص بك.
+عرض الحجز المرتبط بحسابك.
 </p>
 
 <button onclick="showBooking()">
@@ -303,11 +395,9 @@ Available Flights
 </h2>
 
 <div id="flightList">
-
 <div class="empty">
 جاري تحميل الرحلات...
 </div>
-
 </div>
 
 </section>
@@ -318,8 +408,10 @@ Available Flights
 My Booking
 </h2>
 
+<div id="bookingList">
 <div class="empty">
-لا يوجد حجز مرتبط بهذا الحساب حاليًا.
+جاري تحميل الحجز...
+</div>
 </div>
 
 </section>
@@ -382,6 +474,46 @@ Flight Information
 HAMOUD • AirFrance PTFS
 </footer>
 
+<div class="modal" id="bookingModal">
+
+<div class="modal-box">
+
+<h2>
+Book Flight
+</h2>
+
+<div class="modal-sub" id="selectedFlight">
+</div>
+
+<label>
+Class
+</label>
+
+<select id="classSelect">
+<option value="Economy">Economy</option>
+<option value="Business">Business</option>
+<option value="First">First</option>
+</select>
+
+<div class="modal-buttons">
+
+<button class="confirm" onclick="confirmBooking()">
+Confirm Booking
+</button>
+
+<button class="cancel" onclick="closeBookingModal()">
+Cancel
+</button>
+
+</div>
+
+<div class="message" id="bookingMessage">
+</div>
+
+</div>
+
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
@@ -411,6 +543,8 @@ document
 .getElementById("userName")
 .textContent=
 passenger || "Passenger";
+
+let selectedFlight=null;
 
 function formatDate(value){
 
@@ -517,11 +651,8 @@ await db
 
 if(error){
 
-box.innerHTML=`
-<div class="empty">
-تعذر تحميل الرحلات.
-</div>
-`;
+box.innerHTML=
+'<div class="empty">تعذر تحميل الرحلات.</div>';
 
 return;
 
@@ -529,19 +660,305 @@ return;
 
 if(!data||data.length===0){
 
-box.innerHTML=`
-<div class="empty">
-لا توجد رحلات منشورة حاليًا.
-</div>
-`;
+box.innerHTML=
+'<div class="empty">لا توجد رحلات منشورة حاليًا.</div>';
 
 return;
 
 }
 
+const {data:bookings}=await db
+.from("bookings")
+.select("flight_id")
+.eq("passenger",passenger);
+
+const bookedIds=
+(bookings||[]).map(function(item){
+return item.flight_id;
+});
+
 box.innerHTML="";
 
 data.forEach(function(flight){
+
+const status=
+getStatus(flight);
+
+const isBooked=
+bookedIds.includes(flight.id);
+
+const canBook=
+status==="Boarding"&&
+!isBooked;
+
+const item=
+document.createElement("div");
+
+item.className="flight";
+
+let button="";
+
+if(isBooked){
+
+button=`
+<button class="book booked" disabled>
+Booked
+</button>
+`;
+
+}else if(
+status==="Scheduled"||
+status==="Boarding"
+){
+
+button=`
+<button class="book"
+onclick="openBooking(${flight.id})">
+Book Flight
+</button>
+`;
+
+}else{
+
+button=`
+<button class="book" disabled>
+Booking Closed
+</button>
+`;
+
+}
+
+item.innerHTML=`
+
+<h3>
+${escapeHtml(flight.flight_number)}
+•
+${escapeHtml(flight.departure)}
+→
+${escapeHtml(flight.destination)}
+</h3>
+
+<p>
+
+Aircraft:
+${escapeHtml(flight.aircraft)}
+
+<br>
+
+Pilot:
+${escapeHtml(flight.pilot||"—")}
+
+<br>
+
+Boarding:
+${escapeHtml(formatDate(flight.boarding_time))}
+
+<br>
+
+Departure:
+${escapeHtml(formatDate(flight.departure_time))}
+
+</p>
+
+<span class="${statusClass(status)}">
+${escapeHtml(status)}
+</span>
+
+${button}
+
+`;
+
+box.appendChild(item);
+
+});
+
+}
+
+function openBooking(id){
+
+db
+.from("flights")
+.select("*")
+.eq("id",id)
+.single()
+.then(function(result){
+
+if(result.error||!result.data){
+return;
+}
+
+const flight=result.data;
+
+const status=getStatus(flight);
+
+if(
+status!=="Scheduled"&&
+status!=="Boarding"
+){
+
+alert("Booking is closed for this flight.");
+
+return;
+
+}
+
+selectedFlight=flight;
+
+document
+.getElementById("selectedFlight")
+.textContent=
+flight.flight_number+
+" • "+
+flight.departure+
+" → "+
+flight.destination;
+
+document
+.getElementById("bookingMessage")
+.textContent="";
+
+document
+.getElementById("bookingModal")
+.style.display="block";
+
+});
+
+}
+
+function closeBookingModal(){
+
+document
+.getElementById("bookingModal")
+.style.display="none";
+
+selectedFlight=null;
+
+}
+
+async function confirmBooking(){
+
+if(!selectedFlight){
+return;
+}
+
+const message=
+document.getElementById("bookingMessage");
+
+const selectedClass=
+document.getElementById("classSelect").value;
+
+const currentStatus=
+getStatus(selectedFlight);
+
+if(
+currentStatus!=="Scheduled"&&
+currentStatus!=="Boarding"
+){
+
+message.textContent=
+"Booking is no longer available.";
+
+return;
+
+}
+
+message.textContent="Booking...";
+
+const {data:existing}=await db
+.from("bookings")
+.select("id")
+.eq("flight_id",selectedFlight.id)
+.eq("passenger",passenger)
+.maybeSingle();
+
+if(existing){
+
+message.textContent=
+"You already booked this flight.";
+
+return;
+
+}
+
+const {error}=await db
+.from("bookings")
+.insert([{
+
+flight_id:selectedFlight.id,
+passenger:passenger,
+class:selectedClass
+
+}]);
+
+if(error){
+
+message.textContent=
+"Could not complete the booking.";
+
+return;
+
+}
+
+closeBookingModal();
+
+loadFlights();
+
+loadBookings();
+
+}
+
+async function loadBookings(){
+
+const box=
+document.getElementById("bookingList");
+
+const {data,error}=
+await db
+.from("bookings")
+.select("*")
+.eq("passenger",passenger)
+.order("created_at",{ascending:false});
+
+if(error){
+
+box.innerHTML=
+'<div class="empty">تعذر تحميل الحجز.</div>';
+
+return;
+
+}
+
+if(!data||data.length===0){
+
+box.innerHTML=
+'<div class="empty">لا يوجد حجز مرتبط بهذا الحساب حاليًا.</div>';
+
+return;
+
+}
+
+const flightIds=
+data.map(function(booking){
+return booking.flight_id;
+});
+
+const {data:flights}=await db
+.from("flights")
+.select("*")
+.in("id",flightIds);
+
+box.innerHTML="";
+
+data.forEach(function(booking){
+
+const flight=
+(flights||[]).find(function(item){
+return item.id===booking.flight_id;
+});
+
+if(!flight){
+return;
+}
 
 const status=
 getStatus(flight);
@@ -563,13 +980,8 @@ ${escapeHtml(flight.destination)}
 
 <p>
 
-Aircraft:
-${escapeHtml(flight.aircraft)}
-
-<br>
-
-Pilot:
-${escapeHtml(flight.pilot||"—")}
+Class:
+${escapeHtml(booking.class)}
 
 <br>
 
@@ -644,9 +1056,26 @@ return String(value??"")
 
 }
 
-loadFlights();
+window.addEventListener("click",function(event){
 
-setInterval(loadFlights,30000);
+const modal=
+document.getElementById("bookingModal");
+
+if(event.target===modal){
+closeBookingModal();
+}
+
+});
+
+loadFlights();
+loadBookings();
+
+setInterval(function(){
+
+loadFlights();
+loadBookings();
+
+},30000);
 
 </script>
 
