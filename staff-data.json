@@ -1,7 +1,14 @@
 {
   "owner": {
     "username": "Ahmad_roblox2222",
-    "employeeId": "AF-HQ-0001",
+    "employeeId": "AF-OWNER-4827",
     "role": "Owner"
-  }
+  },
+  "roles": [
+    "Management",
+    "Pilot",
+    "Co-Pilot",
+    "Cabin Crew",
+    "Ground Crew"
+  ]
 }
