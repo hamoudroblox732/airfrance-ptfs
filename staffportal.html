@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AirFrance PTFS - Staff Portal</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:
+        radial-gradient(circle at top right,#182638 0%,transparent 32%),
+        radial-gradient(circle at bottom left,#111a26 0%,transparent 35%),
+        #05070a;
+    color:#fff;
+}
+
+.topbar{
+    min-height:72px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px 24px;
+    background:rgba(9,13,18,.96);
+    border-bottom:1px solid #202833;
+    position:sticky;
+    top:0;
+    z-index:20;
+    backdrop-filter:blur(12px);
+}
+
+.brand{
+    font-size:22px;
+    font-weight:800;
+}
+
+.role-badge{
+    padding:8px 11px;
+    border-radius:8px;
+    background:#151d28;
+    border:1px solid #293545;
+    color:#8fa8cc;
+    font-size:11px;
+}
+
+.container{
+    width:100%;
+    max-width:1150px;
+    margin:auto;
+    padding:30px 18px 60px;
+}
+
+.hero{
+    background:linear-gradient(135deg,#111923,#0b1017);
+    border:1px solid #222c38;
+    border-radius:21px;
+    padding:28px;
+    margin-bottom:20px;
+}
+
+.eyebrow{
+    color:#657487;
+    font-size:10px;
+    margin-bottom:8px;
+    letter-spacing:1px;
+}
+
+.hero h1{
+    font-size:27px;
+    margin-bottom:8px;
+}
+
+.hero p{
+    color:#8995a4;
+    font-size:13px;
+    line-height:1.7;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:13px;
+}
+
+.card{
+    background:#10151c;
+    border:1px solid #222b36;
+    border-radius:17px;
+    padding:20px;
+}
+
+.card h2{
+    font-size:16px;
+    margin-bottom:9px;
+}
+
+.card p{
+    color:#7d8998;
+    font-size:12px;
+    line-height:1.7;
+}
+
+.stat{
+    font-size:27px;
+    font-weight:800;
+    margin-bottom:5px;
+}
+
+.stat-label{
+    color:#687586;
+    font-size:11px;
+}
+
+.section{
+    margin-top:22px;
+}
+
+.section-title{
+    font-size:18px;
+    margin-bottom:13px;
+}
+
+.action{
+    width:100%;
+    border:1px solid #293544;
+    background:#151c25;
+    color:#d7dce3;
+    border-radius:10px;
+    padding:12px;
+    margin-top:12px;
+    cursor:pointer;
+    font-weight:700;
+}
+
+.action.primary{
+    background:#2563eb;
+    border-color:#2563eb;
+    color:white;
+}
+
+.action.danger{
+    background:#251417;
+    border-color:#4a252b;
+    color:#e7a1a8;
+}
+
+.action:hover{
+    filter:brightness(1.08);
+}
+
+.input{
+    width:100%;
+    background:#090d12;
+    border:1px solid #303944;
+    color:#fff;
+    border-radius:10px;
+    padding:13px;
+    outline:none;
+    margin-top:10px;
+    direction:ltr;
+}
+
+.input:focus{
+    border-color:#2563eb;
+}
+
+.list{
+    display:grid;
+    gap:10px;
+}
+
+.list-item{
+    background:#0c1117;
+    border:1px solid #202934;
+    border-radius:12px;
+    padding:14px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+}
+
+.list-title{
+    font-size:13px;
+    font-weight:700;
+}
+
+.list-sub{
+    color:#687586;
+    font-size:11px;
+    margin-top:4px;
+}
+
+.small-button{
+    border:1px solid #303b49;
+    background:#171e27;
+    color:#cdd3dc;
+    border-radius:8px;
+    padding:8px 10px;
+    cursor:pointer;
+    font-size:11px;
+}
+
+.notice{
+    padding:14px;
+    border-radius:12px;
+    background:#0d131a;
+    border:1px solid #202a35;
+    color:#778393;
+    font-size:12px;
+    line-height:1.7;
+}
+
+.footer{
+    text-align:center;
+    color:#4e5967;
+    font-size:11px;
+    margin-top:40px;
+}
+
+.logout{
+    margin-top:25px;
+    width:100%;
+    border:1px solid #303944;
+    background:#171c23;
+    color:#b7c0ca;
+    border-radius:11px;
+    padding:13px;
+    cursor:pointer;
+}
+
+.hidden{
+    display:none;
+}
+
+@media(max-width:800px){
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .hero h1{
+        font-size:23px;
+    }
+
+    .topbar{
+        padding:13px 15px;
+    }
+
+    .container{
+        padding:22px 13px 50px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+
+    <div class="brand">
+        AirFrance PTFS
+    </div>
+
+    <div id="roleBadge" class="role-badge">
+        STAFF PORTAL
+    </div>
+
+</header>
+
+<main class="container">
+
+    <section class="hero">
+
+        <div class="eyebrow">
+            AIRFRANCE PTFS STAFF
+        </div>
+
+        <h1 id="pageTitle">
+            بوابة الموظفين
+        </h1>
+
+        <p id="pageDescription">
+            جاري تحميل لوحة الموظف...
+        </p>
+
+    </section>
+
+    <div id="dashboard"></div>
+
+    <button class="logout" onclick="logout()">
+        تسجيل الخروج
+    </button>
+
+    <div class="footer">
+        HAMOUD • AirFrance PTFS
+    </div>
+
+</main>
+
+<script>
+
+const staffDatabase = {
+
+    "AF-HQ-0001": {
+        username: "Ahmad_roblox2222",
+        role: "Owner"
+    },
+
+    "AF-MGMT-0001": {
+        username: "ManagementUser",
+        role: "Management"
+    },
+
+    "AF-PILOT-0001": {
+        username: "PilotUser",
+        role: "Pilot"
+    },
+
+    "AF-COP-0001": {
+        username: "CoPilotUser",
+        role: "Co-Pilot"
+    },
+
+    "AF-CABIN-0001": {
+        username: "CabinUser",
+        role: "Cabin Crew"
+    },
+
+    "AF-GROUND-0001": {
+        username: "GroundUser",
+        role: "Ground Crew"
+    }
+
+};
+
+const sessionUsername =
+    sessionStorage.getItem("af_username");
+
+const sessionId =
+    sessionStorage.getItem("af_employee_id");
+
+if(!sessionUsername || !sessionId){
+    window.location.href = "employee.html";
+}
+
+const employee =
+    staffDatabase[sessionId];
+
+if(!employee || employee.username !== sessionUsername){
+    sessionStorage.clear();
+    window.location.href = "employee.html";
+}
+
+document.getElementById("roleBadge").textContent =
+    employee.role.toUpperCase();
+
+document.getElementById("pageTitle").textContent =
+    "مرحبًا، " + employee.username;
+
+document.getElementById("pageDescription").textContent =
+    "هذه لوحة التحكم الخاصة بدور " + employee.role + ".";
+
+function card(title,text,button){
+    return `
+        <div class="card">
+            <h2>${title}</h2>
+            <p>${text}</p>
+            ${button || ""}
+        </div>
+    `;
+}
+
+function button(text,action,type=""){
+    return `
+        <button class="action ${type}" onclick="${action}">
+            ${text}
+        </button>
+    `;
+}
+
+function renderOwner(){
+
+    document.getElementById("dashboard").innerHTML = `
+
+        <div class="grid">
+
+            ${card(
+                "إدارة الموظفين",
+                "إصدار وتعديل وإيقاف هويات الموظفين والصلاحيات.",
+                button("فتح إدارة الموظفين","manageStaff()","primary")
+            )}
+
+            ${card(
+                "إدارة الرحلات",
+                "مراجعة الرحلات والتحكم في حالة الرحلات.",
+                button("إدارة الرحلات","manageFlights()","primary")
+            )}
+
+            ${card(
+                "الصلاحيات",
+                "إدارة صلاحيات Management وباقي الأقسام.",
+                button("إدارة الصلاحيات","permissions()")
+            )}
+
+            ${card(
+                "إعدادات النظام",
+                "إعدادات بوابة AirFrance PTFS.",
+                button("الإعدادات","settings()")
+            )}
+
+            ${card(
+                "سجل العمليات",
+                "عرض العمليات التي تمت داخل النظام.",
+                button("فتح السجل","logs()")
+            )}
+
+            ${card(
+                "Owner",
+                "صلاحيات المالك الكاملة.",
+                button("Owner Controls","ownerControls()","primary")
+            )}
+
+        </div>
+
+        <section class="section">
+
+            <h2 class="section-title">
+                حالة النظام
+            </h2>
+
+            <div class="grid">
+
+                ${card("الموظفون","0 موظف نشط")}
+                ${card("الرحلات","0 رحلة قيد المراجعة")}
+                ${card("النظام","ONLINE")}
+
+            </div>
+
+        </section>
+    `;
+}
+
+function renderManagement(){
+
+    document.getElementById("dashboard").innerHTML = `
+
+        <div class="grid">
+
+            ${card(
+                "مراجعة الرحلات",
+                "مراجعة طلبات الرحلات المرسلة من الطيارين.",
+                button("فتح الطلبات","manageFlights()","primary")
+            )}
+
+            ${card(
+                "الموظفون",
+                "عرض الموظفين وإدارة الصلاحيات المسموحة لك.",
+                button("الموظفون","manageStaff()")
+            )}
+
+            ${card(
+                "الدرجات",
+                "إدارة طلبات Business و First حسب الصلاحيات.",
+                button("طلبات الدرجات","classRequests()")
+            )}
+
+        </div>
+
+        <section class="section">
+
+            <h2 class="section-title">
+                طلبات تحتاج مراجعة
+            </h2>
+
+            <div class="notice">
+                لا توجد طلبات جديدة حاليًا.
+            </div>
+
+        </section>
+    `;
+}
+
+function renderPilot(){
+
+    document.getElementById("dashboard").innerHTML = `
+
+        <div class="grid">
+
+            ${card(
+                "إنشاء رحلة",
+                "أنشئ طلب رحلة جديد وحدد تفاصيل الرحلة.",
+                button("إنشاء رحلة","createFlight()","primary")
+            )}
+
+            ${card(
+                "رحلاتي",
+                "عرض الرحلات التي أنشأتها وحالتها.",
+                button("عرض الرحلات","myFlights()")
+            )}
+
+            ${card(
+                "الطاقم",
+                "متابعة Co-Pilot وCabin Crew وGround Crew.",
+                button("إدارة الطاقم","crew()")
+            )}
+
+        </div>
+
+        <section class="section">
+
+            <h2 class="section-title">
+                حالة الرحلات
+            </h2>
+
+            <div class="grid">
+                ${card("مجدولة","0")}
+                ${card("بانتظار الموافقة","0")}
+                ${card("مكتملة","0")}
+            </div>
+
+        </section>
+    `;
+}
+
+function renderCopilot(){
+
+    document.getElementById("dashboard").innerHTML = `
+
+        <div class="grid">
+
+            ${card(
+                "رحلاتي",
+                "عرض الرحلات التي تم تعيينك عليها.",
+                button("عرض الرحلات","myFlights()","primary")
+            )}
+
+            ${card(
+                "معلومات الرحلة",
+                "معلومات الطائرة والوجهة والوقت والطاقم.",
+                button("عرض المعلومات","flightInfo()")
+            )}
+
+        </div>
+    `;
+}
+
+function renderCabin(){
+
+    document.getElementById("dashboard").innerHTML = `
+
+        <div class="grid">
+
+            ${card(
+                "الرحلات المتاحة",
+                "عرض الرحلات التي يمكن لطاقم الضيافة الانضمام إليها.",
+                button("عرض الرحلات","availableFlights()","primary")
+            )}
+
+            ${card(
+                "رحلاتي",
+                "عرض الرحلات التي انضممت إليها.",
+                button("رحلاتي","myFlights()")
+            )}
+
+        </div>
+    `;
+}
+
+function renderGround(){
+
+    document.getElementById("dashboard").innerHTML = `
+
+        <div class="grid">
+
+            ${card(
+                "العمليات الأرضية",
+                "متابعة الرحلات والخدمات الأرضية.",
+                button("فتح العمليات","groundOperations()","primary")
+            )}
+
+            ${card(
+                "الرحلات",
+                "عرض الرحلات القادمة.",
+                button("عرض الرحلات","availableFlights()")
+            )}
+
+        </div>
+    `;
+}
+
+switch(employee.role){
+
+    case "Owner":
+        renderOwner();
+        break;
+
+    case "Management":
+        renderManagement();
+        break;
+
+    case "Pilot":
+        renderPilot();
+        break;
+
+    case "Co-Pilot":
+        renderCopilot();
+        break;
+
+    case "Cabin Crew":
+        renderCabin();
+        break;
+
+    case "Ground Crew":
+        renderGround();
+        break;
+
+    default:
+        document.getElementById("dashboard").innerHTML = `
+            <div class="notice">
+                لا توجد صلاحيات لهذا الحساب.
+            </div>
+        `;
+}
+
+function manageStaff(){
+    alert("إدارة الموظفين ستُفتح هنا.");
+}
+
+function manageFlights(){
+    alert("إدارة الرحلات ستُفتح هنا.");
+}
+
+function permissions(){
+    alert("إدارة الصلاحيات ستُفتح هنا.");
+}
+
+function settings(){
+    alert("إعدادات النظام ستُفتح هنا.");
+}
+
+function logs(){
+    alert("سجل العمليات سيُفتح هنا.");
+}
+
+function ownerControls(){
+    alert("Owner Controls ستُفتح هنا.");
+}
+
+function classRequests(){
+    alert("طلبات Business و First ستظهر هنا.");
+}
+
+function createFlight(){
+    alert("نموذج إنشاء الرحلة سيُفتح هنا.");
+}
+
+function myFlights(){
+    alert("رحلات الموظف ستظهر هنا.");
+}
+
+function crew(){
+    alert("إدارة الطاقم ستُفتح هنا.");
+}
+
+function flightInfo(){
+    alert("معلومات الرحلة ستظهر هنا.");
+}
+
+function availableFlights(){
+    alert("الرحلات المتاحة ستظهر هنا.");
+}
+
+function groundOperations(){
+    alert("العمليات الأرضية ستظهر هنا.");
+}
+
+function logout(){
+
+    sessionStorage.clear();
+
+    window.location.href =
+        "index.html";
+}
+
+</script>
+
+</body>
+</html>
