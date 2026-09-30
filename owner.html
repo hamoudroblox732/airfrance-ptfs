@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AirFrance PTFS - Owner</title>
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+body{
+    min-height:100vh;
+    background:
+        radial-gradient(circle at top right,#172638 0%,transparent 35%),
+        radial-gradient(circle at bottom left,#101a27 0%,transparent 35%),
+        #05070a;
+    color:#fff;
+}
+.topbar{
+    min-height:72px;
+    padding:14px 22px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    background:rgba(8,12,17,.97);
+    border-bottom:1px solid #202833;
+    position:sticky;
+    top:0;
+    z-index:50;
+    backdrop-filter:blur(12px);
+}
+.brand{
+    font-size:22px;
+    font-weight:800;
+}
+.owner-badge{
+    background:#151e2a;
+    border:1px solid #2b3a4d;
+    color:#91b2e7;
+    padding:8px 12px;
+    border-radius:9px;
+    font-size:11px;
+    font-weight:700;
+}
+.layout{
+    width:100%;
+    max-width:1250px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:220px 1fr;
+    gap:18px;
+    padding:20px;
+}
+.sidebar{
+    background:#0c1117;
+    border:1px solid #202a35;
+    border-radius:17px;
+    padding:13px;
+    height:max-content;
+    position:sticky;
+    top:92px;
+}
+.nav-button{
+    width:100%;
+    border:1px solid transparent;
+    background:transparent;
+    color:#8793a2;
+    text-align:right;
+    border-radius:10px;
+    padding:12px;
+    margin-bottom:6px;
+    cursor:pointer;
+    font-weight:700;
+    font-size:12px;
+}
+.nav-button:hover,
+.nav-button.active{
+    background:#151e29;
+    border-color:#263547;
+    color:#fff;
+}
+.logout{
+    margin-top:15px;
+    border-top:1px solid #202a35;
+    padding-top:15px;
+}
+.logout button{
+    width:100%;
+    border:1px solid #45272c;
+    background:#211417;
+    color:#d99ba2;
+    border-radius:10px;
+    padding:11px;
+    cursor:pointer;
+}
+.content{
+    min-width:0;
+}
+.page{
+    display:none;
+}
+.page.active{
+    display:block;
+}
+.hero{
+    background:linear-gradient(135deg,#111a24,#0a0f15);
+    border:1px solid #222e3b;
+    border-radius:20px;
+    padding:25px;
+    margin-bottom:17px;
+}
+.eyebrow{
+    color:#64748b;
+    font-size:10px;
+    letter-spacing:1px;
+    margin-bottom:8px;
+}
+.hero h1{
+    font-size:27px;
+    margin-bottom:8px;
+}
+.hero p{
+    color:#8995a4;
+    font-size:13px;
+    line-height:1.7;
+}
+.grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:13px;
+}
+.card{
+    background:#0e141b;
+    border:1px solid #202a35;
+    border-radius:16px;
+    padding:18px;
+}
+.card h2{
+    font-size:15px;
+    margin-bottom:8px;
+}
+.card p{
+    color:#778392;
+    font-size:12px;
+    line-height:1.7;
+}
+.stat{
+    font-size:27px;
+    font-weight:800;
+    margin-bottom:4px;
+}
+.stat-label{
+    color:#687586;
+    font-size:11px;
+}
+.section{
+    margin-top:18px;
+}
+.section-title{
+    font-size:18px;
+    margin-bottom:12px;
+}
+.panel{
+    background:#0d131a;
+    border:1px solid #202a35;
+    border-radius:16px;
+    padding:18px;
+}
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+.field{
+    margin-bottom:12px;
+}
+.field.full{
+    grid-column:1/-1;
+}
+label{
+    display:block;
+    color:#c4ccd6;
+    font-size:12px;
+    font-weight:700;
+    margin-bottom:7px;
+}
+input,
+select,
+textarea{
+    width:100%;
+    background:#080c11;
+    border:1px solid #303b48;
+    color:#fff;
+    border-radius:10px;
+    padding:12px;
+    outline:none;
+    font-size:13px;
+}
+textarea{
+    min-height:100px;
+    resize:vertical;
+}
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:#2563eb;
+}
+.action{
+    border:1px solid #2b3949;
+    background:#151d27;
+    color:#d5dbe3;
+    border-radius:9px;
+    padding:10px 13px;
+    cursor:pointer;
+    font-weight:700;
+    font-size:12px;
+}
+.action.primary{
+    background:#2563eb;
+    border-color:#2563eb;
+    color:#fff;
+}
+.action.danger{
+    background:#241518;
+    border-color:#48272d;
+    color:#df9ca4;
+}
+.actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:13px;
+}
+.table-wrap{
+    overflow-x:auto;
+}
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:650px;
+}
+th,
+td{
+    text-align:right;
+    padding:12px;
+    border-bottom:1px solid #202a35;
+    font-size:12px;
+}
+th{
+    color:#7d8998;
+    font-weight:700;
+}
+td{
+    color:#d5dbe2;
+}
+.status{
+    display:inline-block;
+    padding:5px 8px;
+    border-radius:7px;
+    background:#17212d;
+    color:#9bb9e8;
+    font-size:10px;
+}
+.status.pending{
+    color:#d4bd8b;
+    background:#241f14;
+}
+.status.rejected{
+    color:#dc9ba2;
+    background:#241518;
+}
+.empty{
+    text-align:center;
+    padding:35px 15px;
+    color:#697686;
+    font-size:12px;
+    border:1px dashed #293542;
+    border-radius:12px;
+}
+.notice{
+    background:#0d131a;
+    border:1px solid #202a35;
+    border-radius:12px;
+    padding:13px;
+    color:#788595;
+    font-size:12px;
+    line-height:1.7;
+}
+.log{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    padding:13px 0;
+    border-bottom:1px solid #202a35;
+}
+.log:last-child{
+    border-bottom:0;
+}
+.log-main{
+    font-size:12px;
+}
+.log-time{
+    color:#647181;
+    font-size:10px;
+    white-space:nowrap;
+}
+.footer{
+    text-align:center;
+    color:#4d5967;
+    font-size:10px;
+    padding:30px 0 10px;
+}
+@media(max-width:900px){
+    .layout{
+        grid-template-columns:1fr;
+        padding:13px;
+    }
+    .sidebar{
+        position:static;
+        display:grid;
+        grid-template-columns:repeat(2,1fr);
+        gap:6px;
+    }
+    .nav-button{
+        margin:0;
+    }
+    .logout{
+        grid-column:1/-1;
+    }
+    .grid{
+        grid-template-columns:1fr;
+    }
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+    .field.full{
+        grid-column:auto;
+    }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+<div class="brand">
+    AirFrance PTFS
+</div>
+<div class="owner-badge">
+    OWNER CONTROL
+</div>
+</header>
+<div class="layout">
+<aside class="sidebar">
+    <button class="nav-button active" onclick="showPage('dashboard',this)">
+        الرئيسية
+    </button>
+    <button class="nav-button" onclick="showPage('employees',this)">
+        إدارة الموظفين
+    </button>
+    <button class="nav-button" onclick="showPage('flights',this)">
+        إدارة الرحلات
+    </button>
+    <button class="nav-button" onclick="showPage('permissions',this)">
+        الصلاحيات
+    </button>
+    <button class="nav-button" onclick="showPage('settings',this)">
+        إعدادات النظام
+    </button>
+    <button class="nav-button" onclick="showPage('owner',this)">
+        Owner
+    </button>
+    <button class="nav-button" onclick="showPage('logs',this)">
+        سجل العمليات
+    </button>
+    <div class="logout">
+        <button onclick="logout()">
+            تسجيل الخروج
+        </button>
+    </div>
+</aside>
+<main class="content">
+    <section id="dashboard" class="page active">
+        <div class="hero">
+            <div class="eyebrow">
+                AIRFRANCE PTFS
+            </div>
+            <h1>
+                Owner Control Panel
+            </h1>
+            <p>
+                لوحة التحكم الرئيسية لإدارة نظام AirFrance PTFS.
+            </p>
+        </div>
+        <div class="grid">
+            <div class="card">
+                <div class="stat" id="employeeCount">0</div>
+                <div class="stat-label">الموظفون</div>
+            </div>
+            <div class="card">
+                <div class="stat" id="flightCount">0</div>
+                <div class="stat-label">طلبات الرحلات</div>
+            </div>
+            <div class="card">
+                <div class="stat">ONLINE</div>
+                <div class="stat-label">حالة النظام</div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="section-title">
+                الوصول السريع
+            </div>
+            <div class="grid">
+                <div class="card">
+                    <h2>إدارة الموظفين</h2>
+                    <p>إنشاء هويات الموظفين وتحديد أدوارهم.</p>
+                    <div class="actions">
+                        <button class="action primary"
+                            onclick="openSection('employees')">
+                            فتح
+                        </button>
+                    </div>
+                </div>
+                <div class="card">
+                    <h2>طلبات الرحلات</h2>
+                    <p>مراجعة وقبول أو رفض طلبات الرحلات.</p>
+                    <div class="actions">
+                        <button class="action primary"
+                            onclick="openSection('flights')">
+                            فتح
+                        </button>
+                    </div>
+                </div>
+                <div class="card">
+                    <h2>إعدادات Owner</h2>
+                    <p>إعدادات وتحكم المالك داخل النظام.</p>
+                    <div class="actions">
+                        <button class="action primary"
+                            onclick="openSection('owner')">
+                            فتح
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="employees" class="page">
+        <div class="hero">
+            <div class="eyebrow">
+                STAFF MANAGEMENT
+            </div>
+            <h1>
+                إدارة الموظفين
+            </h1>
+            <p>
+                إنشاء هوية موظف جديدة وتحديد اليوزر والدور.
+            </p>
+        </div>
+        <div class="panel">
+            <div class="form-grid">
+                <div class="field">
+                    <label>Roblox Username</label>
+                    <input id="newUsername"
+                           type="text"
+                           placeholder="اكتب يوزر الموظف">
+                </div>
+                <div class="field">
+                    <label>Employee ID</label>
+                    <input id="newEmployeeId"
+                           type="text"
+                           placeholder="اكتب الهوية الجديدة">
+                </div>
+                <div class="field">
+                    <label>الدور</label>
+                    <select id="newRole">
+                        <option value="Pilot">
+                            Pilot
+                        </option>
+                        <option value="Co-Pilot">
+                            Co-Pilot
+                        </option>
+                        <option value="Cabin Crew">
+                            Cabin Crew
+                        </option>
+                        <option value="Ground Crew">
+                            Ground Crew
+                        </option>
+                        <option value="Management">
+                            Management
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="actions">
+                <button class="action primary"
+                        onclick="addEmployee()">
+                    إنشاء الهوية
+                </button>
+            </div>
+        </div>
+        <div class="section">
+            <div class="section-title">
+                الموظفون المسجلون
+            </div>
+            <div class="panel">
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>اليوزر</th>
+                                <th>الهوية</th>
+                                <th>الدور</th>
+                                <th>الإجراء</th>
+                            </tr>
+                        </thead>
+                        <tbody id="employeesTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="flights" class="page">
+        <div class="hero">
+            <div class="eyebrow">
+                FLIGHT MANAGEMENT
+            </div>
+            <h1>
+                إدارة الرحلات
+            </h1>
+            <p>
+                مراجعة طلبات الرحلات واتخاذ إجراء عليها.
+            </p>
+        </div>
+        <div id="flightRequests"></div>
+    </section>
+    <section id="permissions" class="page">
+        <div class="hero">
+            <div class="eyebrow">
+                PERMISSIONS
+            </div>
+            <h1>
+                إدارة الصلاحيات
+            </h1>
+            <p>
+                تحديد الصلاحيات التي يمكن للإدارة استخدامها.
+            </p>
+        </div>
+        <div class="grid">
+            <div class="card">
+                <h2>Management</h2>
+                <p>
+                    مراجعة الرحلات وإدارة الموظفين حسب الصلاحيات الممنوحة.
+                </p>
+                <div class="actions">
+                    <button class="action primary"
+                            onclick="permissionMessage()">
+                        إدارة الصلاحية
+                    </button>
+                </div>
+            </div>
+            <div class="card">
+                <h2>Business / First</h2>
+                <p>
+                    صلاحية إدارة طلبات درجات Business و First.
+                </p>
+                <div class="actions">
+                    <button class="action"
+                            onclick="permissionMessage()">
+                        إدارة الصلاحية
+                    </button>
+                </div>
+            </div>
+            <div class="card">
+                <h2>Flight Approval</h2>
+                <p>
+                    التحكم بمن يستطيع مراجعة طلبات الرحلات.
+                </p>
+                <div class="actions">
+                    <button class="action"
+                            onclick="permissionMessage()">
+                        إدارة الصلاحية
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="settings" class="page">
+        <div class="hero">
+            <div class="eyebrow">
+                SYSTEM SETTINGS
+            </div>
+            <h1>
+                إعدادات النظام
+            </h1>
+            <p>
+                إعدادات عامة لنظام AirFrance PTFS.
+            </p>
+        </div>
+        <div class="panel">
+            <div class="field">
+                <label>اسم النظام</label>
+                <input
+                    id="systemName"
+                    value="AirFrance PTFS">
+            </div>
+            <div class="field">
+                <label>حالة النظام</label>
+                <select id="systemStatus">
+                    <option value="ONLINE">
+                        ONLINE
+                    </option>
+                    <option value="MAINTENANCE">
+                        MAINTENANCE
+                    </option>
+                </select>
+            </div>
+            <div class="actions">
+                <button class="action primary"
+                        onclick="saveSettings()">
+                    حفظ الإعدادات
+                </button>
+            </div>
+        </div>
+    </section>
+    <section id="owner" class="page">
+        <div class="hero">
+            <div class="eyebrow">
+                OWNER
+            </div>
+            <h1>
+                إعدادات Owner
+            </h1>
+            <p>
+                التحكم الأساسي في إعدادات المالك.
+            </p>
+        </div>
+        <div class="grid">
+            <div class="card">
+                <h2>Owner Access</h2>
+                <p>
+                    صلاحيات المالك الكاملة مفعلة محليًا.
+                </p>
+            </div>
+            <div class="card">
+                <h2>Staff Management</h2>
+                <p>
+                    يمكنك إنشاء وإدارة هويات الموظفين.
+                </p>
+            </div>
+            <div class="card">
+                <h2>Flight Approval</h2>
+                <p>
+                    يمكنك مراجعة طلبات الرحلات وقبولها أو رفضها.
+                </p>
+            </div>
+        </div>
+    </section>
+    <section id="logs" class="page">
+        <div class="hero">
+            <div class="eyebrow">
+                SYSTEM LOGS
+            </div>
+            <h1>
+                سجل العمليات
+            </h1>
+            <p>
+                العمليات التي تمت داخل لوحة Owner خلال الجلسة الحالية.
+            </p>
+        </div>
+        <div class="panel" id="logsList">
+            <div class="empty">
+                لا توجد عمليات مسجلة حتى الآن.
+            </div>
+        </div>
+    </section>
+    <div class="footer">
+        HAMOUD • AirFrance PTFS
+    </div>
+</main>
+</div>
+<script>
+let employees = [];
+let flightRequests = [];
+let logs = [];
+function showPage(pageId, button){
+    document.querySelectorAll(".page")
+        .forEach(function(page){
+            page.classList.remove("active");
+        });
+    document.getElementById(pageId)
+        .classList.add("active");
+    document.querySelectorAll(".nav-button")
+        .forEach(function(btn){
+            btn.classList.remove("active");
+        });
+    if(button){
+        button.classList.add("active");
+    }
+    if(pageId === "employees"){
+        renderEmployees();
+    }
+    if(pageId === "flights"){
+        renderFlights();
+    }
+    if(pageId === "logs"){
+        renderLogs();
+    }
+}
+function openSection(pageId){
+    const button =
+        Array.from(document.querySelectorAll(".nav-button"))
+        .find(function(btn){
+            return btn.textContent.trim() ===
+                getPageName(pageId);
+        });
+    showPage(pageId,button);
+}
+function getPageName(pageId){
+    const names = {
+        dashboard:"الرئيسية",
+        employees:"إدارة الموظفين",
+        flights:"إدارة الرحلات",
+        permissions:"الصلاحيات",
+        settings:"إعدادات النظام",
+        owner:"Owner",
+        logs:"سجل العمليات"
+    };
+    return names[pageId];
+}
+function addEmployee(){
+    const username =
+        document.getElementById("newUsername")
+        .value
+        .trim();
+    const employeeId =
+        document.getElementById("newEmployeeId")
+        .value
+        .trim()
+        .toUpperCase();
+    const role =
+        document.getElementById("newRole")
+        .value;
+    if(!username || !employeeId){
+        alert("أكمل بيانات الموظف أولًا.");
+        return;
+    }
+    const exists =
+        employees.some(function(employee){
+            return employee.employeeId === employeeId;
+        });
+    if(exists){
+        alert("هذه الهوية موجودة بالفعل.");
+        return;
+    }
+    employees.push({
+        username:username,
+        employeeId:employeeId,
+        role:role
+    });
+    logs.push(
+        "تم إنشاء هوية موظف جديدة."
+    );
+    document.getElementById("newUsername")
+        .value = "";
+    document.getElementById("newEmployeeId")
+        .value = "";
+    renderEmployees();
+    updateStats();
+    alert("تم إنشاء الهوية.");
+}
+function renderEmployees(){
+    const table =
+        document.getElementById("employeesTable");
+    if(employees.length === 0){
+        table.innerHTML = `
+            <tr>
+                <td colspan="4">
+                    <div class="empty">
+                        لا يوجد موظفون مضافون حاليًا.
+                    </div>
+                </td>
+            </tr>
+        `;
+        return;
+    }
+    table.innerHTML =
+        employees.map(function(employee,index){
+            return `
+                <tr>
+                    <td>
+                        ${escapeHtml(employee.username)}
+                    </td>
+                    <td>
+                        ${escapeHtml(employee.employeeId)}
+                    </td>
+                    <td>
+                        <span class="status">
+                            ${escapeHtml(employee.role)}
+                        </span>
+                    </td>
+                    <td>
+                        <button
+                            class="action danger"
+                            onclick="removeEmployee(${index})">
+                            حذف
+                        </button>
+                    </td>
+                </tr>
+            `;
+        }).join("");
+}
+function removeEmployee(index){
+    if(!confirm("هل تريد حذف هذه الهوية؟")){
+        return;
+    }
+    employees.splice(index,1);
+    logs.push(
+        "تم حذف هوية موظف."
+    );
+    renderEmployees();
+    updateStats();
+}
+function renderFlights(){
+    const container =
+        document.getElementById("flightRequests");
+    if(flightRequests.length === 0){
+        container.innerHTML = `
+            <div class="panel">
+                <div class="empty">
+                    لا توجد طلبات رحلات تحتاج إلى مراجعة حاليًا.
+                </div>
+            </div>
+        `;
+        return;
+    }
+    container.innerHTML =
+        flightRequests.map(function(flight,index){
+            return `
+                <div class="panel" style="margin-bottom:12px">
+                    <h2 style="font-size:15px;margin-bottom:8px">
+                        طلب رحلة
+                    </h2>
+                    <p style="color:#7d8998;font-size:12px;line-height:1.7">
+                        مقدم الطلب: ${escapeHtml(flight.user)}
+                        <br>
+                        الحالة:
+                        ${escapeHtml(flight.status)}
+                    </p>
+                    <div class="actions">
+                        <button
+                            class="action primary"
+                            onclick="approveFlight(${index})">
+                            قبول
+                        </button>
+                        <button
+                            class="action danger"
+                            onclick="rejectFlight(${index})">
+                            رفض
+                        </button>
+                    </div>
+                </div>
+            `;
+        }).join("");
+}
+function approveFlight(index){
+    flightRequests[index].status =
+        "APPROVED";
+    logs.push(
+        "تم قبول طلب رحلة."
+    );
+    renderFlights();
+    updateStats();
+}
+function rejectFlight(index){
+    flightRequests[index].status =
+        "REJECTED";
+    logs.push(
+        "تم رفض طلب رحلة."
+    );
+    renderFlights();
+    updateStats();
+}
+function permissionMessage(){
+    logs.push(
+        "تم فتح قسم إدارة الصلاحيات."
+    );
+    alert(
+        "قسم الصلاحيات جاهز. يمكن ربطه لاحقًا بنظام صلاحيات فعلي."
+    );
+    renderLogs();
+}
+function saveSettings(){
+    const name =
+        document.getElementById("systemName")
+        .value
+        .trim();
+    const status =
+        document.getElementById("systemStatus")
+        .value;
+    if(!name){
+        alert("اكتب اسم النظام.");
+        return;
+    }
+    logs.push(
+        "تم حفظ إعدادات النظام."
+    );
+    alert(
+        "تم حفظ الإعدادات: " +
+        name +
+        " — " +
+        status
+    );
+    renderLogs();
+}
+function renderLogs(){
+    const container =
+        document.getElementById("logsList");
+    if(logs.length === 0){
+        container.innerHTML = `
+            <div class="empty">
+                لا توجد عمليات مسجلة حتى الآن.
+            </div>
+        `;
+        return;
+    }
+    container.innerHTML =
+        logs.slice().reverse().map(function(log){
+            return `
+                <div class="log">
+                    <div class="log-main">
+                        ${escapeHtml(log)}
+                    </div>
+                    <div class="log-time">
+                        الآن
+                    </div>
+                </div>
+            `;
+        }).join("");
+}
+function updateStats(){
+    document.getElementById("employeeCount")
+        .textContent = employees.length;
+    document.getElementById("flightCount")
+        .textContent = flightRequests.length;
+}
+function escapeHtml(value){
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+function logout(){
+    window.location.href =
+        "index.html";
+}
+updateStats();
+renderEmployees();
+renderFlights();
+renderLogs();
+</script>
+</body>
+</html>
