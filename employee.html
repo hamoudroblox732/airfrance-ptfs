@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>AirFrance PTFS - Employee</title>
 
     <style>
@@ -16,8 +15,7 @@
 
         body {
             min-height: 100vh;
-            background:
-                radial-gradient(circle at top, #18202b 0%, #080b10 48%, #040507 100%);
+            background: radial-gradient(circle at top, #18202b, #080b10 48%, #040507);
             color: white;
             display: flex;
             align-items: center;
@@ -92,25 +90,43 @@
             text-align: left;
         }
 
-        input:focus {
+        input:disabled {
+            opacity: .45;
+            cursor: not-allowed;
+        }
+
+        input:focus:not(:disabled) {
             border-color: #2563eb;
         }
 
-        .continue {
+        button {
             width: 100%;
             border: 0;
             border-radius: 11px;
             padding: 14px;
             margin-top: 12px;
-            background: #2563eb;
-            color: white;
             font-weight: 700;
-            cursor: pointer;
             font-size: 14px;
         }
 
-        .continue:active {
-            transform: scale(.99);
+        .primary {
+            background: #2563eb;
+            color: white;
+            cursor: pointer;
+        }
+
+        .secondary {
+            background: #202731;
+            color: #8994a2;
+            border: 1px solid #303944;
+            cursor: not-allowed;
+        }
+
+        .secondary.enabled {
+            background: #2563eb;
+            color: white;
+            border: 0;
+            cursor: pointer;
         }
 
         .status {
@@ -125,20 +141,15 @@
         }
 
         .employee-section {
-            display: none;
             margin-top: 22px;
             padding-top: 22px;
             border-top: 1px solid #252c35;
         }
 
         .back {
-            width: 100%;
-            margin-top: 12px;
-            padding: 13px;
-            border-radius: 11px;
-            border: 1px solid #303944;
             background: #171c23;
             color: #c8ced7;
+            border: 1px solid #303944;
             cursor: pointer;
         }
 
@@ -155,29 +166,19 @@
 
 <div class="panel">
 
-    <div class="brand">
-        AirFrance PTFS
-    </div>
+    <div class="brand">AirFrance PTFS</div>
 
-    <div class="sub">
-        Employee Portal
-    </div>
+    <div class="sub">Employee Portal</div>
 
-    <span class="badge">
-        EMPLOYEE VERIFICATION
-    </span>
+    <span class="badge">EMPLOYEE VERIFICATION</span>
 
-    <h1>
-        تسجيل دخول الموظف
-    </h1>
+    <h1>تسجيل دخول الموظف</h1>
 
     <div class="description">
-        اكتب اسم حسابك في Roblox للمتابعة إلى بوابة الموظفين.
+        اكتب اسم حسابك في Roblox ثم تحقق منه للمتابعة.
     </div>
 
-    <label class="label">
-        حط يوزرك روبلوكس
-    </label>
+    <label class="label">حط يوزرك روبلوكس</label>
 
     <input
         id="robloxUsername"
@@ -186,25 +187,33 @@
         autocomplete="off"
         maxlength="20">
 
-    <button class="continue" onclick="continueLogin()">
-        متابعة
+    <button
+        id="usernameButton"
+        class="primary"
+        onclick="verifyUsername()">
+        تحقق اليوزر
     </button>
 
     <div id="status" class="status"></div>
 
-    <div id="employeeSection" class="employee-section">
+    <div class="employee-section">
 
         <label class="label">
-            رقم الهوية الوظيفية
+            الهوية الوظيفية
         </label>
 
         <input
             id="employeeId"
             type="text"
             placeholder="AF-PILOT-0001"
-            autocomplete="off">
+            autocomplete="off"
+            disabled>
 
-        <button class="continue" onclick="verifyEmployee()">
+        <button
+            id="employeeButton"
+            class="secondary"
+            onclick="verifyEmployee()"
+            disabled>
             تحقق من الهوية
         </button>
 
@@ -221,32 +230,44 @@
 </div>
 
 <script>
-    function continueLogin() {
+    let usernameVerified = false;
+
+    function verifyUsername() {
         const username =
             document.getElementById("robloxUsername").value.trim();
 
         const status =
             document.getElementById("status");
 
-        const employeeSection =
-            document.getElementById("employeeSection");
+        const employeeId =
+            document.getElementById("employeeId");
+
+        const employeeButton =
+            document.getElementById("employeeButton");
 
         if (!username) {
             status.style.display = "block";
-            status.textContent =
-                "اكتب يوزرك في Roblox أولًا.";
-            employeeSection.style.display = "none";
+            status.textContent = "اكتب يوزرك روبلوكس أولًا.";
             return;
         }
 
+        usernameVerified = true;
+
         status.style.display = "block";
         status.textContent =
-            "تم إدخال يوزر Roblox: " + username;
+            "تم التحقق من اليوزر: " + username;
 
-        employeeSection.style.display = "block";
+        employeeId.disabled = false;
+        employeeButton.disabled = false;
+
+        employeeButton.classList.add("enabled");
     }
 
     function verifyEmployee() {
+        if (!usernameVerified) {
+            return;
+        }
+
         const employeeId =
             document.getElementById("employeeId").value.trim();
 
@@ -256,13 +277,13 @@
         if (!employeeId) {
             status.style.display = "block";
             status.textContent =
-                "اكتب رقم الهوية الوظيفية أولًا.";
+                "اكتب الهوية الوظيفية أولًا.";
             return;
         }
 
         status.style.display = "block";
         status.textContent =
-            "تم إرسال بيانات الموظف للمتابعة.";
+            "تم إرسال الهوية للمراجعة.";
     }
 
     function goBack() {
