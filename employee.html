@@ -97,8 +97,7 @@
         font-size: 14px;
         cursor: pointer;
     }
-    .primary,
-    .enabled {
+    .primary {
         background: #2563eb;
         color: white;
     }
@@ -106,6 +105,10 @@
         background: #202731;
         color: #687381;
         cursor: not-allowed;
+    }
+    .enabled {
+        background: #2563eb;
+        color: white;
     }
     .status {
         display: none;
@@ -128,100 +131,167 @@
         color: #c8ced7;
         border: 1px solid #303944;
     }
+    .dashboard {
+        display: none;
+    }
+    .welcome {
+        text-align: center;
+        margin-bottom: 25px;
+    }
+    .welcome h2 {
+        font-size: 23px;
+        margin-bottom: 8px;
+    }
+    .welcome p {
+        color: #8994a2;
+        font-size: 13px;
+    }
+    .owner-box {
+        background: #0c1117;
+        border: 1px solid #293544;
+        border-radius: 15px;
+        padding: 18px;
+        margin-bottom: 12px;
+    }
+    .owner-box h3 {
+        font-size: 15px;
+        margin-bottom: 8px;
+    }
+    .owner-box p {
+        color: #7d8998;
+        font-size: 12px;
+        line-height: 1.7;
+    }
     .footer {
         text-align: center;
         margin-top: 27px;
         color: #586270;
         font-size: 11px;
     }
+    .hidden {
+        display: none !important;
+    }
 </style>
 </head>
 <body>
 <div class="panel">
-<div class="brand">
-    AirFrance PTFS
-</div>
-<div class="sub">
-    Employee Portal
-</div>
-<span class="badge">
-    EMPLOYEE VERIFICATION
-</span>
-<h1>
-    تسجيل دخول الموظف
-</h1>
-<div class="description">
-    تحقق من اسم حساب Roblox أولًا، وبعدها أدخل هويتك الوظيفية.
-</div>
-<label class="label">
-    حط يوزرك روبلوكس
-</label>
-<input
-    id="robloxUsername"
-    type="text"
-    placeholder="Roblox Username"
-    autocomplete="off"
-    maxlength="20">
-<button
-    class="primary"
-    onclick="verifyUsername()">
-    تحقق اليوزر
-</button>
-<div id="status" class="status"></div>
-<div class="employee-section">
+<div id="loginPanel">
+    <div class="brand">
+        AirFrance PTFS
+    </div>
+    <div class="sub">
+        Employee Portal
+    </div>
+    <span class="badge">
+        EMPLOYEE VERIFICATION
+    </span>
+    <h1>
+        تسجيل دخول الموظف
+    </h1>
+    <div class="description">
+        تحقق من اسم حساب Roblox أولًا، وبعدها أدخل هويتك الوظيفية.
+    </div>
     <label class="label">
-        الهوية الوظيفية
+        حط يوزرك روبلوكس
     </label>
     <input
-        id="employeeId"
+        id="robloxUsername"
         type="text"
-        placeholder="AF-EMP-XXXX"
+        placeholder="Roblox Username"
         autocomplete="off"
-        disabled>
+        maxlength="20">
     <button
-        id="employeeButton"
-        class="locked"
-        onclick="verifyEmployee()"
-        disabled>
-        تحقق من الهوية
+        class="primary"
+        onclick="verifyUsername()">
+        تحقق اليوزر
+    </button>
+    <div id="status" class="status"></div>
+    <div class="employee-section">
+        <label class="label">
+            الهوية الوظيفية
+        </label>
+        <input
+            id="employeeId"
+            type="text"
+            placeholder="Employee ID"
+            autocomplete="off"
+            disabled>
+        <button
+            id="employeeButton"
+            class="locked"
+            onclick="verifyEmployee()"
+            disabled>
+            تحقق من الهوية
+        </button>
+    </div>
+    <button
+        class="back"
+        onclick="goBack()">
+        رجوع
     </button>
 </div>
-<button
-    class="back"
-    onclick="goBack()">
-    رجوع
-</button>
+<div id="dashboard" class="dashboard">
+    <div class="welcome">
+        <h2>
+            مرحبًا، Ahmad_roblox2222
+        </h2>
+        <p>
+            Owner Control Panel
+        </p>
+    </div>
+    <div class="owner-box">
+        <h3>
+            إدارة الموظفين
+        </h3>
+        <p>
+            إدارة الموظفين والهويات والصلاحيات.
+        </p>
+    </div>
+    <div class="owner-box">
+        <h3>
+            إدارة الرحلات
+        </h3>
+        <p>
+            إدارة طلبات الرحلات ومراجعتها.
+        </p>
+    </div>
+    <div class="owner-box">
+        <h3>
+            إدارة الصلاحيات
+        </h3>
+        <p>
+            التحكم في صلاحيات الموظفين والإدارة.
+        </p>
+    </div>
+    <div class="owner-box">
+        <h3>
+            إعدادات النظام
+        </h3>
+        <p>
+            التحكم في إعدادات نظام AirFrance PTFS.
+        </p>
+    </div>
+    <div class="owner-box">
+        <h3>
+            Owner
+        </h3>
+        <p>
+            لديك صلاحيات Owner الكاملة داخل النظام.
+        </p>
+    </div>
+    <button
+        class="back"
+        onclick="logout()">
+        تسجيل الخروج
+    </button>
+</div>
 <div class="footer">
     HAMOUD • AirFrance PTFS
 </div>
 </div>
 <script>
-const staffDatabase = {
-    "AF-HQ-0001": {
-        username: "Ahmad_roblox2222",
-        role: "Owner"
-    },
-    "AF-MGMT-0001": {
-        username: "ManagementUser",
-        role: "Management"
-    },
-    "AF-PILOT-0001": {
-        username: "PilotUser",
-        role: "Pilot"
-    },
-    "AF-COP-0001": {
-        username: "CoPilotUser",
-        role: "Co-Pilot"
-    },
-    "AF-CABIN-0001": {
-        username: "CabinUser",
-        role: "Cabin Crew"
-    },
-    "AF-GROUND-0001": {
-        username: "GroundUser",
-        role: "Ground Crew"
-    }
-};
+const OWNER_USERNAME = "Ahmad_roblox2222";
+const OWNER_ID = "AF-OWNER-4827";
 let usernameVerified = false;
 function verifyUsername() {
     const username =
@@ -234,10 +304,6 @@ function verifyUsername() {
         document.getElementById("employeeId");
     const employeeButton =
         document.getElementById("employeeButton");
-    const employee =
-        Object.values(staffDatabase).find(function(staff) {
-            return staff.username === username;
-        });
     if (!username) {
         status.style.display = "block";
         status.textContent =
@@ -248,10 +314,10 @@ function verifyUsername() {
         employeeButton.className = "locked";
         return;
     }
-    if (!employee) {
+    if (username !== OWNER_USERNAME) {
         status.style.display = "block";
         status.textContent =
-            "هذا اليوزر غير مسجل كموظف في النظام.";
+            "هذا اليوزر غير مسجل كـ Owner.";
         usernameVerified = false;
         employeeId.disabled = true;
         employeeButton.disabled = true;
@@ -267,9 +333,6 @@ function verifyUsername() {
     employeeButton.className = "enabled";
 }
 function verifyEmployee() {
-    if (!usernameVerified) {
-        return;
-    }
     const username =
         document.getElementById("robloxUsername")
         .value
@@ -281,45 +344,54 @@ function verifyEmployee() {
         .toUpperCase();
     const status =
         document.getElementById("status");
-    const employee =
-        staffDatabase[employeeId];
+    if (!usernameVerified) {
+        return;
+    }
     if (!employeeId) {
         status.style.display = "block";
         status.textContent =
             "اكتب الهوية الوظيفية أولًا.";
         return;
     }
-    if (!employee) {
+    if (employeeId !== OWNER_ID) {
         status.style.display = "block";
         status.textContent =
             "الهوية الوظيفية غير صحيحة.";
         return;
     }
-    if (employee.username !== username) {
+    if (username !== OWNER_USERNAME) {
         status.style.display = "block";
         status.textContent =
-            "الهوية الوظيفية لا تطابق هذا اليوزر.";
+            "بيانات الموظف غير متطابقة.";
         return;
     }
-    sessionStorage.setItem(
-        "af_username",
-        username
-    );
-    sessionStorage.setItem(
-        "af_employee_id",
-        employeeId
-    );
-    status.style.display = "block";
-    status.textContent =
-        "تم التحقق. جاري فتح لوحة الموظف...";
-    setTimeout(function() {
-        window.location.href =
-            "staffportal.html";
-    }, 500);
+    document.getElementById("loginPanel")
+        .classList.add("hidden");
+    document.getElementById("dashboard")
+        .style.display = "block";
 }
 function goBack() {
     window.location.href =
         "index.html";
+}
+function logout() {
+    document.getElementById("dashboard")
+        .style.display = "none";
+    document.getElementById("loginPanel")
+        .classList.remove("hidden");
+    document.getElementById("robloxUsername")
+        .value = "";
+    document.getElementById("employeeId")
+        .value = "";
+    document.getElementById("employeeId")
+        .disabled = true;
+    document.getElementById("employeeButton")
+        .disabled = true;
+    document.getElementById("employeeButton")
+        .className = "locked";
+    document.getElementById("status")
+        .style.display = "none";
+    usernameVerified = false;
 }
 </script>
 </body>
