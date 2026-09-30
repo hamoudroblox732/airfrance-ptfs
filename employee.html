@@ -2,120 +2,106 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>AirFrance PTFS — Employee Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AirFrance PTFS - Employee Login</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 *{
 box-sizing:border-box;
-margin:0;
-padding:0;
-font-family:Arial,sans-serif
 }
 
 body{
+margin:0;
 min-height:100vh;
 display:flex;
 align-items:center;
 justify-content:center;
+font-family:Arial,sans-serif;
+background:#080b10;
+color:#fff;
 padding:20px;
-background:
-radial-gradient(circle at 15% 0%,#183650,transparent 32%),
-radial-gradient(circle at 100% 100%,#101e30,transparent 35%),
-#05080d;
-color:#fff
 }
 
 .box{
 width:100%;
-max-width:440px;
-background:#0b1219;
-border:1px solid #243446;
-border-radius:22px;
-padding:30px;
-box-shadow:0 20px 60px #0008
+max-width:430px;
+background:#111720;
+border:1px solid #293646;
+border-radius:20px;
+padding:25px;
+box-shadow:0 15px 50px rgba(0,0,0,.35);
 }
 
-.logo{
-font-size:23px;
-font-weight:900;
-margin-bottom:7px
+h1{
+margin:0;
+font-size:27px;
 }
 
-.subtitle{
-color:#718092;
-font-size:12px;
-line-height:1.8;
-margin-bottom:25px
+.sub{
+margin-top:7px;
+color:#8e9aaa;
+font-size:14px;
 }
 
 label{
 display:block;
-font-size:11px;
-font-weight:bold;
-margin-bottom:8px
+margin-top:20px;
+margin-bottom:7px;
+font-size:14px;
+color:#aab5c4;
 }
 
 input{
 width:100%;
-padding:13px;
-margin-bottom:14px;
-background:#070b10;
-border:1px solid #2a3b4d;
-border-radius:10px;
+padding:14px;
+border-radius:11px;
+border:1px solid #303d4d;
+background:#0a0e14;
 color:#fff;
 outline:none;
-direction:ltr;
-text-align:left
+font-size:15px;
 }
 
 input:focus{
-border-color:#2563eb
+border-color:#1769ff;
 }
 
 button{
 width:100%;
-padding:13px;
+padding:14px;
+margin-top:20px;
 border:0;
-border-radius:10px;
-background:#2563eb;
-color:#fff;
+border-radius:11px;
+background:#1769ff;
+color:white;
+font-size:15px;
 font-weight:bold;
-cursor:pointer
+cursor:pointer;
 }
 
-button:hover{
-background:#3474f0
+button:disabled{
+opacity:.6;
+cursor:not-allowed;
 }
 
-.error{
+#message{
 display:none;
-margin-top:13px;
+margin-top:15px;
 padding:12px;
-border-radius:9px;
-background:#32171b;
-border:1px solid #57252d;
-color:#e3a4aa;
-font-size:11px;
-line-height:1.7
+border-radius:10px;
+background:#24151a;
+color:#ffb5c0;
+font-size:14px;
 }
 
-.success{
-display:none;
-margin-top:13px;
-padding:12px;
-border-radius:9px;
-background:#10281d;
-border:1px solid #245238;
-color:#9bd4ae;
-font-size:11px
-}
-
-footer{
+.footer{
+margin-top:20px;
 text-align:center;
-margin-top:25px;
-color:#40505f;
-font-size:10px
+font-size:12px;
+color:#667386;
 }
 </style>
 </head>
@@ -124,16 +110,13 @@ font-size:10px
 
 <div class="box">
 
-<div class="logo">
-AirFrance PTFS
+<h1>AirFrance PTFS</h1>
+
+<div class="sub">
+Employee Login
 </div>
 
-<div class="subtitle">
-Employee Portal<br>
-سجّل الدخول باستخدام Roblox Username و Employee ID.
-</div>
-
-<label>
+<label for="username">
 Roblox Username
 </label>
 
@@ -142,9 +125,9 @@ id="username"
 type="text"
 placeholder="Roblox Username"
 autocomplete="off"
-spellcheck="false">
+>
 
-<label>
+<label for="employeeId">
 Employee ID
 </label>
 
@@ -153,259 +136,147 @@ id="employeeId"
 type="text"
 placeholder="Employee ID"
 autocomplete="off"
-spellcheck="false">
+>
 
-<button onclick="login()">
+<button id="loginButton" onclick="login()">
 Login
 </button>
 
-<div
-class="error"
-id="error">
-</div>
+<div id="message"></div>
 
-<div
-class="success"
-id="success">
-تم تسجيل الدخول.
-</div>
-
-<footer>
+<div class="footer">
 HAMOUD • AirFrance PTFS
-</footer>
+</div>
 
 </div>
 
 <script>
 
-const OWNER_USERNAME = "Ahmad_roblox2222";
-const OWNER_ID = "AF-OWNER-4827";
+const SUPABASE_URL="https://pjsadqfyvibsjrccnaum.supabase.co";
 
-function normalizeUsername(value){
+const SUPABASE_KEY="sb_publishable_HKBI1QKk53w8Vp8Eq23X-A_gmrUk1px";
 
-return String(value || "")
-.trim()
-.toLowerCase();
+const db=supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
+const OWNER_USERNAME="Ahmad_roblox2222";
+const OWNER_ID="AF-OWNER-4827";
+
+function showError(text){
+
+const message=document.getElementById("message");
+
+message.textContent=text;
+message.style.display="block";
 
 }
 
-function normalizeId(value){
+function clearError(){
 
-return String(value || "")
-.trim()
-.toUpperCase();
+const message=document.getElementById("message");
+
+message.textContent="";
+message.style.display="none";
 
 }
 
-function getEmployees(){
+async function login(){
 
-const raw =
-localStorage.getItem("af_employees");
+clearError();
 
-if(!raw){
-return [];
+const username=document
+.getElementById("username")
+.value
+.trim();
+
+const employeeId=document
+.getElementById("employeeId")
+.value
+.trim();
+
+const button=document.getElementById("loginButton");
+
+if(!username || !employeeId){
+
+showError("اكتب Roblox Username و Employee ID.");
+
+return;
+
 }
+
+button.disabled=true;
+button.textContent="Checking...";
 
 try{
 
-const data =
-JSON.parse(raw);
+if(
+username.toLowerCase()===OWNER_USERNAME.toLowerCase() &&
+employeeId===OWNER_ID
+){
 
-if(!Array.isArray(data)){
-return [];
+sessionStorage.setItem("af_user",OWNER_USERNAME);
+sessionStorage.setItem("af_id",OWNER_ID);
+sessionStorage.setItem("af_role","Owner");
+
+window.location.href="owner.html";
+
+return;
+
 }
 
-return data;
+const {data,error}=await db
+.from("employees")
+.select("*")
+.ilike("username",username)
+.eq("employee_id",employeeId)
+.maybeSingle();
+
+if(error){
+
+showError("حدث خطأ أثناء الاتصال بقاعدة البيانات.");
+
+console.error(error);
+
+return;
+
+}
+
+if(!data){
+
+showError("لم يتم العثور على هوية مطابقة.");
+
+return;
+
+}
+
+sessionStorage.setItem("af_user",data.username);
+sessionStorage.setItem("af_id",data.employee_id);
+sessionStorage.setItem("af_role",data.role);
+
+window.location.href="staff.html";
 
 }catch(error){
 
-return [];
+showError("تعذر الاتصال. حاول مرة أخرى.");
+
+console.error(error);
+
+}finally{
+
+button.disabled=false;
+button.textContent="Login";
 
 }
 
 }
-
-function showError(message){
-
-const error =
-document.getElementById("error");
-
-const success =
-document.getElementById("success");
-
-success.style.display = "none";
-
-error.textContent = message;
-
-error.style.display = "block";
-
-}
-
-function showSuccess(message){
-
-const error =
-document.getElementById("error");
-
-const success =
-document.getElementById("success");
-
-error.style.display = "none";
-
-success.textContent = message;
-
-success.style.display = "block";
-
-}
-
-function login(){
-
-const username =
-document
-.getElementById("username")
-.value;
-
-const employeeId =
-document
-.getElementById("employeeId")
-.value;
-
-const usernameNormalized =
-normalizeUsername(username);
-
-const idNormalized =
-normalizeId(employeeId);
-
-if(!usernameNormalized || !idNormalized){
-
-showError(
-"أدخل Roblox Username و Employee ID."
-);
-
-return;
-
-}
-
-const ownerUsername =
-normalizeUsername(OWNER_USERNAME);
-
-const ownerId =
-normalizeId(OWNER_ID);
-
-if(
-usernameNormalized === ownerUsername &&
-idNormalized === ownerId
-){
-
-sessionStorage.setItem(
-"af_user",
-OWNER_USERNAME
-);
-
-sessionStorage.setItem(
-"af_id",
-OWNER_ID
-);
-
-sessionStorage.setItem(
-"af_role",
-"Owner"
-);
-
-showSuccess(
-"تم التحقق من هوية المالك."
-);
-
-setTimeout(function(){
-
-location.href = "owner.html";
-
-},500);
-
-return;
-
-}
-
-const employees =
-getEmployees();
-
-const employee =
-employees.find(function(item){
-
-if(!item){
-return false;
-}
-
-const savedUsername =
-normalizeUsername(item.username);
-
-const savedId =
-normalizeId(item.employeeId);
-
-return(
-savedUsername === usernameNormalized &&
-savedId === idNormalized
-);
-
-});
-
-if(!employee){
-
-showError(
-"لم يتم العثور على هوية مطابقة. تأكد من اليوزر والـEmployee ID."
-);
-
-return;
-
-}
-
-sessionStorage.setItem(
-"af_user",
-employee.username
-);
-
-sessionStorage.setItem(
-"af_id",
-employee.employeeId
-);
-
-sessionStorage.setItem(
-"af_role",
-employee.role
-);
-
-showSuccess(
-"تم تسجيل الدخول كـ " + employee.role
-);
-
-setTimeout(function(){
-
-location.href = "staff.html";
-
-},500);
-
-}
-
-document
-.getElementById("username")
-.addEventListener(
-"keydown",
-function(event){
-
-if(event.key === "Enter"){
-
-login();
-
-}
-
-});
 
 document
 .getElementById("employeeId")
-.addEventListener(
-"keydown",
-function(event){
+.addEventListener("keydown",function(event){
 
-if(event.key === "Enter"){
+if(event.key==="Enter"){
 
 login();
 
