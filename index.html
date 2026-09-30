@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AirFrance PTFS</title>
-
     <style>
         * {
             box-sizing: border-box;
@@ -12,7 +11,6 @@
             padding: 0;
             font-family: Arial, sans-serif;
         }
-
         body {
             min-height: 100vh;
             background:
@@ -23,7 +21,6 @@
             justify-content: center;
             overflow: hidden;
         }
-
         .page {
             width: 100%;
             min-height: 100vh;
@@ -32,31 +29,27 @@
             justify-content: center;
             padding: 25px;
         }
-
         .panel {
             width: 100%;
             max-width: 430px;
-            background: rgba(15, 19, 25, 0.94);
+            background: rgba(15, 19, 25, 0.95);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 22px;
             padding: 38px 28px;
             box-shadow: 0 25px 70px rgba(0, 0, 0, 0.55);
             text-align: center;
         }
-
         .brand {
             font-size: 31px;
             font-weight: 800;
             letter-spacing: 1px;
             margin-bottom: 7px;
         }
-
         .subtitle {
             color: #9ca6b4;
             font-size: 14px;
             margin-bottom: 35px;
         }
-
         .login-button {
             width: 100%;
             border: 0;
@@ -68,84 +61,55 @@
             cursor: pointer;
             transition: 0.2s;
         }
-
         .passenger {
             background: #2563eb;
             color: white;
         }
-
         .employee {
             background: #202731;
             color: white;
             border: 1px solid #343d49;
         }
-
         .login-button:hover {
             transform: translateY(-2px);
             filter: brightness(1.08);
         }
-
         .footer {
             margin-top: 30px;
             color: #66707e;
             font-size: 11px;
         }
-
-        .message {
-            display: none;
-            margin-top: 18px;
-            padding: 12px;
-            border-radius: 10px;
-            background: #111720;
-            color: #aeb8c6;
-            font-size: 13px;
-        }
     </style>
 </head>
-
 <body>
-
     <main class="page">
         <section class="panel">
-
             <div class="brand">AirFrance PTFS</div>
-
             <div class="subtitle">
                 Flight Operations Portal
             </div>
-
-            <button class="login-button passenger" onclick="loginPassenger()">
+            <button
+                class="login-button passenger"
+                onclick="loginPassenger()">
                 تسجيل الدخول كمسافر
             </button>
-
-            <button class="login-button employee" onclick="loginEmployee()">
+            <button
+                class="login-button employee"
+                onclick="loginEmployee()">
                 تسجيل الدخول كموظف
             </button>
-
-            <div id="message" class="message"></div>
-
             <div class="footer">
                 HAMOUD • AirFrance PTFS
             </div>
-
         </section>
     </main>
-
     <script>
-        function showMessage(text) {
-            const message = document.getElementById("message");
-            message.textContent = text;
-            message.style.display = "block";
-        }
-
         function loginPassenger() {
-    window.location.href = "verify.html?role=passenger";
-}
-
-function loginEmployee() {
-    window.location.href = "verify.html?role=employee";
-}
+            window.location.href = "verify.html?role=passenger";
+        }
+        function loginEmployee() {
+            window.location.href = "verify.html?role=employee";
+        }
     </script>
-
 </body>
 </html>
