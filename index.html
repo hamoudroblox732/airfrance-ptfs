@@ -1,236 +1,539 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>AirFrance PTFS</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AirFrance PTFS Hub</title>
 <style>
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-font-family:Arial,sans-serif
-}
-
+*{box-sizing:border-box;margin:0;padding:0}
 body{
+font-family:Arial,Helvetica,sans-serif;
+background:#f5f7fb;
+color:#172033;
 min-height:100vh;
-background:
-radial-gradient(circle at 15% 0%,#183650,transparent 32%),
-radial-gradient(circle at 100% 100%,#101e30,transparent 35%),
-#05080d;
-color:#fff
 }
-
-header{
-height:74px;
+.app{
+display:flex;
+min-height:100vh;
+}
+.sidebar{
+width:250px;
+background:#fff;
+border-right:1px solid #e5e8ef;
+padding:24px 16px;
+position:fixed;
+left:0;
+top:0;
+bottom:0;
+z-index:10;
+}
+.logo{
 display:flex;
 align-items:center;
-justify-content:space-between;
-padding:0 25px;
-border-bottom:1px solid #202e3d;
-background:#080d14ee
+gap:10px;
+padding:8px 10px 28px;
+font-size:20px;
+font-weight:800;
 }
-
-.logo{
-font-size:22px;
-font-weight:900
-}
-
-.badge{
-font-size:10px;
-color:#8ca7c3;
-border:1px solid #293c50;
-border-radius:20px;
-padding:8px 12px
-}
-
-main{
-min-height:calc(100vh - 74px);
+.logo-mark{
+width:36px;
+height:36px;
+border-radius:10px;
+background:#123b73;
+color:#fff;
 display:flex;
 align-items:center;
 justify-content:center;
-padding:25px
+font-weight:900;
 }
-
-.container{
-width:100%;
-max-width:950px
-}
-
-.hero{
-text-align:center;
-margin-bottom:25px
-}
-
-.hero small{
-font-size:10px;
-letter-spacing:3px;
-color:#6885a5
-}
-
-.hero h1{
-font-size:42px;
-margin:12px 0
-}
-
-.hero p{
-font-size:13px;
-line-height:1.8;
-color:#788697;
-max-width:600px;
-margin:auto
-}
-
-.cards{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:16px
-}
-
-.card{
-background:#0b1219;
-border:1px solid #202e3d;
-border-radius:20px;
-padding:28px;
-transition:.2s
-}
-
-.card:hover{
-transform:translateY(-5px);
-border-color:#315b89
-}
-
-.card h2{
-font-size:18px;
-margin-bottom:9px
-}
-
-.card p{
+.nav-title{
 font-size:11px;
-line-height:1.8;
-color:#788697
+font-weight:700;
+color:#9aa3b2;
+padding:14px 12px 8px;
+text-transform:uppercase;
+letter-spacing:1px;
 }
-
-button{
-width:100%;
-margin-top:20px;
-padding:13px;
+.nav{
+display:flex;
+flex-direction:column;
+gap:5px;
+}
+.nav button{
 border:0;
+background:transparent;
+padding:12px;
 border-radius:10px;
-background:#2563eb;
+text-align:left;
+font-size:14px;
+font-weight:600;
+color:#667085;
+cursor:pointer;
+transition:.15s;
+}
+.nav button:hover{
+background:#f1f5fb;
+color:#123b73;
+}
+.nav button.active{
+background:#eaf1fb;
+color:#123b73;
+}
+.bottom{
+position:absolute;
+bottom:20px;
+left:16px;
+right:16px;
+}
+.profile{
+background:#f5f7fb;
+border-radius:12px;
+padding:12px;
+}
+.profile-name{
+font-size:13px;
+font-weight:800;
+}
+.profile-role{
+font-size:11px;
+color:#8b95a5;
+margin-top:3px;
+}
+.main{
+margin-left:250px;
+width:calc(100% - 250px);
+padding:28px;
+}
+.topbar{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-bottom:28px;
+}
+.page-title{
+font-size:26px;
+font-weight:800;
+}
+.page-subtitle{
+font-size:13px;
+color:#8993a3;
+margin-top:5px;
+}
+.user-pill{
+background:#fff;
+border:1px solid #e5e8ef;
+padding:9px 14px;
+border-radius:10px;
+font-size:13px;
+font-weight:700;
+}
+.hero{
+background:linear-gradient(135deg,#123b73,#1d579f);
+border-radius:18px;
+padding:30px;
 color:#fff;
-font-weight:bold;
-cursor:pointer
+display:flex;
+justify-content:space-between;
+align-items:center;
+min-height:190px;
+box-shadow:0 12px 35px rgba(18,59,115,.15);
 }
-
-.employee{
-background:#101820
-}
-
-footer{
-text-align:center;
-color:#40505f;
-font-size:10px;
-padding:25px
-}
-
-@media(max-width:650px){
-
 .hero h1{
-font-size:31px
+font-size:30px;
+margin-bottom:10px;
 }
-
-.cards{
-grid-template-columns:1fr
+.hero p{
+font-size:14px;
+opacity:.82;
+max-width:550px;
+line-height:1.6;
 }
-
-main{
-padding:15px
+.hero-button{
+margin-top:22px;
+background:#fff;
+color:#123b73;
+border:0;
+padding:11px 17px;
+border-radius:9px;
+font-weight:800;
+cursor:pointer;
 }
-
+.aircraft{
+font-size:72px;
+opacity:.9;
+padding-right:25px;
+}
+.stats{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:15px;
+margin:20px 0;
+}
+.card{
+background:#fff;
+border:1px solid #e7eaf0;
+border-radius:15px;
+padding:20px;
+}
+.stat-label{
+font-size:12px;
+color:#8993a3;
+font-weight:600;
+}
+.stat-number{
+font-size:27px;
+font-weight:800;
+margin-top:8px;
+}
+.section{
+display:grid;
+grid-template-columns:1.7fr 1fr;
+gap:20px;
+}
+.section-title{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px;
+font-size:17px;
+font-weight:800;
+}
+.view{
+font-size:12px;
+color:#3569a8;
+cursor:pointer;
+}
+.flight{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:17px 0;
+border-bottom:1px solid #edf0f4;
+}
+.flight:last-child{
+border-bottom:0;
+}
+.flight-number{
+font-size:13px;
+font-weight:800;
+}
+.route{
+font-size:12px;
+color:#8993a3;
+margin-top:4px;
+}
+.status{
+padding:6px 9px;
+border-radius:7px;
+background:#edf7f0;
+color:#287343;
+font-size:11px;
+font-weight:800;
+}
+.time{
+font-size:12px;
+font-weight:700;
+color:#667085;
+}
+.quick{
+display:grid;
+gap:10px;
+}
+.quick button{
+border:1px solid #e4e8ef;
+background:#fff;
+border-radius:11px;
+padding:15px;
+text-align:left;
+font-weight:700;
+color:#344054;
+cursor:pointer;
+}
+.quick button:hover{
+border-color:#9bb7d8;
+background:#f8fbff;
+}
+@media(max-width:850px){
+.sidebar{
+width:210px;
+}
+.main{
+margin-left:210px;
+width:calc(100% - 210px);
+}
+.stats{
+grid-template-columns:repeat(2,1fr);
+}
+.section{
+grid-template-columns:1fr;
+}
+.aircraft{
+display:none;
+}
+}
+@media(max-width:650px){
+.sidebar{
+position:relative;
+width:100%;
+height:auto;
+border-right:0;
+border-bottom:1px solid #e5e8ef;
+}
+.bottom{
+position:relative;
+left:auto;
+right:auto;
+bottom:auto;
+margin-top:20px;
+}
+.app{
+display:block;
+}
+.main{
+margin-left:0;
+width:100%;
+padding:18px;
+}
+.stats{
+grid-template-columns:1fr 1fr;
+}
+.hero{
+padding:22px;
+}
+.hero h1{
+font-size:24px;
+}
+.topbar{
+align-items:flex-start;
+gap:10px;
+}
+.user-pill{
+display:none;
+}
 }
 </style>
 </head>
-
 <body>
-
-<header>
-
+<div class="app">
+<aside class="sidebar">
 <div class="logo">
+<div class="logo-mark">AF</div>
 AirFrance PTFS
 </div>
-
-<div class="badge">
-PTFS AIRLINE SYSTEM
+<div class="nav-title">Main</div>
+<div class="nav">
+<button class="active" onclick="go('hub.html')">Dashboard</button>
+<button onclick="go('flights.html')">Flight Hub</button>
+<button onclick="go('passenger.html')">Passenger</button>
 </div>
-
-</header>
-
-<main>
-
-<div class="container">
-
+<div class="nav-title">Operations</div>
+<div class="nav">
+<button onclick="go('staff.html')">Crew Portal</button>
+<button onclick="go('create-flight.html')">Create Flight</button>
+<button onclick="go('identities.html')">Employees</button>
+</div>
+<div class="nav-title">Account</div>
+<div class="nav">
+<button onclick="logout()">Logout</button>
+</div>
+<div class="bottom">
+<div class="profile">
+<div class="profile-name" id="profileName">Guest</div>
+<div class="profile-role" id="profileRole">AirFrance PTFS</div>
+</div>
+</div>
+</aside>
+<main class="main">
+<div class="topbar">
+<div>
+<div class="page-title">Flight Hub</div>
+<div class="page-subtitle">AirFrance PTFS operations center</div>
+</div>
+<div class="user-pill" id="userPill">Guest</div>
+</div>
 <section class="hero">
-
-<small>
-AIRFRANCE PTFS
-</small>
-
-<h1>
-Welcome
-</h1>
-
+<div>
+<h1>Welcome to AirFrance</h1>
 <p>
-مرحبًا بك في نظام AirFrance PTFS.
-اختر البوابة التي تريد الدخول إليها.
+Manage flights, crew operations and passenger services
+from one central Flight Hub.
 </p>
-
+<button class="hero-button" onclick="go('flights.html')">
+View Flights
+</button>
+</div>
+<div class="aircraft">✈</div>
 </section>
-
-<section class="cards">
-
+<section class="stats">
 <div class="card">
-
-<h2>
-Passenger
-</h2>
-
-<p>
-بوابة المسافر لمتابعة الرحلات والخدمات والحجوزات.
-</p>
-
-<button onclick="location.href='verify.html'">
+<div class="stat-label">Active Flights</div>
+<div class="stat-number" id="activeFlights">—</div>
+</div>
+<div class="card">
+<div class="stat-label">Scheduled</div>
+<div class="stat-number" id="scheduledFlights">—</div>
+</div>
+<div class="card">
+<div class="stat-label">Boarding</div>
+<div class="stat-number" id="boardingFlights">—</div>
+</div>
+<div class="card">
+<div class="stat-label">Landed</div>
+<div class="stat-number" id="landedFlights">—</div>
+</div>
+</section>
+<section class="section">
+<div class="card">
+<div class="section-title">
+Recent Flights
+<span class="view" onclick="go('flights.html')">View all</span>
+</div>
+<div id="flightList">
+<div class="flight">
+<div>
+<div class="flight-number">Loading...</div>
+<div class="route">Loading flights</div>
+</div>
+<div class="time">—</div>
+</div>
+</div>
+</div>
+<div class="card">
+<div class="section-title">
+Quick Access
+</div>
+<div class="quick">
+<button onclick="go('flights.html')">
+Flight Hub
+</button>
+<button onclick="go('staff.html')">
+Crew Portal
+</button>
+<button onclick="go('passenger.html')">
 Passenger Portal
 </button>
-
-</div>
-
-<div class="card employee">
-
-<h2>
-Employee
-</h2>
-
-<p>
-بوابة الموظفين لتسجيل الدخول حسب الهوية والرتبة.
-</p>
-
-<button onclick="location.href='employee.html'">
-Employee Portal
+<button onclick="go('create-flight.html')">
+Create Flight
 </button>
-
 </div>
-
+</div>
 </section>
-
-<footer>
-HAMOUD • AirFrance PTFS
-</footer>
-
-</div>
-
 </main>
-
+</div>
+<script>
+const SUPABASE_URL="https://pjsadqfyvibsjrccnaum.supabase.co";
+const SUPABASE_KEY="sb_publishable_HKBI1QKk53w8Vp8Eq23X-A_gmrUk1px";
+const username=sessionStorage.getItem("af_user");
+const employeeId=sessionStorage.getItem("af_id");
+const role=sessionStorage.getItem("af_role");
+if(username){
+document.getElementById("profileName").textContent=username;
+document.getElementById("userPill").textContent=username;
+}
+if(role){
+document.getElementById("profileRole").textContent=role;
+}
+function go(page){
+window.location.href=page;
+}
+function logout(){
+sessionStorage.clear();
+localStorage.removeItem("af_passenger");
+window.location.href="employee.html";
+}
+async function loadFlights(){
+try{
+const response=await fetch(
+SUPABASE_URL+"/rest/v1/flights?select=*&order=created_at.desc",
+{
+headers:{
+"apikey":SUPABASE_KEY,
+"Authorization":"Bearer "+SUPABASE_KEY
+}
+}
+);
+if(!response.ok) throw new Error();
+const flights=await response.json();
+let active=0;
+let scheduled=0;
+let boarding=0;
+let landed=0;
+flights.forEach(f=>{
+if(
+f.status!=="Cancelled" &&
+f.status!=="Landed"
+){
+active++;
+}
+if(f.status==="Scheduled"){
+scheduled++;
+}
+if(f.status==="Boarding"){
+boarding++;
+}
+if(f.status==="Landed"){
+landed++;
+}
+});
+document.getElementById("activeFlights").textContent=active;
+document.getElementById("scheduledFlights").textContent=scheduled;
+document.getElementById("boardingFlights").textContent=boarding;
+document.getElementById("landedFlights").textContent=landed;
+const list=document.getElementById("flightList");
+if(!flights.length){
+list.innerHTML=`
+<div class="flight">
+<div>
+<div class="flight-number">No flights</div>
+<div class="route">No flights available</div>
+</div>
+</div>
+`;
+return;
+}
+list.innerHTML=flights.slice(0,5).map(f=>`
+<div class="flight">
+<div>
+<div class="flight-number">
+${escapeHtml(f.flight_number || "Unknown")}
+</div>
+<div class="route">
+${escapeHtml(f.departure || "—")}
+→
+${escapeHtml(f.destination || "—")}
+</div>
+</div>
+<div>
+<div class="status">
+${escapeHtml(f.status || "Scheduled")}
+</div>
+<div class="time" style="margin-top:6px">
+${escapeHtml(f.aircraft || "Aircraft")}
+</div>
+</div>
+</div>
+`).join("");
+}catch(e){
+document.getElementById("flightList").innerHTML=`
+<div class="flight">
+<div>
+<div class="flight-number">Unable to load flights</div>
+<div class="route">Please try again later</div>
+</div>
+</div>
+`;
+}
+}
+function escapeHtml(value){
+return String(value)
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+}
+loadFlights();
+setInterval(loadFlights,30000);
+</script>
 </body>
 </html>
