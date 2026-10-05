@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leave Requests | AirFrance PTFS</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#070b12;
+  color:#fff;
+  min-height:100vh;
+}
+
+.header{
+  height:72px;
+  background:#0d131d;
+  border-bottom:1px solid #1d2a3b;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 28px;
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+
+.logo{
+  font-size:21px;
+  font-weight:800;
+  letter-spacing:.5px;
+}
+
+.logo span{
+  color:#4da3ff;
+}
+
+.back{
+  border:1px solid #27384e;
+  background:#111a27;
+  color:#fff;
+  padding:10px 16px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:700;
+}
+
+.back:hover{
+  background:#172335;
+}
+
+.container{
+  max-width:1200px;
+  margin:0 auto;
+  padding:35px 20px 50px;
+}
+
+.title{
+  margin-bottom:8px;
+  font-size:30px;
+  font-weight:800;
+}
+
+.subtitle{
+  color:#8c9bad;
+  margin-bottom:28px;
+}
+
+.message{
+  display:none;
+  padding:13px 16px;
+  border-radius:10px;
+  margin-bottom:18px;
+  background:#111a27;
+  border:1px solid #27384e;
+}
+
+.requests{
+  display:grid;
+  gap:16px;
+}
+
+.request{
+  background:#0d131d;
+  border:1px solid #1d2a3b;
+  border-radius:16px;
+  padding:20px;
+}
+
+.request-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  margin-bottom:18px;
+}
+
+.request-id{
+  color:#4da3ff;
+  font-weight:800;
+}
+
+.time{
+  color:#77869a;
+  font-size:13px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+}
+
+.info{
+  background:#0a1018;
+  border:1px solid #182638;
+  border-radius:10px;
+  padding:13px;
+}
+
+.label{
+  color:#728197;
+  font-size:12px;
+  margin-bottom:5px;
+}
+
+.value{
+  font-weight:700;
+  word-break:break-word;
+}
+
+.reason{
+  margin-top:12px;
+  background:#0a1018;
+  border:1px solid #182638;
+  border-radius:10px;
+  padding:14px;
+}
+
+.reason-text{
+  color:#dce5ef;
+  line-height:1.5;
+  white-space:pre-wrap;
+  word-break:break-word;
+}
+
+.empty{
+  text-align:center;
+  padding:60px 20px;
+  border:1px dashed #27384e;
+  border-radius:16px;
+  color:#77869a;
+}
+
+.delete-btn{
+  margin-top:16px;
+  width:100%;
+  border:1px solid #63343a;
+  background:#241217;
+  color:#ff8f98;
+  padding:11px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:700;
+}
+
+.delete-btn:hover{
+  background:#32171d;
+}
+
+.footer{
+  text-align:center;
+  color:#536276;
+  font-size:12px;
+  margin-top:35px;
+}
+
+@media(max-width:650px){
+  .header{
+    padding:0 16px;
+  }
+
+  .container{
+    padding:25px 14px 40px;
+  }
+
+  .title{
+    font-size:25px;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .request-top{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+  <div class="logo">
+    AIRFRANCE <span>PTFS</span>
+  </div>
+
+  <button class="back" onclick="goBack()">Back</button>
+</header>
+
+<main class="container">
+
+  <h1 class="title">Leave Requests</h1>
+  <p class="subtitle">Crew members who requested to leave their flights.</p>
+
+  <div id="message" class="message"></div>
+
+  <div id="requests" class="requests"></div>
+
+  <div class="footer">
+    AIRFRANCE PTFS
+  </div>
+
+</main>
+
+<script>
+const SUPABASE_URL = "https://pjsadqfyvibsjrccnaum.supabase.co";
+const SUPABASE_KEY = "sb_publishable_HKBI1QKk53w8Vp8Eq23X-A_gmrUk1px";
+
+const ownerUsername = "Ahmad_roblox2222";
+const ownerId = "AF-OWNER-4827";
+
+const sessionUsername = sessionStorage.getItem("af_user");
+const sessionId = sessionStorage.getItem("af_id");
+const sessionRole = sessionStorage.getItem("af_role");
+
+if(
+  sessionUsername !== ownerUsername ||
+  sessionId !== ownerId ||
+  sessionRole !== "Owner"
+){
+  window.location.href = "employee.html";
+}
+
+function showMessage(text){
+  const box = document.getElementById("message");
+  box.textContent = text;
+  box.style.display = "block";
+}
+
+function hideMessage(){
+  document.getElementById("message").style.display = "none";
+}
+
+async function loadRequests(){
+  hideMessage();
+
+  const container = document.getElementById("requests");
+
+  container.innerHTML = `
+    <div class="empty">
+      Loading leave requests...
+    </div>
+  `;
+
+  try{
+    const response = await fetch(
+      `${SUPABASE_URL}/rest/v1/leave_requests?select=*,flights(flight_number,departure,destination)&order=created_at.desc`,
+      {
+        headers:{
+          apikey:SUPABASE_KEY,
+          Authorization:`Bearer ${SUPABASE_KEY}`
+        }
+      }
+    );
+
+    if(!response.ok){
+      throw new Error("Failed to load requests");
+    }
+
+    const data = await response.json();
+
+    if(!data.length){
+      container.innerHTML = `
+        <div class="empty">
+          No leave requests yet.
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = data.map(request => {
+
+      const flight = request.flights || {};
+
+      const flightNumber =
+        flight.flight_number || "Unknown Flight";
+
+      const route =
+        flight.departure && flight.destination
+          ? `${flight.departure} → ${flight.destination}`
+          : "Unknown Route";
+
+      const created =
+        request.created_at
+          ? new Date(request.created_at).toLocaleString()
+          : "Unknown";
+
+      return `
+        <div class="request">
+
+          <div class="request-top">
+            <div class="request-id">
+              REQUEST #${request.id}
+            </div>
+
+            <div class="time">
+              ${escapeHtml(created)}
+            </div>
+          </div>
+
+          <div class="grid">
+
+            <div class="info">
+              <div class="label">Employee</div>
+              <div class="value">
+                ${escapeHtml(request.username)}
+              </div>
+            </div>
+
+            <div class="info">
+              <div class="label">Employee ID</div>
+              <div class="value">
+                ${escapeHtml(request.employee_id)}
+              </div>
+            </div>
+
+            <div class="info">
+              <div class="label">Role</div>
+              <div class="value">
+                ${escapeHtml(request.role)}
+              </div>
+            </div>
+
+            <div class="info">
+              <div class="label">Flight</div>
+              <div class="value">
+                ${escapeHtml(flightNumber)}
+              </div>
+            </div>
+
+            <div class="info">
+              <div class="label">Route</div>
+              <div class="value">
+                ${escapeHtml(route)}
+              </div>
+            </div>
+
+          </div>
+
+          <div class="reason">
+            <div class="label">Reason</div>
+            <div class="reason-text">
+              ${escapeHtml(request.reason)}
+            </div>
+          </div>
+
+          <button
+            class="delete-btn"
+            onclick="deleteRequest(${request.id})"
+          >
+            Delete Request
+          </button>
+
+        </div>
+      `;
+    }).join("");
+
+  }catch(error){
+    console.error(error);
+
+    container.innerHTML = `
+      <div class="empty">
+        Failed to load leave requests.
+      </div>
+    `;
+
+    showMessage(
+      "Could not load leave requests. Check your Supabase table and policies."
+    );
+  }
+}
+
+async function deleteRequest(id){
+
+  const confirmed = confirm(
+    "Delete this leave request?"
+  );
+
+  if(!confirmed) return;
+
+  try{
+
+    const response = await fetch(
+      `${SUPABASE_URL}/rest/v1/leave_requests?id=eq.${id}`,
+      {
+        method:"DELETE",
+        headers:{
+          apikey:SUPABASE_KEY,
+          Authorization:`Bearer ${SUPABASE_KEY}`
+        }
+      }
+    );
+
+    if(!response.ok){
+      throw new Error("Delete failed");
+    }
+
+    loadRequests();
+
+  }catch(error){
+
+    console.error(error);
+
+    showMessage(
+      "Failed to delete the request."
+    );
+  }
+}
+
+function escapeHtml(value){
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function goBack(){
+  window.location.href = "owner.html";
+}
+
+loadRequests();
+
+setInterval(loadRequests,30000);
+</script>
+
+</body>
+</html>
