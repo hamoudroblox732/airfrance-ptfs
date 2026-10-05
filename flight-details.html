@@ -167,6 +167,7 @@ margin-top:18px
 }
 
 .action{
+width:100%;
 border:0;
 background:#123b73;
 color:#fff;
@@ -181,6 +182,11 @@ background:#eef3f9;
 color:#123b73
 }
 
+.action.danger{
+background:#fff0f0;
+color:#b42318
+}
+
 .notice{
 background:#f7f9fc;
 border-radius:10px;
@@ -190,6 +196,15 @@ color:#687386;
 line-height:1.5
 }
 
+.server-input{
+width:100%;
+border:1px solid #dfe4eb;
+border-radius:9px;
+padding:12px;
+margin-top:12px;
+outline:none
+}
+
 .loading{
 background:#fff;
 border:1px solid #e3e8ef;
@@ -197,6 +212,69 @@ border-radius:15px;
 padding:45px;
 text-align:center;
 color:#8c96a5
+}
+
+.modal-bg{
+position:fixed;
+inset:0;
+background:rgba(10,20,35,.45);
+display:none;
+align-items:center;
+justify-content:center;
+padding:20px;
+z-index:50
+}
+
+.modal{
+background:#fff;
+width:min(430px,100%);
+border-radius:15px;
+padding:22px
+}
+
+.modal h2{
+font-size:19px;
+margin-bottom:8px
+}
+
+.modal p{
+font-size:12px;
+color:#7b8595;
+margin-bottom:15px
+}
+
+.reason{
+width:100%;
+min-height:120px;
+resize:none;
+border:1px solid #dfe4eb;
+border-radius:9px;
+padding:12px;
+outline:none
+}
+
+.modal-actions{
+display:flex;
+gap:9px;
+margin-top:12px
+}
+
+.modal-actions button{
+flex:1;
+padding:11px;
+border:0;
+border-radius:9px;
+font-weight:800;
+cursor:pointer
+}
+
+.cancel{
+background:#eef2f6
+}
+
+.confirm{
+background:#123b73;
+color:#fff
 }
 
 @media(max-width:750px){
@@ -247,14 +325,93 @@ Loading flight...
 
 </div>
 
+<div class="modal-bg" id="leaveModal">
+
+<div class="modal">
+
+<h2>Leave Flight</h2>
+
+<p>
+Enter a reason before sending your leave request to the Owner.
+</p>
+
+<textarea
+class="reason"
+id="leaveReason"
+placeholder="Reason for leaving..."
+></textarea>
+
+<div class="modal-actions">
+
+<button
+class="cancel"
+onclick="closeLeaveModal()"
+>
+Cancel
+</button>
+
+<button
+class="confirm"
+onclick="submitLeaveRequest()"
+>
+Send Request
+</button>
+
+</div>
+
+</div>
+
+</div>
+
 <script>
 
 const SUPABASE_URL="https://pjsadqfyvibsjrccnaum.supabase.co";
 const SUPABASE_KEY="sb_publishable_HKBI1QKk53w8Vp8Eq23X-A_gmrUk1px";
 
+const username=sessionStorage.getItem("af_user");
+const employeeId=sessionStorage.getItem("af_id");
+const role=sessionStorage.getItem("af_role");
+
 const flightId=sessionStorage.getItem("af_selected_flight");
 
 let flight=null;
+let crew=[];
+
+async function request(url,options={}){
+
+const response=await fetch(
+SUPABASE_URL+url,
+{
+...options,
+headers:{
+"apikey":SUPABASE_KEY,
+"Authorization":"Bearer "+SUPABASE_KEY,
+"Content-Type":"application/json",
+...(options.headers||{})
+}
+}
+);
+
+if(!response.ok){
+
+let message="Request failed";
+
+try{
+const data=await response.json();
+message=data.message||data.hint||message;
+}catch(e){}
+
+throw new Error(message);
+
+}
+
+if(response.status===204){
+return null;
+}
+
+return response.json();
+
+}
 
 async function loadFlight(){
 
@@ -267,24 +424,11 @@ return;
 
 try{
 
-const response=await fetch(
-SUPABASE_URL+
+const data=await request(
 "/rest/v1/flights?id=eq."+
 encodeURIComponent(flightId)+
-"&select=*",
-{
-headers:{
-"apikey":SUPABASE_KEY,
-"Authorization":"Bearer "+SUPABASE_KEY
-}
-}
+"&select=*"
 );
-
-if(!response.ok){
-throw new Error();
-}
-
-const data=await response.json();
 
 if(!data.length){
 
@@ -295,17 +439,140 @@ return;
 
 flight=data[0];
 
+await loadCrew();
+
 render();
 
 }catch(error){
 
-showError("Unable to load flight.");
+showError(error.message||"Unable to load flight.");
 
 }
+
+}
+
+async function loadCrew(){
+
+crew=await request(
+"/rest/v1/flight_crew?flight_id=eq."+
+encodeURIComponent(flightId)+
+"&active=eq.true&select=*&order=joined_at.asc"
+);
 
 }
 
 function render(){
+
+const isEmployee=!!username&&!!employeeId;
+const canJoin=
+isEmployee &&
+[
+"Pilot",
+"Co-Pilot",
+"Cabin Crew",
+"Ground Crew"
+].includes(role);
+
+const existing=crew.find(
+member=>member.employee_id===employeeId
+);
+
+const pilot=crew.find(
+member=>member.role==="Pilot"
+);
+
+const copilot=crew.find(
+member=>member.role==="Co-Pilot"
+);
+
+const cabin=crew.filter(
+member=>member.role==="Cabin Crew"
+);
+
+const ground=crew.filter(
+member=>member.role==="Ground Crew"
+);
+
+let joinButton="";
+
+if(canJoin&&!existing){
+
+joinButton=`
+<button
+class="action"
+onclick="joinFlight()"
+>
+Join Flight
+</button>
+`;
+
+}
+
+let leaveButton="";
+
+if(existing){
+
+leaveButton=`
+<button
+class="action danger"
+onclick="openLeaveModal()"
+>
+Leave Flight
+</button>
+`;
+
+}
+
+let serverSection="";
+
+if(role==="Pilot"&&existing){
+
+serverSection=`
+<div class="card" style="margin-top:18px">
+
+<div class="card-title">
+Roblox Server
+</div>
+
+<div class="notice">
+Add the Roblox private server link for this flight.
+</div>
+
+<input
+class="server-input"
+id="serverLink"
+placeholder="https://www.roblox.com/share..."
+value="${safe(flight.server_link||"")}"
+>
+
+<button
+class="action"
+style="margin-top:10px"
+onclick="saveServerLink()"
+>
+Save Server Link
+</button>
+
+</div>
+`;
+
+}else{
+
+serverSection=`
+<div class="card" style="margin-top:18px">
+
+<div class="card-title">
+Roblox Server
+</div>
+
+<div class="notice">
+The server link will appear here for passengers with a valid booking once the pilot adds it.
+</div>
+
+</div>
+`;
+
+}
 
 document.getElementById("content").innerHTML=`
 
@@ -326,9 +593,7 @@ DEPARTURE
 </div>
 </div>
 
-<div class="arrow">
-→
-</div>
+<div class="arrow">→</div>
 
 <div>
 <div class="airport">
@@ -369,7 +634,7 @@ ${safe(flight.aircraft||"—")}
 <div class="info">
 <div class="label">Pilot</div>
 <div class="value">
-${safe(flight.pilot||"Not assigned")}
+${safe(pilot?.username||flight.pilot||"Not assigned")}
 </div>
 </div>
 
@@ -411,7 +676,7 @@ ${number(flight.first_seats)}
 <div class="info">
 <div class="label">Boarding Closed</div>
 <div class="value">
-${flight.closed ? "Yes" : "No"}
+${flight.closed?"Yes":"No"}
 </div>
 </div>
 
@@ -464,76 +729,48 @@ Flight Crew
 
 <div class="crew">
 
-<div class="crew-item">
+${crewMember("Pilot",pilot)}
 
-<div>
-<div class="crew-role">PILOT</div>
-<div class="crew-name">
-${safe(flight.pilot||"Not assigned")}
-</div>
-</div>
+${crewMember("Co-Pilot",copilot)}
 
-</div>
+${crewList("Cabin Crew",cabin)}
 
-<div class="crew-item">
-
-<div>
-<div class="crew-role">CO-PILOT</div>
-<div class="crew-name">
-Not assigned
-</div>
-</div>
-
-</div>
-
-<div class="crew-item">
-
-<div>
-<div class="crew-role">CABIN CREW</div>
-<div class="crew-name">
-Not assigned
-</div>
-</div>
-
-</div>
-
-<div class="crew-item">
-
-<div>
-<div class="crew-role">GROUND CREW</div>
-<div class="crew-name">
-Not assigned
-</div>
-</div>
-
-</div>
+${crewList("Ground Crew",ground)}
 
 </div>
 
 <div class="actions">
 
-<button class="action secondary" onclick="joinFlight()">
-Join Flight
-</button>
+${joinButton}
 
-<button class="action secondary" onclick="leaveFlight()">
-Leave Flight
-</button>
+${leaveButton}
 
 </div>
 
 </div>
 
-<div class="card" style="margin-top:18px">
+${serverSection}
 
-<div class="card-title">
-Roblox Server
 </div>
 
-<div class="notice">
-The flight server link will appear here for authorized crew and passengers with a booking.
+</div>
+`;
+
+}
+
+function crewMember(label,member){
+
+return`
+<div class="crew-item">
+
+<div>
+
+<div class="crew-role">
+${safe(label)}
 </div>
 
+<div class="crew-name">
+${safe(member?.username||"Not assigned")}
 </div>
 
 </div>
@@ -543,27 +780,276 @@ The flight server link will appear here for authorized crew and passengers with 
 
 }
 
-function joinFlight(){
+function crewList(label,members){
 
-alert(
-"Flight crew joining will be connected to the online crew system next."
-);
+return`
+<div class="crew-item">
+
+<div>
+
+<div class="crew-role">
+${safe(label)}
+</div>
+
+<div class="crew-name">
+${
+members.length
+?
+members.map(x=>safe(x.username)).join(", ")
+:
+"Not assigned"
+}
+</div>
+
+</div>
+
+</div>
+`;
 
 }
 
-function leaveFlight(){
+async function joinFlight(){
 
-const reason=prompt(
-"Enter your reason for leaving this flight:"
-);
+if(!username||!employeeId||!role){
 
-if(!reason||!reason.trim()){
+alert("You need an employee account to join a flight.");
+
 return;
 }
 
-alert(
-"Your leave request will be connected to the Owner request system next."
+if(
+!["Pilot","Co-Pilot","Cabin Crew","Ground Crew"].includes(role)
+){
+
+alert("Your role cannot join flights.");
+
+return;
+}
+
+try{
+
+const existing=crew.find(
+member=>member.employee_id===employeeId
 );
+
+if(existing){
+
+alert("You are already on this flight.");
+
+return;
+}
+
+if(role==="Pilot"){
+
+const anotherPilot=crew.find(
+member=>member.role==="Pilot"
+);
+
+if(anotherPilot){
+
+alert("This flight already has a Pilot.");
+
+return;
+}
+
+}
+
+if(role==="Co-Pilot"){
+
+const pilotExists=crew.some(
+member=>member.role==="Pilot"
+);
+
+if(!pilotExists){
+
+alert("A Pilot must join the flight first.");
+
+return;
+}
+
+const anotherCopilot=crew.find(
+member=>member.role==="Co-Pilot"
+);
+
+if(anotherCopilot){
+
+alert("This flight already has a Co-Pilot.");
+
+return;
+}
+
+}
+
+await request(
+"/rest/v1/flight_crew",
+{
+method:"POST",
+body:JSON.stringify({
+flight_id:Number(flightId),
+username:username,
+employee_id:employeeId,
+role:role,
+active:true
+})
+);
+
+if(role==="Pilot"){
+
+await request(
+"/rest/v1/flights?id=eq."+
+encodeURIComponent(flightId),
+{
+method:"PATCH",
+body:JSON.stringify({
+pilot:username
+})
+}
+);
+
+}
+
+alert("You joined the flight.");
+
+await loadFlight();
+
+}catch(error){
+
+alert(error.message||"Unable to join flight.");
+
+}
+
+}
+
+function openLeaveModal(){
+
+document.getElementById("leaveReason").value="";
+document.getElementById("leaveModal").style.display="flex";
+
+}
+
+function closeLeaveModal(){
+
+document.getElementById("leaveModal").style.display="none";
+
+}
+
+async function submitLeaveRequest(){
+
+const reason=document
+.getElementById("leaveReason")
+.value
+.trim();
+
+if(!reason){
+
+alert("Please enter a reason.");
+
+return;
+}
+
+try{
+
+await request(
+"/rest/v1/leave_requests",
+{
+method:"POST",
+body:JSON.stringify({
+flight_id:Number(flightId),
+username:username,
+employee_id:employeeId,
+role:role,
+reason:reason
+})
+);
+
+await request(
+"/rest/v1/flight_crew?id=eq."+
+encodeURIComponent(
+crew.find(x=>x.employee_id===employeeId)?.id
+),
+{
+method:"PATCH",
+body:JSON.stringify({
+active:false
+})
+}
+);
+
+if(role==="Pilot"){
+
+await request(
+"/rest/v1/flights?id=eq."+
+encodeURIComponent(flightId),
+{
+method:"PATCH",
+body:JSON.stringify({
+pilot:null
+})
+}
+);
+
+}
+
+closeLeaveModal();
+
+alert("Your leave request was sent to the Owner.");
+
+await loadFlight();
+
+}catch(error){
+
+alert(error.message||"Unable to send request.");
+
+}
+
+}
+
+async function saveServerLink(){
+
+if(role!=="Pilot"){
+
+return;
+}
+
+const input=document.getElementById("serverLink");
+
+const link=input.value.trim();
+
+if(
+link &&
+!(
+link.startsWith("https://www.roblox.com/")||
+link.startsWith("https://roblox.com/")
+)
+){
+
+alert("Enter a valid Roblox link.");
+
+return;
+}
+
+try{
+
+await request(
+"/rest/v1/flights?id=eq."+
+encodeURIComponent(flightId),
+{
+method:"PATCH",
+body:JSON.stringify({
+server_link:link||null
+})
+}
+);
+
+alert("Server link saved.");
+
+await loadFlight();
+
+}catch(error){
+
+alert(error.message||"Unable to save server link.");
+
+}
 
 }
 
@@ -579,15 +1065,11 @@ ${safe(message)}
 
 function formatDate(value){
 
-if(!value){
-return"—";
-}
+if(!value)return"—";
 
 const date=new Date(value);
 
-if(Number.isNaN(date.getTime())){
-return"—";
-}
+if(Number.isNaN(date.getTime()))return"—";
 
 return date.toLocaleString(
 "en-SA",
