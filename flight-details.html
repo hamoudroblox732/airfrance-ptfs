@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>AirFrance PTFS — Flight Details</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+font-family:Arial,sans-serif;
+background:#f5f7fb;
+color:#182334;
+min-height:100vh
+}
+
+.page{
+max-width:1100px;
+margin:auto;
+padding:25px
+}
+
+.top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:22px
+}
+
+.back{
+border:1px solid #dfe4eb;
+background:#fff;
+color:#123b73;
+padding:10px 15px;
+border-radius:9px;
+font-weight:800;
+cursor:pointer
+}
+
+.brand{
+font-size:18px;
+font-weight:900;
+color:#123b73
+}
+
+.hero{
+background:linear-gradient(135deg,#123b73,#1d579f);
+color:#fff;
+border-radius:18px;
+padding:28px;
+margin-bottom:18px
+}
+
+.flight-number{
+font-size:28px;
+font-weight:900
+}
+
+.route{
+display:flex;
+align-items:center;
+gap:18px;
+margin-top:20px
+}
+
+.airport{
+font-size:30px;
+font-weight:900
+}
+
+.arrow{
+font-size:22px;
+opacity:.7
+}
+
+.route-label{
+font-size:11px;
+opacity:.7;
+margin-top:4px
+}
+
+.status{
+display:inline-block;
+margin-top:20px;
+background:rgba(255,255,255,.15);
+padding:8px 12px;
+border-radius:8px;
+font-size:11px;
+font-weight:900
+}
+
+.grid{
+display:grid;
+grid-template-columns:1.4fr 1fr;
+gap:18px
+}
+
+.card{
+background:#fff;
+border:1px solid #e3e8ef;
+border-radius:15px;
+padding:20px
+}
+
+.card-title{
+font-size:17px;
+font-weight:900;
+margin-bottom:17px
+}
+
+.info-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px
+}
+
+.info{
+background:#f7f9fc;
+border-radius:10px;
+padding:13px
+}
+
+.label{
+font-size:9px;
+font-weight:800;
+color:#98a1b1;
+text-transform:uppercase
+}
+
+.value{
+font-size:13px;
+font-weight:800;
+margin-top:5px
+}
+
+.crew{
+display:grid;
+gap:9px
+}
+
+.crew-item{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:#f7f9fc;
+padding:13px;
+border-radius:10px
+}
+
+.crew-role{
+font-size:10px;
+color:#8c96a5;
+font-weight:700
+}
+
+.crew-name{
+font-size:13px;
+font-weight:800;
+margin-top:3px
+}
+
+.actions{
+display:grid;
+gap:10px;
+margin-top:18px
+}
+
+.action{
+border:0;
+background:#123b73;
+color:#fff;
+padding:12px;
+border-radius:9px;
+font-weight:800;
+cursor:pointer
+}
+
+.action.secondary{
+background:#eef3f9;
+color:#123b73
+}
+
+.notice{
+background:#f7f9fc;
+border-radius:10px;
+padding:14px;
+font-size:12px;
+color:#687386;
+line-height:1.5
+}
+
+.loading{
+background:#fff;
+border:1px solid #e3e8ef;
+border-radius:15px;
+padding:45px;
+text-align:center;
+color:#8c96a5
+}
+
+@media(max-width:750px){
+.page{padding:16px}
+
+.grid{
+grid-template-columns:1fr
+}
+
+.route{
+gap:12px
+}
+
+.airport{
+font-size:24px
+}
+
+.info-grid{
+grid-template-columns:1fr 1fr
+}
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+<div class="top">
+
+<button class="back" onclick="history.back()">
+← Back
+</button>
+
+<div class="brand">
+AirFrance PTFS
+</div>
+
+</div>
+
+<div id="content">
+
+<div class="loading">
+Loading flight...
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const SUPABASE_URL="https://pjsadqfyvibsjrccnaum.supabase.co";
+const SUPABASE_KEY="sb_publishable_HKBI1QKk53w8Vp8Eq23X-A_gmrUk1px";
+
+const flightId=sessionStorage.getItem("af_selected_flight");
+
+let flight=null;
+
+async function loadFlight(){
+
+if(!flightId){
+
+showError("No flight selected.");
+
+return;
+}
+
+try{
+
+const response=await fetch(
+SUPABASE_URL+
+"/rest/v1/flights?id=eq."+
+encodeURIComponent(flightId)+
+"&select=*",
+{
+headers:{
+"apikey":SUPABASE_KEY,
+"Authorization":"Bearer "+SUPABASE_KEY
+}
+}
+);
+
+if(!response.ok){
+throw new Error();
+}
+
+const data=await response.json();
+
+if(!data.length){
+
+showError("Flight not found.");
+
+return;
+}
+
+flight=data[0];
+
+render();
+
+}catch(error){
+
+showError("Unable to load flight.");
+
+}
+
+}
+
+function render(){
+
+document.getElementById("content").innerHTML=`
+
+<section class="hero">
+
+<div class="flight-number">
+${safe(flight.flight_number||"Unknown Flight")}
+</div>
+
+<div class="route">
+
+<div>
+<div class="airport">
+${safe(flight.departure||"—")}
+</div>
+<div class="route-label">
+DEPARTURE
+</div>
+</div>
+
+<div class="arrow">
+→
+</div>
+
+<div>
+<div class="airport">
+${safe(flight.destination||"—")}
+</div>
+<div class="route-label">
+DESTINATION
+</div>
+</div>
+
+</div>
+
+<div class="status">
+${safe(flight.status||"Scheduled")}
+</div>
+
+</section>
+
+<div class="grid">
+
+<div>
+
+<div class="card">
+
+<div class="card-title">
+Flight Information
+</div>
+
+<div class="info-grid">
+
+<div class="info">
+<div class="label">Aircraft</div>
+<div class="value">
+${safe(flight.aircraft||"—")}
+</div>
+</div>
+
+<div class="info">
+<div class="label">Pilot</div>
+<div class="value">
+${safe(flight.pilot||"Not assigned")}
+</div>
+</div>
+
+<div class="info">
+<div class="label">Final Boarding</div>
+<div class="value">
+${formatDate(flight.boarding_time)}
+</div>
+</div>
+
+<div class="info">
+<div class="label">Departure</div>
+<div class="value">
+${formatDate(flight.departure_time)}
+</div>
+</div>
+
+<div class="info">
+<div class="label">Economy Seats</div>
+<div class="value">
+${number(flight.economy_seats)}
+</div>
+</div>
+
+<div class="info">
+<div class="label">Business Seats</div>
+<div class="value">
+${number(flight.business_seats)}
+</div>
+</div>
+
+<div class="info">
+<div class="label">First Seats</div>
+<div class="value">
+${number(flight.first_seats)}
+</div>
+</div>
+
+<div class="info">
+<div class="label">Boarding Closed</div>
+<div class="value">
+${flight.closed ? "Yes" : "No"}
+</div>
+</div>
+
+</div>
+
+</div>
+
+<div class="card" style="margin-top:18px">
+
+<div class="card-title">
+Boarding Times
+</div>
+
+<div class="info-grid">
+
+<div class="info">
+<div class="label">Economy</div>
+<div class="value">
+${formatDate(flight.economy_boarding_time)}
+</div>
+</div>
+
+<div class="info">
+<div class="label">Business</div>
+<div class="value">
+${formatDate(flight.business_boarding_time)}
+</div>
+</div>
+
+<div class="info">
+<div class="label">First Class</div>
+<div class="value">
+${formatDate(flight.first_boarding_time)}
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div>
+
+<div class="card">
+
+<div class="card-title">
+Flight Crew
+</div>
+
+<div class="crew">
+
+<div class="crew-item">
+
+<div>
+<div class="crew-role">PILOT</div>
+<div class="crew-name">
+${safe(flight.pilot||"Not assigned")}
+</div>
+</div>
+
+</div>
+
+<div class="crew-item">
+
+<div>
+<div class="crew-role">CO-PILOT</div>
+<div class="crew-name">
+Not assigned
+</div>
+</div>
+
+</div>
+
+<div class="crew-item">
+
+<div>
+<div class="crew-role">CABIN CREW</div>
+<div class="crew-name">
+Not assigned
+</div>
+</div>
+
+</div>
+
+<div class="crew-item">
+
+<div>
+<div class="crew-role">GROUND CREW</div>
+<div class="crew-name">
+Not assigned
+</div>
+</div>
+
+</div>
+
+</div>
+
+<div class="actions">
+
+<button class="action secondary" onclick="joinFlight()">
+Join Flight
+</button>
+
+<button class="action secondary" onclick="leaveFlight()">
+Leave Flight
+</button>
+
+</div>
+
+</div>
+
+<div class="card" style="margin-top:18px">
+
+<div class="card-title">
+Roblox Server
+</div>
+
+<div class="notice">
+The flight server link will appear here for authorized crew and passengers with a booking.
+</div>
+
+</div>
+
+</div>
+
+</div>
+`;
+
+}
+
+function joinFlight(){
+
+alert(
+"Flight crew joining will be connected to the online crew system next."
+);
+
+}
+
+function leaveFlight(){
+
+const reason=prompt(
+"Enter your reason for leaving this flight:"
+);
+
+if(!reason||!reason.trim()){
+return;
+}
+
+alert(
+"Your leave request will be connected to the Owner request system next."
+);
+
+}
+
+function showError(message){
+
+document.getElementById("content").innerHTML=`
+<div class="loading">
+${safe(message)}
+</div>
+`;
+
+}
+
+function formatDate(value){
+
+if(!value){
+return"—";
+}
+
+const date=new Date(value);
+
+if(Number.isNaN(date.getTime())){
+return"—";
+}
+
+return date.toLocaleString(
+"en-SA",
+{
+dateStyle:"medium",
+timeStyle:"short"
+}
+);
+
+}
+
+function number(value){
+
+if(value===null||value===undefined){
+return"0";
+}
+
+return String(value);
+
+}
+
+function safe(value){
+
+return String(value)
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+
+}
+
+loadFlight();
+
+</script>
+
+</body>
+</html>
