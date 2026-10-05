@@ -3,15 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-
 <title>AirFrance PTFS — Owner Dashboard</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{
-box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 html,body{
 margin:0;
@@ -20,22 +17,13 @@ height:100%;
 font-family:Arial,sans-serif;
 background:#070a0f;
 color:#fff;
-overflow-x:hidden;
+overflow-x:hidden
 }
 
-body{
-min-height:100vh;
-}
+body{min-height:100vh}
 
-button,
-input,
-select{
-font:inherit;
-}
-
-button{
-cursor:pointer;
-}
+button,input,select{font:inherit}
+button{cursor:pointer}
 
 .app{
 min-height:100vh;
@@ -43,10 +31,8 @@ display:flex;
 background:
 radial-gradient(circle at 75% 10%,rgba(23,105,255,.10),transparent 28%),
 radial-gradient(circle at 20% 80%,rgba(23,105,255,.06),transparent 25%),
-#070a0f;
+#070a0f
 }
-
-/* SIDEBAR */
 
 .sidebar{
 position:fixed;
@@ -58,24 +44,24 @@ background:rgba(10,14,21,.94);
 border-left:1px solid #202b3a;
 padding:20px 14px;
 z-index:20;
-backdrop-filter:blur(16px);
+backdrop-filter:blur(16px)
 }
 
 .brand{
 padding:10px 12px 22px;
 border-bottom:1px solid #202b3a;
-margin-bottom:18px;
+margin-bottom:18px
 }
 
 .brand-title{
 font-size:20px;
-font-weight:bold;
+font-weight:bold
 }
 
 .brand-sub{
 font-size:12px;
 color:#758398;
-margin-top:6px;
+margin-top:6px
 }
 
 .nav-title{
@@ -83,7 +69,7 @@ font-size:11px;
 color:#657286;
 padding:0 12px 8px;
 text-transform:uppercase;
-letter-spacing:1px;
+letter-spacing:1px
 }
 
 .nav-btn{
@@ -95,18 +81,18 @@ padding:13px 14px;
 border-radius:12px;
 margin-bottom:6px;
 text-align:right;
-transition:.2s;
+transition:.2s
 }
 
 .nav-btn:hover{
 background:#111a27;
-color:#fff;
+color:#fff
 }
 
 .nav-btn.active{
 background:#1769ff;
 color:#fff;
-box-shadow:0 8px 25px rgba(23,105,255,.20);
+box-shadow:0 8px 25px rgba(23,105,255,.20)
 }
 
 .owner-box{
@@ -117,27 +103,25 @@ right:14px;
 padding:13px;
 border:1px solid #202b3a;
 background:#0d131c;
-border-radius:14px;
+border-radius:14px
 }
 
 .owner-name{
 font-size:13px;
-font-weight:bold;
+font-weight:bold
 }
 
 .owner-id{
 font-size:11px;
 color:#69778a;
-margin-top:5px;
+margin-top:5px
 }
-
-/* MAIN */
 
 .main{
 width:calc(100% - 260px);
 margin-right:260px;
 min-height:100vh;
-padding:25px;
+padding:25px
 }
 
 .topbar{
@@ -145,18 +129,18 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 gap:15px;
-margin-bottom:25px;
+margin-bottom:25px
 }
 
 .page-title{
 font-size:26px;
-font-weight:bold;
+font-weight:bold
 }
 
 .page-sub{
 color:#778599;
 font-size:13px;
-margin-top:5px;
+margin-top:5px
 }
 
 .online{
@@ -168,7 +152,7 @@ border:1px solid #203026;
 background:#0c1712;
 border-radius:10px;
 font-size:12px;
-color:#80d49a;
+color:#80d49a
 }
 
 .dot{
@@ -176,32 +160,16 @@ width:7px;
 height:7px;
 border-radius:50%;
 background:#4bd477;
-box-shadow:0 0 10px #4bd477;
+box-shadow:0 0 10px #4bd477
 }
 
-/* PAGES */
-
 .page{
-display:none;
-animation:pageIn .3s ease;
+display:none
 }
 
 .page.active{
-display:block;
+display:block
 }
-
-@keyframes pageIn{
-from{
-opacity:0;
-transform:translateY(8px);
-}
-to{
-opacity:1;
-transform:translateY(0);
-}
-}
-
-/* HERO */
 
 .hero{
 position:relative;
@@ -213,7 +181,7 @@ border-radius:22px;
 background:
 linear-gradient(135deg,rgba(23,105,255,.14),transparent 45%),
 #0d131c;
-margin-bottom:18px;
+margin-bottom:18px
 }
 
 .hero:after{
@@ -227,33 +195,33 @@ top:-130px;
 border:1px solid rgba(80,145,255,.15);
 box-shadow:
 0 0 0 35px rgba(80,145,255,.025),
-0 0 0 70px rgba(80,145,255,.02);
+0 0 0 70px rgba(80,145,255,.02)
 }
 
 .hero-label{
 font-size:12px;
 color:#6d9dff;
-margin-bottom:12px;
+margin-bottom:12px
 }
 
 .hero h1{
 font-size:34px;
 margin:0;
-max-width:600px;
+max-width:600px
 }
 
 .hero p{
 color:#8390a3;
 max-width:600px;
 line-height:1.6;
-font-size:14px;
+font-size:14px
 }
 
 .hero-actions{
 display:flex;
 gap:10px;
 flex-wrap:wrap;
-margin-top:20px;
+margin-top:20px
 }
 
 .primary{
@@ -262,7 +230,7 @@ color:#fff;
 border:0;
 padding:13px 18px;
 border-radius:11px;
-font-weight:bold;
+font-weight:bold
 }
 
 .secondary{
@@ -271,54 +239,44 @@ color:#cbd5e3;
 border:1px solid #293747;
 padding:13px 18px;
 border-radius:11px;
-font-weight:bold;
+font-weight:bold
 }
-
-/* STATS */
 
 .stats{
 display:grid;
 grid-template-columns:repeat(4,1fr);
 gap:14px;
-margin-bottom:18px;
+margin-bottom:18px
 }
 
 .stat{
 background:#0d131c;
 border:1px solid #202c3d;
 border-radius:16px;
-padding:18px;
-transition:.2s;
-}
-
-.stat:hover{
-transform:translateY(-3px);
-border-color:#315a96;
+padding:18px
 }
 
 .stat-label{
 font-size:12px;
-color:#738197;
+color:#738197
 }
 
 .stat-value{
 font-size:28px;
 font-weight:bold;
-margin-top:8px;
+margin-top:8px
 }
 
 .stat-bottom{
 font-size:11px;
 color:#59687b;
-margin-top:5px;
+margin-top:5px
 }
-
-/* GRID */
 
 .grid{
 display:grid;
 grid-template-columns:1.5fr 1fr;
-gap:18px;
+gap:18px
 }
 
 .card{
@@ -326,26 +284,25 @@ background:#0d131c;
 border:1px solid #202c3d;
 border-radius:18px;
 padding:20px;
+margin-bottom:18px
 }
 
 .card-title{
 font-size:17px;
 font-weight:bold;
-margin-bottom:4px;
+margin-bottom:4px
 }
 
 .card-sub{
 font-size:12px;
 color:#69778a;
-margin-bottom:16px;
+margin-bottom:16px
 }
-
-/* QUICK ACTIONS */
 
 .actions{
 display:grid;
 grid-template-columns:repeat(2,1fr);
-gap:10px;
+gap:10px
 }
 
 .action{
@@ -355,27 +312,25 @@ border:1px solid #263446;
 border-radius:13px;
 color:#fff;
 text-align:left;
-transition:.2s;
+transition:.2s
 }
 
 .action:hover{
 background:#152235;
 border-color:#3474ce;
-transform:translateY(-2px);
+transform:translateY(-2px)
 }
 
 .action-title{
 font-weight:bold;
-font-size:14px;
+font-size:14px
 }
 
 .action-sub{
 font-size:11px;
 color:#6f7d90;
-margin-top:5px;
+margin-top:5px
 }
-
-/* TABLE */
 
 .item{
 display:flex;
@@ -383,22 +338,22 @@ justify-content:space-between;
 align-items:center;
 gap:10px;
 padding:13px 0;
-border-bottom:1px solid #1b2532;
+border-bottom:1px solid #1b2532
 }
 
 .item:last-child{
-border-bottom:0;
+border-bottom:0
 }
 
 .item-name{
 font-size:13px;
-font-weight:bold;
+font-weight:bold
 }
 
 .item-sub{
 font-size:11px;
 color:#6e7c90;
-margin-top:4px;
+margin-top:4px
 }
 
 .badge{
@@ -406,49 +361,43 @@ font-size:10px;
 padding:5px 8px;
 border-radius:7px;
 background:#15243a;
-color:#74a5ff;
+color:#74a5ff
 }
 
-/* FORMS */
-
 .form-card{
-max-width:800px;
+max-width:800px
 }
 
 .form-grid{
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:15px;
+gap:15px
 }
 
 label{
 display:block;
 font-size:12px;
 color:#7d8b9e;
-margin-bottom:7px;
+margin-bottom:7px
 }
 
-input,
-select{
+input,select{
 width:100%;
 background:#080d14;
 border:1px solid #293747;
 color:#fff;
 border-radius:11px;
 padding:13px;
-outline:none;
+outline:none
 }
 
-input:focus,
-select:focus{
-border-color:#1769ff;
+input:focus,select:focus{
+border-color:#1769ff
 }
 
 .full{
-grid-column:1/-1;
+grid-column:1/-1
 }
-
-/* EMPLOYEES */
 
 .employee{
 display:flex;
@@ -459,19 +408,19 @@ padding:15px;
 margin-top:10px;
 background:#0a1018;
 border:1px solid #202d3d;
-border-radius:13px;
+border-radius:13px
 }
 
 .employee-role{
 color:#6d9dff;
 font-size:12px;
-margin-top:4px;
+margin-top:4px
 }
 
 .employee-id{
 font-size:11px;
 color:#69778a;
-margin-top:4px;
+margin-top:4px
 }
 
 .delete{
@@ -479,40 +428,38 @@ background:#321820;
 color:#ff8c9a;
 border:1px solid #552733;
 padding:9px 12px;
-border-radius:9px;
+border-radius:9px
 }
-
-/* FLIGHTS */
 
 .flight{
 padding:17px;
 margin-top:10px;
 background:#0a1018;
 border:1px solid #202d3d;
-border-radius:13px;
+border-radius:13px
 }
 
 .flight-top{
 display:flex;
 justify-content:space-between;
-gap:10px;
+gap:10px
 }
 
 .flight-number{
 font-size:16px;
-font-weight:bold;
+font-weight:bold
 }
 
 .route{
 color:#76a8ff;
 margin-top:7px;
-font-size:13px;
+font-size:13px
 }
 
 .flight-info{
 font-size:11px;
 color:#6d7b8e;
-margin-top:7px;
+margin-top:7px
 }
 
 .status{
@@ -521,10 +468,102 @@ font-size:10px;
 padding:5px 8px;
 border-radius:7px;
 background:#13291c;
-color:#79d99a;
+color:#79d99a
 }
 
-/* MESSAGE */
+/* CLASS ACCESS */
+
+.access-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px
+}
+
+.access-box{
+background:#0a1018;
+border:1px solid #202d3d;
+border-radius:14px;
+padding:18px
+}
+
+.access-title{
+font-size:18px;
+font-weight:bold
+}
+
+.access-state{
+font-size:12px;
+color:#758398;
+margin-top:6px
+}
+
+.access-buttons{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:9px;
+margin-top:15px
+}
+
+.access-button{
+border:0;
+padding:11px;
+border-radius:9px;
+font-weight:bold;
+background:#1769ff;
+color:#fff
+}
+
+.access-button.off{
+background:#202a35;
+color:#aeb8c5
+}
+
+.permission-list{
+margin-top:18px
+}
+
+.permission-row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:12px;
+padding:13px;
+margin-top:9px;
+background:#0a1018;
+border:1px solid #202d3d;
+border-radius:12px
+}
+
+.permission-info{
+min-width:0
+}
+
+.permission-name{
+font-size:13px;
+font-weight:bold;
+word-break:break-word
+}
+
+.permission-class{
+font-size:11px;
+color:#6d9dff;
+margin-top:4px
+}
+
+.permission-delete{
+background:#321820;
+color:#ff8c9a;
+border:1px solid #552733;
+padding:8px 11px;
+border-radius:8px;
+flex-shrink:0
+}
+
+.empty{
+color:#68778a;
+font-size:12px;
+padding:15px 0
+}
 
 .message{
 position:fixed;
@@ -536,36 +575,38 @@ padding:13px 16px;
 border-radius:11px;
 z-index:50;
 display:none;
-box-shadow:0 10px 30px rgba(0,0,0,.3);
+box-shadow:0 10px 30px rgba(0,0,0,.3)
 }
 
-/* MOBILE */
-
 .mobile-menu{
-display:none;
+display:none
 }
 
 .mobile-sidebar{
-display:none;
+display:none
 }
 
 @media(max-width:900px){
 
 .sidebar{
-width:220px;
+width:220px
 }
 
 .main{
 width:calc(100% - 220px);
-margin-right:220px;
+margin-right:220px
 }
 
 .stats{
-grid-template-columns:repeat(2,1fr);
+grid-template-columns:repeat(2,1fr)
 }
 
 .grid{
-grid-template-columns:1fr;
+grid-template-columns:1fr
+}
+
+.access-grid{
+grid-template-columns:1fr
 }
 
 }
@@ -573,14 +614,14 @@ grid-template-columns:1fr;
 @media(max-width:700px){
 
 .sidebar{
-display:none;
+display:none
 }
 
 .main{
 width:100%;
 margin-right:0;
 padding:15px;
-padding-top:75px;
+padding-top:75px
 }
 
 .mobile-menu{
@@ -593,7 +634,7 @@ background:#111923;
 border:1px solid #293747;
 color:#fff;
 padding:11px 14px;
-border-radius:11px;
+border-radius:11px
 }
 
 .mobile-sidebar{
@@ -606,31 +647,35 @@ background:#0d131c;
 border:1px solid #293747;
 border-radius:15px;
 padding:10px;
-z-index:35;
+z-index:35
 }
 
 .mobile-sidebar.open{
-display:block;
+display:block
 }
 
 .stats{
-grid-template-columns:1fr 1fr;
+grid-template-columns:1fr 1fr
 }
 
 .hero h1{
-font-size:27px;
+font-size:27px
 }
 
 .form-grid{
-grid-template-columns:1fr;
+grid-template-columns:1fr
 }
 
 .full{
-grid-column:auto;
+grid-column:auto
 }
 
 .topbar{
-align-items:flex-start;
+align-items:flex-start
+}
+
+.permission-row{
+align-items:flex-start
 }
 
 }
@@ -638,15 +683,19 @@ align-items:flex-start;
 @media(max-width:430px){
 
 .stats{
-grid-template-columns:1fr;
+grid-template-columns:1fr
 }
 
 .actions{
-grid-template-columns:1fr;
+grid-template-columns:1fr
 }
 
 .hero{
-padding:22px;
+padding:22px
+}
+
+.access-buttons{
+grid-template-columns:1fr
 }
 
 }
@@ -682,6 +731,10 @@ Flights
 Create Flight
 </button>
 
+<button class="nav-btn" onclick="showPage('class-access',this)">
+Class Access
+</button>
+
 <button class="nav-btn" onclick="openLeaveRequests()">
 Leave Requests
 </button>
@@ -713,6 +766,10 @@ Flights
 
 <button class="nav-btn" onclick="showPage('create-flight',this);toggleMobileMenu()">
 Create Flight
+</button>
+
+<button class="nav-btn" onclick="showPage('class-access',this);toggleMobileMenu()">
+Class Access
 </button>
 
 <button class="nav-btn" onclick="openLeaveRequests();toggleMobileMenu()">
@@ -762,6 +819,10 @@ Create Flight
 
 <button class="secondary" onclick="showPage('identities')">
 Manage Employees
+</button>
+
+<button class="secondary" onclick="showPage('class-access')">
+Class Access
 </button>
 
 <button class="secondary" onclick="openLeaveRequests()">
@@ -829,6 +890,11 @@ Common owner controls
 <div class="action-sub">View current flights</div>
 </button>
 
+<button class="action" onclick="showPage('class-access')">
+<div class="action-title">Class Access</div>
+<div class="action-sub">Manage Business and First access</div>
+</button>
+
 <button class="action" onclick="openLeaveRequests()">
 <div class="action-title">Leave Requests</div>
 <div class="action-sub">View crew leave requests</div>
@@ -884,6 +950,7 @@ Create an online identity that works across devices.
 
 <div>
 <label>Role</label>
+
 <select id="role">
 <option value="Pilot">Pilot</option>
 <option value="Co-Pilot">Co-Pilot</option>
@@ -891,12 +958,19 @@ Create an online identity that works across devices.
 <option value="Ground Crew">Ground Crew</option>
 <option value="Management">Management</option>
 </select>
+
 </div>
 
 <div style="display:flex;align-items:end">
-<button class="primary" style="width:100%;margin:0" onclick="createEmployee()">
+
+<button
+class="primary"
+style="width:100%;margin:0"
+onclick="createEmployee()"
+>
 Create Identity
 </button>
+
 </div>
 
 </div>
@@ -981,11 +1055,172 @@ Create a flight for your pilots and crew.
 </div>
 
 <div class="full">
-<button class="primary" style="width:100%;margin:0" onclick="createFlight()">
+
+<button
+class="primary"
+style="width:100%;margin:0"
+onclick="createFlight()"
+>
 Create Flight
 </button>
+
 </div>
 
+</div>
+
+</div>
+
+</section>
+
+<section id="class-access" class="page">
+
+<div class="card">
+
+<div class="card-title">
+Class Access
+</div>
+
+<div class="card-sub">
+Control who can book Business and First Class.
+Economy remains available to everyone.
+</div>
+
+<div class="access-grid">
+
+<div class="access-box">
+
+<div class="access-title">
+Business Class
+</div>
+
+<div id="businessState" class="access-state">
+Loading...
+</div>
+
+<div class="access-buttons">
+
+<button
+id="businessOpenButton"
+class="access-button"
+onclick="setClassOpen('Business',true)"
+>
+Open to Everyone
+</button>
+
+<button
+id="businessCloseButton"
+class="access-button off"
+onclick="setClassOpen('Business',false)"
+>
+Close to Everyone
+</button>
+
+</div>
+
+</div>
+
+<div class="access-box">
+
+<div class="access-title">
+First Class
+</div>
+
+<div id="firstState" class="access-state">
+Loading...
+</div>
+
+<div class="access-buttons">
+
+<button
+id="firstOpenButton"
+class="access-button"
+onclick="setClassOpen('First',true)"
+>
+Open to Everyone
+</button>
+
+<button
+id="firstCloseButton"
+class="access-button off"
+onclick="setClassOpen('First',false)"
+>
+Close to Everyone
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="card-title">
+Give Individual Access
+</div>
+
+<div class="card-sub">
+Give Business or First Class access to a specific passenger.
+</div>
+
+<div class="form-grid">
+
+<div>
+<label>Roblox Username</label>
+<input
+id="accessUsername"
+placeholder="Passenger Roblox Username"
+>
+</div>
+
+<div>
+
+<label>Class</label>
+
+<select id="accessClass">
+
+<option value="Business">
+Business
+</option>
+
+<option value="First">
+First
+</option>
+
+</select>
+
+</div>
+
+<div class="full">
+
+<button
+class="primary"
+style="width:100%;margin:0"
+onclick="grantClassAccess()"
+>
+Give Class Access
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="card-title">
+Individual Permissions
+</div>
+
+<div class="card-sub">
+Passengers with manually assigned Business or First Class access.
+</div>
+
+<div id="permissionsList">
+<div class="empty">Loading...</div>
 </div>
 
 </div>
@@ -1069,9 +1304,11 @@ document
 p.classList.remove("active");
 });
 
-document
-.getElementById(page)
-.classList.add("active");
+const target=document.getElementById(page);
+
+if(!target)return;
+
+target.classList.add("active");
 
 document
 .querySelectorAll(".nav-btn")
@@ -1081,16 +1318,37 @@ b.classList.remove("active");
 
 if(button){
 button.classList.add("active");
+}else{
+
+document
+.querySelectorAll(".nav-btn")
+.forEach(b=>{
+
+const text=b.textContent.trim();
+
+const matches=
+(page==="dashboard"&&text==="Dashboard")||
+(page==="identities"&&text==="Employee Identities")||
+(page==="flights"&&text==="Flights")||
+(page==="create-flight"&&text==="Create Flight")||
+(page==="class-access"&&text==="Class Access");
+
+if(matches)b.classList.add("active");
+
+});
+
 }
 
 const titles={
 dashboard:"Owner Dashboard",
 identities:"Employee Identities",
 flights:"Flight Operations",
-"create-flight":"Create Flight"
+"create-flight":"Create Flight",
+"class-access":"Class Access"
 };
 
-document.getElementById("pageTitle").textContent=titles[page];
+document.getElementById("pageTitle").textContent=
+titles[page]||"Owner Dashboard";
 
 if(page==="dashboard"){
 loadDashboard();
@@ -1102,6 +1360,11 @@ loadEmployees();
 
 if(page==="flights"){
 loadFlights();
+}
+
+if(page==="class-access"){
+loadClassAccess();
+loadPermissions();
 }
 
 }
@@ -1122,7 +1385,7 @@ const role=document
 .getElementById("role")
 .value;
 
-if(!username || !employeeId){
+if(!username||!employeeId){
 
 showMessage("أكمل بيانات الموظف.");
 
@@ -1135,6 +1398,14 @@ const existing=await db
 .select("id")
 .eq("employee_id",employeeId)
 .maybeSingle();
+
+if(existing.error){
+
+showMessage("تعذر التحقق من Employee ID.");
+
+return;
+
+}
 
 if(existing.data){
 
@@ -1239,7 +1510,7 @@ box.appendChild(div);
 
 async function deleteEmployee(id){
 
-if(!confirm("Delete this employee identity?")) return;
+if(!confirm("Delete this employee identity?"))return;
 
 const {error}=await db
 .from("employees")
@@ -1289,9 +1560,9 @@ const pilot=document
 .trim();
 
 if(
-!flightNumber ||
-!departure ||
-!destination ||
+!flightNumber||
+!departure||
+!destination||
 !aircraft
 ){
 
@@ -1306,6 +1577,14 @@ const duplicate=await db
 .select("id")
 .eq("flight_number",flightNumber)
 .maybeSingle();
+
+if(duplicate.error){
+
+showMessage("تعذر التحقق من Flight Number.");
+
+return;
+
+}
 
 if(duplicate.data){
 
@@ -1322,7 +1601,7 @@ flight_number:flightNumber,
 departure:departure,
 destination:destination,
 aircraft:aircraft,
-pilot:pilot || null,
+pilot:pilot||null,
 status:"Scheduled",
 closed:false
 });
@@ -1403,7 +1682,7 @@ Aircraft: ${escapeHtml(flight.aircraft)}
 </div>
 
 <div class="flight-info">
-Pilot: ${escapeHtml(flight.pilot || "Not assigned")}
+Pilot: ${escapeHtml(flight.pilot||"Not assigned")}
 </div>
 
 </div>
@@ -1414,7 +1693,7 @@ Pilot: ${escapeHtml(flight.pilot || "Not assigned")}
 ${escapeHtml(flight.status)}
 </span>
 
-<br>
+<br><br>
 
 <button
 class="delete"
@@ -1435,7 +1714,7 @@ box.appendChild(div);
 
 async function deleteFlight(id){
 
-if(!confirm("Delete this flight?")) return;
+if(!confirm("Delete this flight?"))return;
 
 const {error}=await db
 .from("flights")
@@ -1457,6 +1736,287 @@ loadDashboard();
 
 }
 
+/* CLASS ACCESS */
+
+async function loadClassAccess(){
+
+const {data,error}=await db
+.from("class_settings")
+.select("*");
+
+if(error){
+
+document.getElementById("businessState").textContent=
+"Database error.";
+
+document.getElementById("firstState").textContent=
+"Database error.";
+
+return;
+
+}
+
+const settings={
+Business:false,
+First:false
+};
+
+(data||[]).forEach(item=>{
+if(item.class_name==="Business"){
+settings.Business=item.open_to_all;
+}
+
+if(item.class_name==="First"){
+settings.First=item.open_to_all;
+}
+});
+
+document.getElementById("businessState").textContent=
+settings.Business
+?
+"Business Class is open to everyone."
+:
+"Business Class is restricted to approved passengers.";
+
+document.getElementById("firstState").textContent=
+settings.First
+?
+"First Class is open to everyone."
+:
+"First Class is restricted to approved passengers.";
+
+document.getElementById("businessOpenButton").className=
+settings.Business
+?
+"access-button"
+:
+"access-button off";
+
+document.getElementById("businessCloseButton").className=
+settings.Business
+?
+"access-button off"
+:
+"access-button";
+
+document.getElementById("firstOpenButton").className=
+settings.First
+?
+"access-button"
+:
+"access-button off";
+
+document.getElementById("firstCloseButton").className=
+settings.First
+?
+"access-button off"
+:
+"access-button";
+
+}
+
+async function setClassOpen(className,isOpen){
+
+const {data,error}=await db
+.from("class_settings")
+.update({
+open_to_all:isOpen
+})
+.eq("class_name",className)
+.select();
+
+if(error){
+
+showMessage("تعذر تحديث صلاحية "+className+".");
+
+return;
+
+}
+
+if(!data||!data.length){
+
+const insert=await db
+.from("class_settings")
+.insert({
+class_name:className,
+open_to_all:isOpen
+})
+.select();
+
+if(insert.error){
+
+showMessage("تعذر تحديث صلاحية "+className+".");
+
+return;
+
+}
+
+}
+
+showMessage(
+className+
+(isOpen
+?" أصبحت مفتوحة للجميع."
+:" أصبحت مقفلة للجميع.")
+);
+
+loadClassAccess();
+
+}
+
+async function grantClassAccess(){
+
+const username=document
+.getElementById("accessUsername")
+.value
+.trim();
+
+const className=document
+.getElementById("accessClass")
+.value;
+
+if(!username){
+
+showMessage("اكتب Roblox Username.");
+
+return;
+
+}
+
+const existing=await db
+.from("class_permissions")
+.select("id")
+.eq("username",username)
+.eq("class_name",className)
+.maybeSingle();
+
+if(existing.error){
+
+showMessage("تعذر التحقق من الصلاحية.");
+
+return;
+
+}
+
+if(existing.data){
+
+showMessage("هذا المستخدم لديه الصلاحية بالفعل.");
+
+return;
+
+}
+
+const {error}=await db
+.from("class_permissions")
+.insert({
+username:username,
+class_name:className
+});
+
+if(error){
+
+showMessage("تعذر إعطاء الصلاحية.");
+
+return;
+
+}
+
+document.getElementById("accessUsername").value="";
+
+showMessage(
+"تم إعطاء "+className+" للمستخدم."
+);
+
+loadPermissions();
+
+}
+
+async function loadPermissions(){
+
+const {data,error}=await db
+.from("class_permissions")
+.select("*")
+.order("created_at",{ascending:false});
+
+const box=document.getElementById("permissionsList");
+
+if(error){
+
+box.innerHTML=
+'<div class="empty">Database error.</div>';
+
+return;
+
+}
+
+if(!data||!data.length){
+
+box.innerHTML=
+'<div class="empty">No individual permissions yet.</div>';
+
+return;
+
+}
+
+box.innerHTML="";
+
+data.forEach(permission=>{
+
+const row=document.createElement("div");
+
+row.className="permission-row";
+
+row.innerHTML=`
+
+<div class="permission-info">
+
+<div class="permission-name">
+${escapeHtml(permission.username)}
+</div>
+
+<div class="permission-class">
+${escapeHtml(permission.class_name)} Class
+</div>
+
+</div>
+
+<button
+class="permission-delete"
+onclick="removeClassAccess(${permission.id})">
+Revoke
+</button>
+
+`;
+
+box.appendChild(row);
+
+});
+
+}
+
+async function removeClassAccess(id){
+
+if(!confirm("Revoke this class access?"))return;
+
+const {error}=await db
+.from("class_permissions")
+.delete()
+.eq("id",id);
+
+if(error){
+
+showMessage("تعذر سحب الصلاحية.");
+
+return;
+
+}
+
+showMessage("تم سحب الصلاحية.");
+
+loadPermissions();
+
+}
+
 async function loadDashboard(){
 
 const employees=await db
@@ -1468,8 +2028,8 @@ const flights=await db
 .select("*")
 .order("created_at",{ascending:false});
 
-const employeeData=employees.data || [];
-const flightData=flights.data || [];
+const employeeData=employees.data||[];
+const flightData=flights.data||[];
 
 document.getElementById("statEmployees").textContent=
 employeeData.length;
@@ -1539,9 +2099,7 @@ return String(value)
 }
 
 if(checkOwner()){
-
 loadDashboard();
-
 }
 
 </script>
