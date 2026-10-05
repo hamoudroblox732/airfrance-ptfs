@@ -545,6 +545,10 @@ box-shadow:0 10px 30px rgba(0,0,0,.3);
 display:none;
 }
 
+.mobile-sidebar{
+display:none;
+}
+
 @media(max-width:900px){
 
 .sidebar{
@@ -653,8 +657,6 @@ padding:22px;
 
 <div class="app">
 
-<!-- DESKTOP SIDEBAR -->
-
 <aside class="sidebar">
 
 <div class="brand">
@@ -680,14 +682,16 @@ Flights
 Create Flight
 </button>
 
+<button class="nav-btn" onclick="openLeaveRequests()">
+Leave Requests
+</button>
+
 <div class="owner-box">
 <div class="owner-name">Ahmad_roblox2222</div>
 <div class="owner-id">AF-OWNER-4827</div>
 </div>
 
 </aside>
-
-<!-- MOBILE BUTTON -->
 
 <button class="mobile-menu" onclick="toggleMobileMenu()">
 Menu
@@ -711,9 +715,11 @@ Flights
 Create Flight
 </button>
 
-</div>
+<button class="nav-btn" onclick="openLeaveRequests();toggleMobileMenu()">
+Leave Requests
+</button>
 
-<!-- MAIN -->
+</div>
 
 <main class="main">
 
@@ -730,8 +736,6 @@ Online
 </div>
 
 </div>
-
-<!-- DASHBOARD -->
 
 <section id="dashboard" class="page active">
 
@@ -758,6 +762,10 @@ Create Flight
 
 <button class="secondary" onclick="showPage('identities')">
 Manage Employees
+</button>
+
+<button class="secondary" onclick="openLeaveRequests()">
+Leave Requests
 </button>
 
 </div>
@@ -821,9 +829,9 @@ Common owner controls
 <div class="action-sub">View current flights</div>
 </button>
 
-<button class="action" onclick="showPage('identities')">
-<div class="action-title">Employee Center</div>
-<div class="action-sub">Manage your staff</div>
+<button class="action" onclick="openLeaveRequests()">
+<div class="action-title">Leave Requests</div>
+<div class="action-sub">View crew leave requests</div>
 </button>
 
 </div>
@@ -849,8 +857,6 @@ Recently created flights
 </div>
 
 </section>
-
-<!-- IDENTITIES -->
 
 <section id="identities" class="page">
 
@@ -915,8 +921,6 @@ All registered AirFrance PTFS employees
 
 </section>
 
-<!-- FLIGHTS -->
-
 <section id="flights" class="page">
 
 <div class="card">
@@ -936,8 +940,6 @@ All AirFrance PTFS flights
 </div>
 
 </section>
-
-<!-- CREATE FLIGHT -->
 
 <section id="create-flight" class="page">
 
@@ -1053,6 +1055,12 @@ document
 
 }
 
+function openLeaveRequests(){
+
+window.location.href="leave-requests.html";
+
+}
+
 function showPage(page,button=null){
 
 document
@@ -1116,7 +1124,21 @@ const role=document
 
 if(!username || !employeeId){
 
-showMessage("اكتب Roblox Username و Employee ID.");
+showMessage("أكمل بيانات الموظف.");
+
+return;
+
+}
+
+const existing=await db
+.from("employees")
+.select("id")
+.eq("employee_id",employeeId)
+.maybeSingle();
+
+if(existing.data){
+
+showMessage("Employee ID مستخدم بالفعل.");
 
 return;
 
@@ -1279,6 +1301,20 @@ return;
 
 }
 
+const duplicate=await db
+.from("flights")
+.select("id")
+.eq("flight_number",flightNumber)
+.maybeSingle();
+
+if(duplicate.data){
+
+showMessage("Flight Number مستخدم بالفعل.");
+
+return;
+
+}
+
 const {error}=await db
 .from("flights")
 .insert({
@@ -1287,7 +1323,8 @@ departure:departure,
 destination:destination,
 aircraft:aircraft,
 pilot:pilot || null,
-status:"Scheduled"
+status:"Scheduled",
+closed:false
 });
 
 if(error){
@@ -1372,6 +1409,7 @@ Pilot: ${escapeHtml(flight.pilot || "Not assigned")}
 </div>
 
 <div>
+
 <span class="status">
 ${escapeHtml(flight.status)}
 </span>
