@@ -319,7 +319,7 @@ AirFrance PTFS
 <div class="label">MAIN</div>
 
 <nav>
-<button onclick="location.href='hub.html'">Dashboard</button>
+<button onclick="location.href='index.html'">Dashboard</button>
 <button class="active" onclick="location.href='flight-hub.html'">Flight Hub</button>
 <button onclick="location.href='passenger.html'">Passenger</button>
 </nav>
@@ -401,7 +401,6 @@ const SUPABASE_URL="https://pjsadqfyvibsjrccnaum.supabase.co";
 const SUPABASE_KEY="sb_publishable_HKBI1QKk53w8Vp8Eq23X-A_gmrUk1px";
 
 const username=sessionStorage.getItem("af_user");
-const role=sessionStorage.getItem("af_role");
 
 if(username){
 document.getElementById("user").textContent=username;
@@ -575,11 +574,12 @@ View Flight
 
 function openFlight(id){
 
-sessionStorage.setItem("af_selected_flight",String(id));
-
-alert(
-"Flight selected. Flight details and crew controls will be connected here."
+sessionStorage.setItem(
+"af_selected_flight",
+String(id)
 );
+
+window.location.href="flight-details.html";
 
 }
 
