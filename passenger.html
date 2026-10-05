@@ -217,6 +217,20 @@ color:#7f8d9d;
 line-height:1.5
 }
 
+.class-access{
+margin-top:7px;
+font-size:10px;
+font-weight:800
+}
+
+.access-open{
+color:#75d99b
+}
+
+.access-locked{
+color:#e4a0a8
+}
+
 .choose{
 width:100%;
 margin-top:15px;
@@ -239,7 +253,8 @@ cursor:not-allowed
 background:#0e141c;
 border:1px solid #222d3a;
 border-radius:18px;
-padding:20px
+padding:20px;
+margin-bottom:14px
 }
 
 .booking-title{
@@ -261,6 +276,43 @@ border-radius:18px;
 padding:35px;
 text-align:center;
 color:#8995a5
+}
+
+.server-box{
+margin-top:16px;
+background:#090d13;
+border:1px solid #202a35;
+border-radius:14px;
+padding:15px
+}
+
+.server-title{
+font-size:13px;
+font-weight:900
+}
+
+.server-sub{
+margin-top:6px;
+color:#8995a5;
+font-size:11px
+}
+
+.server-button{
+display:block;
+margin-top:12px;
+padding:12px;
+border-radius:10px;
+background:#1677ff;
+color:#fff;
+text-decoration:none;
+text-align:center;
+font-weight:900
+}
+
+.server-wait{
+margin-top:12px;
+color:#8995a5;
+font-size:12px
 }
 
 .modal{
@@ -312,7 +364,8 @@ border-color:#1677ff;
 background:#10233c
 }
 
-.class-select.full{
+.class-select.full,
+.class-select.locked{
 opacity:.45;
 cursor:not-allowed
 }
@@ -551,6 +604,105 @@ passenger||"Passenger";
 let selectedFlight=null;
 let selectedClass=null;
 
+let classSettings={
+Business:false,
+First:false
+};
+
+let classPermissions={
+Business:false,
+First:false
+};
+
+async function loadClassAccess(){
+
+const {
+data:settings
+}=
+await db
+.from("class_settings")
+.select("*");
+
+if(settings){
+
+settings.forEach(
+function(item){
+
+if(
+item.class_name==="Business"
+){
+
+classSettings.Business=
+item.open_to_all;
+
+}
+
+if(
+item.class_name==="First"
+){
+
+classSettings.First=
+item.open_to_all;
+
+}
+
+}
+);
+
+}
+
+const {
+data:permissions
+}=
+await db
+.from("class_permissions")
+.select("*")
+.eq(
+"username",
+passenger
+);
+
+if(permissions){
+
+permissions.forEach(
+function(item){
+
+if(
+item.class_name==="Business"
+){
+
+classPermissions.Business=true;
+
+}
+
+if(
+item.class_name==="First"
+){
+
+classPermissions.First=true;
+
+}
+
+}
+);
+
+}
+
+}
+
+function hasClassAccess(className){
+
+if(className==="Economy"){
+return true;
+}
+
+return Boolean(
+classSettings[className]||
+classPermissions[className]
+);
+
+}
+
 function showPanel(
 id,
 button
@@ -613,33 +765,23 @@ minute:"2-digit"
 
 function getStatus(flight){
 
-if(
-flight.status==="Cancelled"
-){
+if(flight.status==="Cancelled"){
 return"Cancelled";
 }
 
-if(
-flight.status==="Delayed"
-){
+if(flight.status==="Delayed"){
 return"Delayed";
 }
 
-if(
-flight.status==="Landed"
-){
+if(flight.status==="Landed"){
 return"Landed";
 }
 
-if(
-flight.status==="In Flight"
-){
+if(flight.status==="In Flight"){
 return"In Flight";
 }
 
-if(
-flight.status==="Departed"
-){
+if(flight.status==="Departed"){
 return"Departed";
 }
 
@@ -691,7 +833,9 @@ if(
 now>=boarding&&
 now<departure
 ){
+
 return"Boarding";
+
 }
 
 if(now>=departure){
@@ -859,6 +1003,22 @@ flight,
 className
 ){
 
+if(
+!hasClassAccess(className)
+){
+
+return{
+state:"locked",
+booked:0,
+remaining:
+getCapacity(
+flight,
+className
+)
+};
+
+}
+
 const capacity=
 getCapacity(
 flight,
@@ -872,11 +1032,13 @@ className
 );
 
 if(capacity<=booked){
+
 return{
 state:"full",
 booked:booked,
 remaining:0
 };
+
 }
 
 if(
@@ -892,6 +1054,7 @@ booked:booked,
 remaining:
 capacity-booked
 };
+
 }
 
 return{
@@ -904,6 +1067,8 @@ capacity-booked
 }
 
 async function loadFlights(){
+
+await loadClassAccess();
 
 const box=
 document.getElementById(
@@ -999,6 +1164,29 @@ flight,
 className
 );
 
+const access=
+hasClassAccess(
+className
+);
+
+let accessText=
+"Available";
+
+let accessClass=
+"access-open";
+
+if(
+className!=="Economy"&&
+!access
+){
+
+accessText=
+"Restricted";
+accessClass=
+"access-locked";
+
+}
+
 classHtml+=
 
 '<div class="class-box">'+
@@ -1021,6 +1209,12 @@ formatDate(
 boardingTime
 )
 )+
+'</div>'+
+
+'<div class="class-access '+
+accessClass+
+'">'+
+accessText+
 '</div>'+
 
 '</div>';
@@ -1143,6 +1337,8 @@ async function openClassModal(
 flight
 ){
 
+await loadClassAccess();
+
 selectedFlight=
 flight;
 
@@ -1212,12 +1408,15 @@ document.createElement(
 );
 
 button.className=
-"class-select"+
-(
-state.state==="full"?
-" full":
-""
-);
+"class-select";
+
+if(state.state==="full"){
+button.classList.add("full");
+}
+
+if(state.state==="locked"){
+button.classList.add("locked");
+}
 
 let stateText=
 state.remaining+
@@ -1226,6 +1425,11 @@ state.remaining+
 if(state.state==="full"){
 stateText=
 "Class Full";
+}
+
+if(state.state==="locked"){
+stateText=
+"Restricted — Owner access required";
 }
 
 if(state.state==="waiting"){
@@ -1249,7 +1453,10 @@ className+
 escapeHtml(stateText)+
 '</span>';
 
-if(state.state!=="full"){
+if(
+state.state!=="full"&&
+state.state!=="locked"
+){
 
 button.addEventListener(
 "click",
@@ -1314,6 +1521,19 @@ const confirm=
 document.getElementById(
 "confirmButton"
 );
+
+if(
+!hasClassAccess(selectedClass)
+){
+
+info.textContent=
+"You do not have access to this class.";
+
+confirm.disabled=true;
+
+return;
+
+}
 
 const state=
 await getClassState(
@@ -1400,6 +1620,17 @@ return;
 
 }
 
+if(
+!hasClassAccess(selectedClass)
+){
+
+message.textContent=
+"You do not have access to this class.";
+
+return;
+
+}
+
 const status=
 getStatus(
 selectedFlight
@@ -1454,7 +1685,7 @@ selectedClass
 if(state.state!=="open"){
 
 message.textContent=
-"The selected class is not available yet.";
+"The selected class is not available.";
 
 updateClassInfo();
 
@@ -1507,6 +1738,135 @@ loadBookings();
 },
 700
 );
+
+}
+
+function getRobloxLink(
+value
+){
+
+if(!value){
+return null;
+}
+
+try{
+
+const url=
+new URL(value);
+
+if(
+url.protocol!=="http:"&&
+url.protocol!=="https:"
+){
+
+return null;
+
+}
+
+if(
+!url.hostname.toLowerCase().includes(
+"roblox.com"
+)
+){
+
+return null;
+
+}
+
+return url.href;
+
+}catch{
+
+return null;
+
+}
+
+}
+
+function createServerBox(
+flight
+){
+
+const box=
+document.createElement(
+"div"
+);
+
+box.className=
+"server-box";
+
+const title=
+document.createElement(
+"div"
+);
+
+title.className=
+"server-title";
+
+title.textContent=
+"Roblox Flight Server";
+
+box.appendChild(title);
+
+const sub=
+document.createElement(
+"div"
+);
+
+sub.className=
+"server-sub";
+
+sub.textContent=
+"Your ticket gives you access to the flight server.";
+
+box.appendChild(sub);
+
+const link=
+getRobloxLink(
+flight.server_link
+);
+
+if(link){
+
+const button=
+document.createElement(
+"a"
+);
+
+button.className=
+"server-button";
+
+button.href=
+link;
+
+button.target="_blank";
+
+button.rel=
+"noopener noreferrer";
+
+button.textContent=
+"Join Roblox Server";
+
+box.appendChild(button);
+
+}else{
+
+const wait=
+document.createElement(
+"div"
+);
+
+wait.className=
+"server-wait";
+
+wait.textContent=
+"The pilot has not added the server link yet.";
+
+box.appendChild(wait);
+
+}
+
+return box;
 
 }
 
@@ -1659,6 +2019,10 @@ escapeHtml(status)+
 
 '</div>';
 
+card.appendChild(
+createServerBox(flight)
+);
+
 box.appendChild(card);
 
 }
@@ -1685,12 +2049,14 @@ closeModal();
 
 });
 
+loadClassAccess();
 loadFlights();
 loadBookings();
 
 setInterval(
 function(){
 
+loadClassAccess();
 loadFlights();
 loadBookings();
 
